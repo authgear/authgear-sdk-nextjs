@@ -1,11 +1,13 @@
 import "server-only";
 import { cookies } from "next/headers";
-import { SessionState, type Session, type UserInfo, type JWTPayload, type AuthgearConfig } from "./types.js";
+import { SessionState, Page, type Session, type UserInfo, type JWTPayload, type AuthgearConfig } from "./types.js";
 import { resolveConfig } from "./config.js";
 import { decryptSession } from "./session/cookie.js";
 import { deriveSessionState, isTokenExpired } from "./session/state.js";
 import { fetchOIDCConfiguration } from "./oauth/discovery.js";
 import { refreshAccessToken } from "./oauth/token.js";
+// ROADMAP: import { getAppSessionToken } from "./oauth/token.js";
+// ROADMAP: import { buildOpenURL } from "./oauth/authorize.js";
 import { verifyJWT } from "./jwt/verify.js";
 import { parseUserInfo } from "./user.js";
 
@@ -85,5 +87,35 @@ export async function verifyAccessToken(
   return verifyJWT(token, oidcConfig);
 }
 
-export { SessionState };
+// ROADMAP: getOpenURL — open Authgear settings (or any Authgear page) with the
+// current user pre-authenticated via the app_session_token exchange.
+//
+// This requires the Authgear server to grant the client permission to call
+// POST /oauth2/app_session_token ("full user access"). Once that server-side
+// configuration is available, uncomment the implementation below and the
+// imports above, then expose it from the example dashboard via a Server Action.
+//
+// export async function getOpenURL(
+//   page: Page | string,
+//   config: AuthgearConfig,
+// ): Promise<string> {
+//   const resolved = resolveConfig(config);
+//   const cookieStore = await cookies();
+//   const sessionCookieValue = cookieStore.get(resolved.cookieName)?.value;
+//   if (!sessionCookieValue) throw new Error("Not authenticated");
+//   const sessionData = decryptSession(sessionCookieValue, resolved.sessionSecret);
+//   if (!sessionData?.refreshToken) throw new Error("No refresh token in session");
+//   const oidcConfig = await fetchOIDCConfiguration(resolved.endpoint);
+//   const { app_session_token } = await getAppSessionToken(
+//     resolved.endpoint,
+//     sessionData.refreshToken,
+//   );
+//   return buildOpenURL(oidcConfig, {
+//     clientID: resolved.clientID,
+//     appSessionToken: app_session_token,
+//     targetPath: page,
+//   });
+// }
+
+export { SessionState, Page };
 export type { Session, UserInfo, JWTPayload };

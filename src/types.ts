@@ -17,6 +17,13 @@ export interface AuthgearConfig {
   cookieName?: string;
 }
 
+/**
+ * Pages that can be opened via open().
+ */
+export enum Page {
+  Settings = "/settings",
+}
+
 export const DEFAULT_SCOPES = [
   "openid",
   "offline_access",
@@ -85,6 +92,11 @@ export interface TokenResponse {
   expires_in: number;
   refresh_token?: string;
   id_token?: string;
+}
+
+export interface AppSessionTokenResponse {
+  app_session_token: string;
+  expire_at: string;
 }
 
 export interface OIDCConfiguration {

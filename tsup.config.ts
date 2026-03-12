@@ -11,7 +11,7 @@ export default defineConfig({
   dts: true,
   sourcemap: true,
   clean: true,
-  external: ["next", "react", "react-dom"],
+  external: ["next", "react", "react-dom", "server-only"],
   banner: {
     js: "",
   },

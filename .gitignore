@@ -5,3 +5,9 @@ dist/
 .env.local
 .claude
 CLAUDE.md
+
+# Example app
+example/.next/
+example/node_modules/
+example/.env.local
+example/.e2e.local

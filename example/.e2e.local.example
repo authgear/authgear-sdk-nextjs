@@ -1,0 +1,3 @@
+TEST_EMAIL=your-test-user@example.com
+TEST_PASSWORD=your-test-password
+BASE_URL=http://localhost:3000

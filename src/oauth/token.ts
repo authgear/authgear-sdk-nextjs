@@ -1,4 +1,4 @@
-import type { OIDCConfiguration, TokenResponse } from "../types.js";
+import type { OIDCConfiguration, TokenResponse, AppSessionTokenResponse } from "../types.js";
 
 export interface ExchangeCodeParams {
   code: string;
@@ -68,6 +68,24 @@ export async function refreshAccessToken(
   }
 
   return res.json() as Promise<TokenResponse>;
+}
+
+export async function getAppSessionToken(
+  endpoint: string,
+  refreshToken: string,
+): Promise<AppSessionTokenResponse> {
+  const res = await fetch(`${endpoint}/oauth2/app_session_token`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ refresh_token: refreshToken }),
+  });
+
+  if (!res.ok) {
+    const error = await res.text();
+    throw new Error(`Failed to get app session token (${res.status}): ${error}`);
+  }
+
+  return res.json() as Promise<AppSessionTokenResponse>;
 }
 
 export async function revokeToken(

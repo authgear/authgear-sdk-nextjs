@@ -239,6 +239,37 @@ const session = await auth(authgearConfig);
 
 ---
 
+## Roadmap
+
+### `open(page)` — Open Authgear Settings Page
+
+> **Status: pending server-side enablement**
+
+The SDK has a planned `getOpenURL(page, config)` function (modelled after [`authgear.open(Page.Settings)`](https://docs.authgear.com/get-started/single-page-app/website#step-8-open-user-settings-page) in the web SDK) that opens the Authgear-hosted settings UI with the current user already authenticated — no re-login required.
+
+**How it will work:**
+
+```ts
+// app/dashboard/actions.ts  (Server Action)
+"use server";
+import { getOpenURL, Page } from "@authgear/nextjs/server";
+import { authgearConfig } from "@/lib/authgear";
+
+export async function getSettingsURLAction() {
+  return getOpenURL(Page.Settings, authgearConfig);
+}
+```
+
+```tsx
+// Client component
+const url = await getSettingsURLAction();
+window.open(url, "_blank");
+```
+
+**Blocker:** This feature exchanges the refresh token for an `app_session_token` via `POST /oauth2/app_session_token`. The Authgear server must grant the OAuth client **"full user access"** permission before this endpoint is accessible. Once that server-side configuration is in place, the implementation in `src/server.ts` can be uncommented and released.
+
+---
+
 ## Documentation
 
 - Learn how to set up an Authgear application at [https://docs.authgear.com/](https://docs.authgear.com/)
