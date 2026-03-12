@@ -10,6 +10,7 @@ CLAUDE.md
 docs/node_modules/
 docs/build/
 docs/.docusaurus/
+docs/docs/api/
 
 # Example app
 example/.next/
