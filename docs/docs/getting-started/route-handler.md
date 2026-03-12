@@ -1,0 +1,35 @@
+---
+sidebar_position: 3
+---
+
+# Route Handler
+
+Create a single catch-all route to handle all auth endpoints.
+
+```ts title="app/api/auth/[...authgear]/route.ts"
+import { createAuthgearHandlers } from "@authgear/nextjs";
+import { authgearConfig } from "@/lib/authgear";
+
+export const { GET, POST } = createAuthgearHandlers(authgearConfig);
+```
+
+This registers the following endpoints automatically:
+
+| Endpoint | Method | Description |
+|---|---|---|
+| `GET /api/auth/login` | GET | Starts the PKCE OAuth flow; redirects to Authgear |
+| `GET /api/auth/callback` | GET | Handles the OAuth callback; sets the session cookie |
+| `GET /api/auth/logout` | GET | Clears the session cookie; redirects to Authgear logout |
+| `GET /api/auth/refresh` | GET | Manually refreshes the access token |
+| `GET /api/auth/userinfo` | GET | Returns the current user as JSON (used by `AuthgearProvider`) |
+
+## OAuth flow
+
+```
+Browser → GET /api/auth/login
+       → 302 to Authgear (with PKCE code_challenge)
+       → User authenticates
+       → 302 back to /api/auth/callback?code=...&state=...
+       → Token exchanged, session cookie set
+       → 302 to postLoginRedirectURI (default: "/")
+```

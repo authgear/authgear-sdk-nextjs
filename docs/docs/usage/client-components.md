@@ -1,0 +1,102 @@
+---
+sidebar_position: 1
+---
+
+# Client Components
+
+Import from `@authgear/nextjs/client`.
+
+## AuthgearProvider
+
+Wrap your root layout with `AuthgearProvider`. Because it is a Client Component, use a separate `providers.tsx` file:
+
+```tsx title="app/providers.tsx"
+"use client";
+import { AuthgearProvider } from "@authgear/nextjs/client";
+
+export function Providers({ children }: { children: React.ReactNode }) {
+  return <AuthgearProvider>{children}</AuthgearProvider>;
+}
+```
+
+```tsx title="app/layout.tsx"
+import { Providers } from "./providers";
+
+export default function RootLayout({ children }: { children: React.ReactNode }) {
+  return (
+    <html>
+      <body>
+        <Providers>{children}</Providers>
+      </body>
+    </html>
+  );
+}
+```
+
+`AuthgearProvider` fetches `/api/auth/userinfo` on mount to hydrate client-side session state.
+
+## useAuthgear
+
+```tsx
+"use client";
+import { useAuthgear, SessionState } from "@authgear/nextjs/client";
+
+export function NavBar() {
+  const { state, user, isLoaded, signIn, signOut } = useAuthgear();
+
+  if (!isLoaded) return null;
+
+  return state === SessionState.Authenticated ? (
+    <div>
+      <span>{user?.email}</span>
+      <button onClick={() => signOut()}>Sign out</button>
+    </div>
+  ) : (
+    <button onClick={() => signIn()}>Sign in</button>
+  );
+}
+```
+
+### Return value
+
+| Property | Type | Description |
+|---|---|---|
+| `state` | `SessionState` | `Unknown` \| `NoSession` \| `Authenticated` |
+| `user` | `UserInfo \| null` | Current user, or `null` if not authenticated |
+| `isLoaded` | `boolean` | `false` until the initial userinfo fetch completes |
+| `signIn(options?)` | `() => void` | Redirects to `/api/auth/login` |
+| `signOut()` | `() => void` | Redirects to `/api/auth/logout` |
+
+## useUser
+
+Shorthand for `useAuthgear().user`.
+
+```tsx
+"use client";
+import { useUser } from "@authgear/nextjs/client";
+
+export function Avatar() {
+  const user = useUser();
+  if (!user) return null;
+  return <img src={user.picture} alt={user.name} />;
+}
+```
+
+## SignInButton / SignOutButton
+
+Drop-in buttons that call `signIn()` / `signOut()` on click. Accept any `<button>` props.
+
+```tsx
+import { SignInButton, SignOutButton } from "@authgear/nextjs/client";
+
+<SignInButton>Log in</SignInButton>
+<SignOutButton className="btn-danger">Log out</SignOutButton>
+```
+
+### `SignInButton` props
+
+| Prop | Type | Description |
+|---|---|---|
+| `returnTo` | `string` | Path to redirect after login (default: `/`) |
+| `loginPath` | `string` | Custom login endpoint (default: `/api/auth/login`) |
+| `...buttonProps` | `ButtonHTMLAttributes` | All standard `<button>` attributes |

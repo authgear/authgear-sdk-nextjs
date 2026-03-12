@@ -6,6 +6,11 @@ dist/
 .claude
 CLAUDE.md
 
+# Docs site
+docs/node_modules/
+docs/build/
+docs/.docusaurus/
+
 # Example app
 example/.next/
 example/node_modules/

@@ -1,0 +1,30 @@
+/**
+ * Any CSS included here will be global. The classic template
+ * bundles Infima by default. Infima is a CSS framework designed to
+ * work well for content-centric websites.
+ */
+
+/* You can override the default Infima variables here. */
+/* Authgear brand: primary blue #176df3 */
+:root {
+  --ifm-color-primary: #176df3;
+  --ifm-color-primary-dark: #0f60dc;
+  --ifm-color-primary-darker: #0e5ace;
+  --ifm-color-primary-darkest: #0b4aaa;
+  --ifm-color-primary-light: #2f7ef5;
+  --ifm-color-primary-lighter: #3d87f5;
+  --ifm-color-primary-lightest: #6aa2f8;
+  --ifm-code-font-size: 95%;
+  --docusaurus-highlighted-code-line-bg: rgba(23, 109, 243, 0.08);
+}
+
+[data-theme='dark'] {
+  --ifm-color-primary: #6aa2f8;
+  --ifm-color-primary-dark: #4d90f7;
+  --ifm-color-primary-darker: #3d87f5;
+  --ifm-color-primary-darkest: #176df3;
+  --ifm-color-primary-light: #87b4f9;
+  --ifm-color-primary-lighter: #9bbffb;
+  --ifm-color-primary-lightest: #c2d8fd;
+  --docusaurus-highlighted-code-line-bg: rgba(106, 162, 248, 0.12);
+}

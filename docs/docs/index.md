@@ -1,0 +1,50 @@
+---
+slug: /
+sidebar_position: 1
+---
+
+# @authgear/nextjs
+
+**Authgear SDK for Next.js 16** — integrate authentication into your Next.js application with a few lines of code.
+
+## What it does
+
+- **OAuth / OIDC** — PKCE-based sign-in and sign-out with any Authgear-hosted identity provider
+- **Session management** — encrypted, httpOnly session cookie (`AES-256-GCM`); automatic token refresh
+- **Server utilities** — read the current user in Server Components and Route Handlers
+- **JWT verification** — protect API routes by verifying Bearer tokens via JWKS
+- **Route protection** — Next.js 16 `proxy.ts` that redirects unauthenticated requests and injects `Authorization` headers
+
+## Entry points
+
+| Import | What it provides |
+|---|---|
+| `@authgear/nextjs` | `createAuthgearHandlers()` — OAuth route handler |
+| `@authgear/nextjs/server` | `auth()`, `currentUser()`, `verifyAccessToken()` — server-only |
+| `@authgear/nextjs/client` | `AuthgearProvider`, `useAuthgear()`, `SignInButton`, `SignOutButton` |
+| `@authgear/nextjs/proxy` | `createAuthgearProxy()` — Next.js 16 proxy helper |
+
+## Quick example
+
+```ts
+// lib/authgear.ts
+export const authgearConfig: AuthgearConfig = {
+  endpoint: process.env.AUTHGEAR_ENDPOINT!,
+  clientID: process.env.AUTHGEAR_CLIENT_ID!,
+  clientSecret: process.env.AUTHGEAR_CLIENT_SECRET,
+  redirectURI: process.env.AUTHGEAR_REDIRECT_URI!,
+  sessionSecret: process.env.SESSION_SECRET!,
+};
+```
+
+```ts
+// app/api/auth/[...authgear]/route.ts
+import { createAuthgearHandlers } from "@authgear/nextjs";
+export const { GET, POST } = createAuthgearHandlers(authgearConfig);
+```
+
+```tsx
+// app/dashboard/page.tsx (Server Component)
+import { currentUser } from "@authgear/nextjs/server";
+const user = await currentUser(authgearConfig);
+```
