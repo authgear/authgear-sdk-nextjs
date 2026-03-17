@@ -1,0 +1,15 @@
+diff --git a/node_modules/nextra/dist/server/rehype-plugins/rehype.js b/node_modules/nextra/dist/server/rehype-plugins/rehype.js
+index 2c9560a..e479d41 100644
+--- a/node_modules/nextra/dist/server/rehype-plugins/rehype.js
++++ b/node_modules/nextra/dist/server/rehype-plugins/rehype.js
+@@ -72,7 +72,9 @@ const rehypeAttachCodeMeta = ({ search }) => {
+           }
+           return SKIP;
+         }
+-        delete node.children[0].properties.className;
++        if (node.children[0] && node.children[0].properties) {
++          delete node.children[0].properties.className;
++        }
+       }
+     );
+   };
