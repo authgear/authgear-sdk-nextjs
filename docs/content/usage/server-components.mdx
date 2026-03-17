@@ -1,0 +1,71 @@
+# Server Components
+
+Import from `@authgear/nextjs/server`. These functions are **server-only** — they read cookies and must not be called from Client Components.
+
+## currentUser
+
+Returns the authenticated user, or `null` if not logged in. Automatically refreshes an expired access token.
+
+```tsx title="app/dashboard/page.tsx"
+import { currentUser } from "@authgear/nextjs/server";
+import { authgearConfig } from "@/lib/authgear";
+import { redirect } from "next/navigation";
+
+export default async function DashboardPage() {
+  const user = await currentUser(authgearConfig);
+  if (!user) redirect("/api/auth/login?returnTo=/dashboard");
+
+  return (
+    <div>
+      <h1>Hello, {user.name ?? user.email}</h1>
+      {user.picture && <img src={user.picture} alt="Avatar" />}
+      <p>Roles: {user.roles?.join(", ") ?? "none"}</p>
+    </div>
+  );
+}
+```
+
+### UserInfo fields
+
+| Field | Type | Description |
+|---|---|---|
+| `sub` | `string` | Subject identifier (unique user ID) |
+| `email` | `string?` | Email address |
+| `emailVerified` | `boolean?` | Whether the email is verified |
+| `phoneNumber` | `string?` | Phone number |
+| `name` | `string?` | Full name |
+| `givenName` | `string?` | Given name |
+| `familyName` | `string?` | Family name |
+| `picture` | `string?` | Avatar URL |
+| `preferredUsername` | `string?` | Username |
+| `roles` | `string[]?` | Authgear roles |
+| `isAnonymous` | `boolean?` | Whether this is an anonymous user |
+| `isVerified` | `boolean?` | Whether the user is verified |
+| `customAttributes` | `Record<string, unknown>?` | Custom attributes from Authgear |
+| `raw` | `Record<string, unknown>` | The raw userinfo response |
+
+## auth
+
+Returns the raw session (tokens + state) without making a userinfo request. Useful when you need the access token but not the full user profile.
+
+```ts
+import { auth, SessionState } from "@authgear/nextjs/server";
+import { authgearConfig } from "@/lib/authgear";
+
+const session = await auth(authgearConfig);
+
+if (session.state === SessionState.Authenticated) {
+  console.log(session.accessToken);  // string
+  console.log(session.expiresAt);    // Unix timestamp
+}
+```
+
+### Session fields
+
+| Field | Type | Description |
+|---|---|---|
+| `state` | `SessionState` | `Unknown` \| `NoSession` \| `Authenticated` |
+| `accessToken` | `string \| null` | Current access token |
+| `refreshToken` | `string \| null` | Refresh token |
+| `idToken` | `string \| null` | ID token (JWT) |
+| `expiresAt` | `number \| null` | Access token expiry (Unix timestamp) |

@@ -1,0 +1,16 @@
+{
+  "entryPoints": [
+    "../src/index.ts",
+    "../src/client.ts",
+    "../src/server.ts",
+    "../src/proxy.ts"
+  ],
+  "entryPointStrategy": "resolve",
+  "tsconfig": "../tsconfig.json",
+  "plugin": ["typedoc-plugin-markdown"],
+  "out": "content/api",
+  "readme": "none",
+  "hideGenerator": true,
+  "skipErrorChecking": true,
+  "groupOrder": ["Functions", "Classes", "Interfaces", "Type Aliases", "Enumerations", "*"]
+}
