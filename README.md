@@ -7,7 +7,7 @@
 With Authgear SDK for Next.js, you can easily integrate authentication features into your Next.js application — covering both the frontend and backend in one package.
 In most cases, it involves just **a few lines of code** to enable **multiple authentication methods**, such as [social logins](https://www.authgear.com/features/social-login), [passwordless](https://www.authgear.com/features/passwordless-authentication), [biometrics logins](https://www.authgear.com/features/biometric-authentication), [one-time-password (OTP)](https://www.authgear.com/features/whatsapp-otp) with SMS/WhatsApp, and multi-factor authentication (MFA).
 
-**Quick links** — 📚 [Documentation](#documentation) · 🏁 [Getting Started](#getting-started) · 🛠️ [Troubleshooting](#troubleshooting) · 👥 [Contributing](#contributing)
+**Quick links** — 📚 [Documentation](https://authgear.github.io/authgear-sdk-nextjs/) · 🏁 [Getting Started](#getting-started) · 🛠️ [Troubleshooting](#troubleshooting) · 👥 [Contributing](#contributing)
 
 ## What is Authgear?
 
@@ -272,6 +272,7 @@ window.open(url, "_blank");
 
 ## Documentation
 
+- **SDK Documentation**: [https://authgear.github.io/authgear-sdk-nextjs/](https://authgear.github.io/authgear-sdk-nextjs/)
 - Learn how to set up an Authgear application at [https://docs.authgear.com/](https://docs.authgear.com/)
 - Learn how to manage your users through the [Admin API](https://docs.authgear.com/reference/apis/admin-api)
 
