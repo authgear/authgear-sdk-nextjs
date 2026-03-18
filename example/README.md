@@ -62,7 +62,6 @@ Edit `.env.local`:
 ```
 AUTHGEAR_ENDPOINT=https://your-app.authgear.cloud
 AUTHGEAR_CLIENT_ID=your-client-id
-AUTHGEAR_CLIENT_SECRET=your-client-secret
 AUTHGEAR_REDIRECT_URI=http://localhost:3000/api/auth/callback
 SESSION_SECRET=a-random-string-at-least-32-characters-long
 ```
@@ -71,7 +70,6 @@ SESSION_SECRET=a-random-string-at-least-32-characters-long
 |---|---|
 | `AUTHGEAR_ENDPOINT` | Your Authgear app domain, e.g. `https://myapp.authgear.cloud` |
 | `AUTHGEAR_CLIENT_ID` | Portal → Applications → your client → Client ID |
-| `AUTHGEAR_CLIENT_SECRET` | Portal → Applications → your client → Client Secret |
 | `AUTHGEAR_REDIRECT_URI` | Must match what you added in step 1 |
 | `SESSION_SECRET` | Any random string ≥ 32 characters (use `openssl rand -base64 32`) |
 
