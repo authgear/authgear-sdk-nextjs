@@ -315,22 +315,6 @@ describe("getOpenURL", () => {
     await expect(getOpenURL("/settings", CONFIG)).rejects.toThrow("Not authenticated");
   });
 
-  it("throws 'No refresh token in session' when session has no refresh token", async () => {
-    mockCookieJar["authgear.session"] = encryptSession(
-      {
-        accessToken: "valid_access_token",
-        refreshToken: null,
-        idToken: null,
-        expiresAt: Math.floor(Date.now() / 1000) + 3600,
-      },
-      CONFIG.sessionSecret,
-    );
-
-    await expect(getOpenURL("/settings", CONFIG)).rejects.toThrow(
-      "No refresh token in session",
-    );
-  });
-
   it("returns an authorization URL with the app_session_token for the happy path", async () => {
     mockCookieJar["authgear.session"] = encryptSession(
       {
@@ -351,8 +335,10 @@ describe("getOpenURL", () => {
         if (url.includes("/oauth2/app_session_token")) {
           return new Response(
             JSON.stringify({
-              app_session_token: "ast_test_token",
-              expire_at: "2026-03-18T12:00:00Z",
+              result: {
+                app_session_token: "ast_test_token",
+                expire_at: "2026-03-18T12:00:00Z",
+              },
             }),
           );
         }

@@ -64,12 +64,14 @@ export async function refreshAccessToken(
 
 export async function getAppSessionToken(
   endpoint: string,
-  refreshToken: string,
+  accessToken: string,
 ): Promise<AppSessionTokenResponse> {
   const res = await fetch(`${endpoint}/oauth2/app_session_token`, {
     method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ refresh_token: refreshToken }),
+    headers: {
+      "Content-Type": "application/json",
+      "Authorization": `Bearer ${accessToken}`,
+    },
   });
 
   if (!res.ok) {
@@ -77,7 +79,8 @@ export async function getAppSessionToken(
     throw new Error(`Failed to get app session token (${res.status}): ${error}`);
   }
 
-  return res.json() as Promise<AppSessionTokenResponse>;
+  const json = (await res.json()) as { result: AppSessionTokenResponse };
+  return json.result;
 }
 
 export async function revokeToken(
