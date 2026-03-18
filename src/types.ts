@@ -3,8 +3,6 @@ export interface AuthgearConfig {
   endpoint: string;
   /** OAuth client ID */
   clientID: string;
-  /** OAuth client secret (for confidential server-side clients) */
-  clientSecret?: string;
   /** Redirect URI for OAuth callback, e.g. "http://localhost:3000/api/auth/callback" */
   redirectURI: string;
   /** Where to redirect after logout */

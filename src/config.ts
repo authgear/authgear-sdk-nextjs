@@ -11,7 +11,6 @@ export function resolveConfig(config: AuthgearConfig): Required<AuthgearConfig> 
   return {
     endpoint: config.endpoint.replace(/\/+$/, ""),
     clientID: config.clientID,
-    clientSecret: config.clientSecret ?? "",
     redirectURI: config.redirectURI,
     postLogoutRedirectURI: config.postLogoutRedirectURI ?? "/",
     scopes: config.scopes ?? DEFAULT_SCOPES,
