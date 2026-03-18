@@ -70,7 +70,6 @@ export function createAuthgearProxy(options: AuthgearProxyOptions) {
         const tokenResponse = await refreshAccessToken(oidcConfig, {
           refreshToken: sessionData.refreshToken,
           clientID: resolved.clientID,
-          clientSecret: resolved.clientSecret || undefined,
         });
         sessionData = {
           accessToken: tokenResponse.access_token,

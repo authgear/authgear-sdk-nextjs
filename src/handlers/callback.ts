@@ -53,7 +53,6 @@ export async function handleCallback(
     code,
     codeVerifier: pkceData.codeVerifier,
     clientID: resolved.clientID,
-    clientSecret: resolved.clientSecret || undefined,
     redirectURI: resolved.redirectURI,
   });
 

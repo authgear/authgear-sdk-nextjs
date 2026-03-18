@@ -4,14 +4,12 @@ export interface ExchangeCodeParams {
   code: string;
   codeVerifier: string;
   clientID: string;
-  clientSecret?: string;
   redirectURI: string;
 }
 
 export interface RefreshTokenParams {
   refreshToken: string;
   clientID: string;
-  clientSecret?: string;
 }
 
 export async function exchangeCode(
@@ -25,9 +23,6 @@ export async function exchangeCode(
     client_id: params.clientID,
     redirect_uri: params.redirectURI,
   });
-  if (params.clientSecret) {
-    body.set("client_secret", params.clientSecret);
-  }
 
   const res = await fetch(oidcConfig.token_endpoint, {
     method: "POST",
@@ -52,9 +47,6 @@ export async function refreshAccessToken(
     refresh_token: params.refreshToken,
     client_id: params.clientID,
   });
-  if (params.clientSecret) {
-    body.set("client_secret", params.clientSecret);
-  }
 
   const res = await fetch(oidcConfig.token_endpoint, {
     method: "POST",

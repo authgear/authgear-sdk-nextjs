@@ -31,7 +31,6 @@ export async function handleUserInfo(
     const tokenResponse = await refreshAccessToken(oidcConfig, {
       refreshToken: session.refreshToken,
       clientID: resolved.clientID,
-      clientSecret: resolved.clientSecret || undefined,
     });
     session = {
       accessToken: tokenResponse.access_token,

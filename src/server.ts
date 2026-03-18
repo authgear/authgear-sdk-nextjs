@@ -33,7 +33,6 @@ export async function auth(config: AuthgearConfig): Promise<Session> {
       const tokenResponse = await refreshAccessToken(oidcConfig, {
         refreshToken: sessionData.refreshToken,
         clientID: resolved.clientID,
-        clientSecret: resolved.clientSecret || undefined,
       });
       sessionData = {
         accessToken: tokenResponse.access_token,
@@ -85,7 +84,6 @@ export async function currentUser(config: AuthgearConfig): Promise<UserInfo | nu
       const tokenResponse = await refreshAccessToken(oidcConfig, {
         refreshToken: sessionData.refreshToken,
         clientID: resolved.clientID,
-        clientSecret: resolved.clientSecret || undefined,
       });
       sessionData = {
         accessToken: tokenResponse.access_token,
