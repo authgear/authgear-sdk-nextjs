@@ -38,6 +38,10 @@
     "oidc",
     "jwt"
   ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/authgear/authgear-sdk-nextjs"
+  },
   "license": "MIT",
   "dependencies": {
     "jose": "^6.0.0"
