@@ -3,6 +3,7 @@ import { getAppSessionToken } from "../../src/oauth/token.js";
 
 const ENDPOINT = "https://test.authgear.cloud";
 const ACCESS_TOKEN = "at_test_access_token";
+const REFRESH_TOKEN = "rft_test_refresh_token";
 
 beforeEach(() => {
   vi.unstubAllGlobals();
@@ -16,7 +17,7 @@ describe("getAppSessionToken", () => {
       vi.fn(async () => new Response(JSON.stringify(mockResponse), { status: 200 }))
     );
 
-    const result = await getAppSessionToken(ENDPOINT, ACCESS_TOKEN);
+    const result = await getAppSessionToken(ENDPOINT, ACCESS_TOKEN, REFRESH_TOKEN);
 
     const fetchMock = vi.mocked(fetch);
     expect(fetchMock).toHaveBeenCalledOnce();
@@ -27,6 +28,8 @@ describe("getAppSessionToken", () => {
       "Content-Type": "application/json",
       "Authorization": `Bearer ${ACCESS_TOKEN}`,
     });
+    const body = JSON.parse(init?.body as string);
+    expect(body.refresh_token).toBe(REFRESH_TOKEN);
     expect(result.app_session_token).toBe("ast_abc123");
   });
 
@@ -37,7 +40,7 @@ describe("getAppSessionToken", () => {
       vi.fn(async () => new Response(JSON.stringify(mockResponse), { status: 200 }))
     );
 
-    const result = await getAppSessionToken(ENDPOINT, ACCESS_TOKEN);
+    const result = await getAppSessionToken(ENDPOINT, ACCESS_TOKEN, REFRESH_TOKEN);
     expect(result.app_session_token).toBe("ast_abc123");
     expect(result.expire_at).toBe("2026-03-18T12:00:00Z");
   });

@@ -171,6 +171,7 @@ export async function getOpenURL(
   if (!sessionCookieValue) throw new Error("Not authenticated");
   let sessionData = decryptSession(sessionCookieValue, resolved.sessionSecret);
   if (!sessionData) throw new Error("Not authenticated");
+  if (!sessionData.refreshToken) throw new Error("No refresh token in session");
   const oidcConfig = await fetchOIDCConfiguration(resolved.endpoint);
   // Ensure we have a fresh access token before calling app_session_token
   if (isTokenExpired(sessionData.expiresAt) && sessionData.refreshToken) {
@@ -188,6 +189,7 @@ export async function getOpenURL(
   const { app_session_token } = await getAppSessionToken(
     resolved.endpoint,
     sessionData.accessToken,
+    sessionData.refreshToken!,
   );
   return buildOpenURL(oidcConfig, {
     clientID: resolved.clientID,

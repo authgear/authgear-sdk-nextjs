@@ -65,6 +65,7 @@ export async function refreshAccessToken(
 export async function getAppSessionToken(
   endpoint: string,
   accessToken: string,
+  refreshToken: string,
 ): Promise<AppSessionTokenResponse> {
   const res = await fetch(`${endpoint}/oauth2/app_session_token`, {
     method: "POST",
@@ -72,6 +73,7 @@ export async function getAppSessionToken(
       "Content-Type": "application/json",
       "Authorization": `Bearer ${accessToken}`,
     },
+    body: JSON.stringify({ refresh_token: refreshToken }),
   });
 
   if (!res.ok) {
