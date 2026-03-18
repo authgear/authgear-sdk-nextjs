@@ -1,17 +1,12 @@
 "use server";
 
-import { auth, SessionState } from "@authgear/nextjs/server";
+import { auth, getOpenURL, Page, SessionState } from "@authgear/nextjs/server";
 import { authgearConfig } from "@/lib/authgear";
 import { headers } from "next/headers";
 
-// ROADMAP: getSettingsURLAction — uses getOpenURL() which requires the Authgear
-// client to have app_session_token permission granted on the server side.
-// Uncomment once that is enabled:
-//
-// import { getOpenURL, Page } from "@authgear/nextjs/server";
-// export async function getSettingsURLAction(): Promise<string> {
-//   return getOpenURL(Page.Settings, authgearConfig);
-// }
+export async function getSettingsURLAction(): Promise<string> {
+  return getOpenURL(Page.Settings, authgearConfig);
+}
 
 export async function callMeAction(): Promise<unknown> {
   const session = await auth(authgearConfig);
