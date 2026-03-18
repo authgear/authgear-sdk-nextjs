@@ -92,12 +92,8 @@ export function createAuthgearProxy(options: AuthgearProxyOptions) {
 
     const response = NextResponse.next();
 
-    // Inject Authorization header for authenticated requests
     if (sessionData) {
-      const requestHeaders = new Headers(request.headers);
-      requestHeaders.set("Authorization", `Bearer ${sessionData.accessToken}`);
-
-      // Update session cookie if token was refreshed
+      // Update session cookie (captures rotated refresh token if server rotated it)
       const newCookie = buildSessionCookie(resolved.cookieName, sessionData, resolved.sessionSecret);
       response.cookies.set(newCookie.name, newCookie.value, {
         httpOnly: newCookie.httpOnly,
@@ -106,6 +102,9 @@ export function createAuthgearProxy(options: AuthgearProxyOptions) {
         path: newCookie.path,
         maxAge: newCookie.maxAge,
       });
+    } else if (sessionCookieValue) {
+      // Refresh failed — clear the stale cookie so Server Components don't see a broken session
+      response.cookies.set(resolved.cookieName, "", { maxAge: 0, path: "/" });
     }
 
     return response;

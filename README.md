@@ -171,17 +171,27 @@ export async function GET(request: NextRequest) {
 }
 ```
 
-### Reading the Session
+### Reading the Session in Server Actions
 
-Use `auth()` to read the raw session (tokens + expiry) without fetching user info.
+Use `auth()` to get the session (including a fresh access token) without fetching user info. This is the right choice for Server Actions that need to call a downstream API on behalf of the user — `auth()` will auto-refresh the token if expired before returning it.
 
 ```ts
-import { auth } from "@authgear/nextjs/server";
+"use server";
+import { auth, SessionState } from "@authgear/nextjs/server";
 import { authgearConfig } from "@/lib/authgear";
 
-const session = await auth(authgearConfig);
-// session.state: SessionState.Authenticated | SessionState.NoSession
-// session.accessToken: string | null
+export async function callMyApiAction() {
+  const session = await auth(authgearConfig);
+  if (session.state !== SessionState.Authenticated || !session.accessToken) {
+    throw new Error("Not authenticated");
+  }
+
+  // session.accessToken is always fresh — auto-refreshed if it was expired
+  const res = await fetch("https://api.example.com/data", {
+    headers: { Authorization: `Bearer ${session.accessToken}` },
+  });
+  return res.json();
+}
 ```
 
 ---
@@ -198,8 +208,8 @@ const session = await auth(authgearConfig);
 
 | Export | Description |
 |---|---|
-| `auth(config)` | Returns the current `Session` from the session cookie |
-| `currentUser(config)` | Returns `UserInfo \| null`, auto-refreshes access token |
+| `auth(config)` | Returns the current `Session`, auto-refreshes access token if expired |
+| `currentUser(config)` | Returns `UserInfo \| null`, auto-refreshes access token if expired |
 | `verifyAccessToken(token, config)` | Verifies a JWT Bearer token with JWKS, returns `JWTPayload` |
 
 ### `@authgear/nextjs/client`

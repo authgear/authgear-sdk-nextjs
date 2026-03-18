@@ -2,7 +2,7 @@ import "server-only";
 import { cookies } from "next/headers";
 import { SessionState, Page, type Session, type UserInfo, type JWTPayload, type AuthgearConfig } from "./types.js";
 import { resolveConfig } from "./config.js";
-import { decryptSession } from "./session/cookie.js";
+import { decryptSession, buildSessionCookie } from "./session/cookie.js";
 import { deriveSessionState, isTokenExpired } from "./session/state.js";
 import { fetchOIDCConfiguration } from "./oauth/discovery.js";
 import { refreshAccessToken } from "./oauth/token.js";
@@ -12,24 +12,60 @@ import { verifyJWT } from "./jwt/verify.js";
 import { parseUserInfo } from "./user.js";
 
 /**
- * Read the current session in a Server Component or Route Handler.
- * Automatically refreshes the access token if expired.
+ * Read the current session in a Server Component, Route Handler, or Server Action.
+ * Automatically refreshes the access token if expired, so `session.accessToken` is
+ * always valid when the session state is `Authenticated`. Use this when you need a
+ * fresh access token to call a downstream API (e.g. inside a Server Action).
  */
 export async function auth(config: AuthgearConfig): Promise<Session> {
   const resolved = resolveConfig(config);
   const cookieStore = await cookies();
   const sessionCookieValue = cookieStore.get(resolved.cookieName)?.value;
 
-  const sessionData = sessionCookieValue
+  let sessionData = sessionCookieValue
     ? decryptSession(sessionCookieValue, resolved.sessionSecret)
     : null;
+
+  // Auto-refresh expired token so callers (e.g. Server Actions) always get a valid access token
+  if (sessionData && isTokenExpired(sessionData.expiresAt) && sessionData.refreshToken) {
+    try {
+      const oidcConfig = await fetchOIDCConfiguration(resolved.endpoint);
+      const tokenResponse = await refreshAccessToken(oidcConfig, {
+        refreshToken: sessionData.refreshToken,
+        clientID: resolved.clientID,
+        clientSecret: resolved.clientSecret || undefined,
+      });
+      sessionData = {
+        accessToken: tokenResponse.access_token,
+        refreshToken: tokenResponse.refresh_token ?? sessionData.refreshToken,
+        idToken: tokenResponse.id_token ?? sessionData.idToken,
+        expiresAt: Math.floor(Date.now() / 1000) + tokenResponse.expires_in,
+      };
+      try {
+        const newCookie = buildSessionCookie(resolved.cookieName, sessionData, resolved.sessionSecret);
+        cookieStore.set(newCookie.name, newCookie.value, {
+          httpOnly: newCookie.httpOnly,
+          secure: newCookie.secure,
+          sameSite: newCookie.sameSite,
+          path: newCookie.path,
+          maxAge: newCookie.maxAge,
+        });
+      } catch {
+        // Not in a Route Handler — cookie will be persisted by the proxy on next navigation
+      }
+    } catch {
+      sessionData = null;
+    }
+  }
 
   return deriveSessionState(sessionData);
 }
 
 /**
  * Get the current user in a Server Component or Route Handler.
- * Returns null if not authenticated.
+ * Automatically refreshes the access token if expired, including persisting a
+ * rotated refresh token when the Authgear project has refresh token rotation enabled.
+ * Returns null if not authenticated or if the session cannot be refreshed.
  */
 export async function currentUser(config: AuthgearConfig): Promise<UserInfo | null> {
   const resolved = resolveConfig(config);
@@ -57,6 +93,21 @@ export async function currentUser(config: AuthgearConfig): Promise<UserInfo | nu
         idToken: tokenResponse.id_token ?? sessionData.idToken,
         expiresAt: Math.floor(Date.now() / 1000) + tokenResponse.expires_in,
       };
+      // Persist the updated session (with rotated refresh token) back to the cookie.
+      // This succeeds in Route Handlers but throws in Server Components (Next.js restriction).
+      // In Server Components the proxy will write the updated cookie on the next page navigation.
+      try {
+        const newCookie = buildSessionCookie(resolved.cookieName, sessionData, resolved.sessionSecret);
+        cookieStore.set(newCookie.name, newCookie.value, {
+          httpOnly: newCookie.httpOnly,
+          secure: newCookie.secure,
+          sameSite: newCookie.sameSite,
+          path: newCookie.path,
+          maxAge: newCookie.maxAge,
+        });
+      } catch {
+        // Not in a Route Handler — cookie will be persisted by the proxy on next navigation
+      }
     } catch {
       return null;
     }
