@@ -150,15 +150,33 @@ async function main() {
   }
   console.log("✓ Dashboard still authenticated after rotation");
 
-  // --- Step 6: Call /api/me ---
-  console.log("\n--- Step 6: Call /api/me ---");
+  // --- Step 6a: Open Account Settings via getOpenURL ---
+  console.log("\n--- Step 6a: Open Account Settings ---");
+  const [newTab] = await Promise.all([
+    page.waitForEvent("popup", { timeout: 15000 }),
+    page.click("button:has-text('Account Settings')"),
+  ]);
+  await newTab.waitForLoadState("networkidle");
+  const settingsURL = newTab.url();
+  console.log("Settings URL:", settingsURL);
+  if (
+    !settingsURL.includes("response_type=none") ||
+    !settingsURL.includes("/settings")
+  ) {
+    throw new Error(`Unexpected settings URL: ${settingsURL}`);
+  }
+  console.log("✓ Account Settings opened in new tab with pre-auth URL");
+  await newTab.close();
+
+  // --- Step 7: Call /api/me ---
+  console.log("\n--- Step 7: Call /api/me ---");
   await page.click("button:has-text('Call /api/me')");
   await page.waitForSelector("pre", { timeout: 8000 });
   const apiResult = await page.locator("pre").innerText();
   console.log("API result:", apiResult);
 
-  // --- Step 7: Sign out ---
-  console.log("\n--- Step 7: Sign out ---");
+  // --- Step 8: Sign out ---
+  console.log("\n--- Step 8: Sign out ---");
   await page.click("button:has-text('Sign Out')");
   await page.waitForURL(`${BASE_URL}/`, { timeout: 10000 });
   await page.waitForLoadState("networkidle");
