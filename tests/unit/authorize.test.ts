@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { buildAuthorizeURL, generateState } from "../../src/oauth/authorize.js";
+import { buildAuthorizeURL, generateState, buildOpenURL } from "../../src/oauth/authorize.js";
 import type { OIDCConfiguration } from "../../src/types.js";
 
 const mockOIDCConfig: OIDCConfiguration = {
@@ -67,5 +67,57 @@ describe("generateState", () => {
 
   it("generates base64url-safe characters", () => {
     expect(generateState()).toMatch(/^[A-Za-z0-9\-_]+$/);
+  });
+});
+
+describe("buildOpenURL", () => {
+  it("sets response_type to none", () => {
+    const url = new URL(buildOpenURL(mockOIDCConfig, {
+      clientID: "test-client",
+      appSessionToken: "tok_abc123",
+      targetPath: "/settings",
+    }));
+    expect(url.searchParams.get("response_type")).toBe("none");
+  });
+
+  it("sets prompt to none", () => {
+    const url = new URL(buildOpenURL(mockOIDCConfig, {
+      clientID: "test-client",
+      appSessionToken: "tok_abc123",
+      targetPath: "/settings",
+    }));
+    expect(url.searchParams.get("prompt")).toBe("none");
+  });
+
+  it("builds redirect_uri from authorization_endpoint origin + targetPath", () => {
+    const url = new URL(buildOpenURL(mockOIDCConfig, {
+      clientID: "test-client",
+      appSessionToken: "tok_abc123",
+      targetPath: "/settings",
+    }));
+    expect(url.searchParams.get("redirect_uri")).toBe(
+      "https://myapp.authgear.cloud/settings"
+    );
+  });
+
+  it("encodes the app_session_token in login_hint", () => {
+    const tokenWithSpecialChars = "tok+a=b/c";
+    const url = new URL(buildOpenURL(mockOIDCConfig, {
+      clientID: "test-client",
+      appSessionToken: tokenWithSpecialChars,
+      targetPath: "/settings",
+    }));
+    const loginHint = url.searchParams.get("login_hint") ?? "";
+    expect(loginHint).toContain("type=app_session_token");
+    expect(loginHint).toContain(`app_session_token=${encodeURIComponent(tokenWithSpecialChars)}`);
+  });
+
+  it("sets client_id", () => {
+    const url = new URL(buildOpenURL(mockOIDCConfig, {
+      clientID: "my-app",
+      appSessionToken: "tok_xyz",
+      targetPath: "/settings",
+    }));
+    expect(url.searchParams.get("client_id")).toBe("my-app");
   });
 });
