@@ -35,6 +35,8 @@ npm install @authgear/nextjs
 
 ## Getting Started
 
+For a complete tutorial, see the [Next.js integration guide](https://docs.authgear.com/get-started/regular-web-app/nextjs) on Authgear Docs, or explore the [example project](https://github.com/authgear/authgear-example-nextjs) on GitHub.
+
 ### 1. Configure Authgear
 
 Create a config object. The `sessionSecret` must be at least 32 characters and should be stored in an environment variable.
