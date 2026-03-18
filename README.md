@@ -48,7 +48,6 @@ import type { AuthgearConfig } from "@authgear/nextjs";
 export const authgearConfig: AuthgearConfig = {
   endpoint: process.env.AUTHGEAR_ENDPOINT!,       // e.g. "https://myapp.authgear.cloud"
   clientID: process.env.AUTHGEAR_CLIENT_ID!,
-  clientSecret: process.env.AUTHGEAR_CLIENT_SECRET,  // for confidential clients
   redirectURI: process.env.AUTHGEAR_REDIRECT_URI!,   // e.g. "http://localhost:3000/api/auth/callback"
   sessionSecret: process.env.SESSION_SECRET!,         // min 32 chars
 };
@@ -244,7 +243,6 @@ export async function callMyApiAction() {
 | `clientID` | ✓ | OAuth client ID |
 | `redirectURI` | ✓ | OAuth callback URL, e.g. `"http://localhost:3000/api/auth/callback"` |
 | `sessionSecret` | ✓ | Secret for encrypting session cookie (min 32 chars) |
-| `clientSecret` | | OAuth client secret (for confidential clients) |
 | `postLogoutRedirectURI` | | Where to redirect after logout. Defaults to `"/"` |
 | `scopes` | | OAuth scopes. Defaults to `["openid", "offline_access", "https://authgear.com/scopes/full-userinfo"]` |
 | `cookieName` | | Session cookie name. Defaults to `"authgear.session"` |
