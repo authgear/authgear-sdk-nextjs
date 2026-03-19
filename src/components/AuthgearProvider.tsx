@@ -109,8 +109,9 @@ export function AuthgearProvider({
 
   const openPage = useCallback(
     (path: string) => {
-      const url = `${openPagePath}?page=${encodeURIComponent(path)}`;
-      window.open(url, "_blank", "noopener,noreferrer");
+      const url = new URL(openPagePath, window.location.origin);
+      url.searchParams.set("page", path);
+      window.open(url.toString(), "_blank", "noopener,noreferrer");
     },
     [openPagePath],
   );
