@@ -82,12 +82,27 @@ async function main() {
   console.log("Title:", await page.title());
   console.log("Body:", (await page.innerText("body")).slice(0, 200));
 
-  // --- Step 2: Sign in ---
+  // --- Step 2: Click Sign In ---
   console.log("\n--- Step 2: Click Sign In ---");
-  await page.click("button:has-text('Sign In')");
-  await page.waitForURL(/authgear/, { timeout: 10000 });
-  await page.waitForLoadState("networkidle");
+
+  // Capture the authorize URL concurrently with the click to avoid a race condition.
+  // The login handler issues a server-side 302 to the Authgear /oauth2/authorize URL;
+  // we intercept the initial /api/auth/login request and follow its redirect location.
+  const [loginResponse] = await Promise.all([
+    page.waitForResponse((res) => res.url().includes("/api/auth/login"), { timeout: 10000 }),
+    page.click("button:has-text('Sign In')"),
+  ]);
+  // The redirect location is the full authorize URL built by the login handler.
+  const authorizeURL = loginResponse.headers()["location"] ?? loginResponse.url();
+
+  await page.waitForURL(/authgear/, { timeout: 15000 });
   console.log("On Authgear login page");
+
+  // Assert prompt=login is present (isSSOEnabled: false in example config)
+  if (!authorizeURL.includes("prompt=login")) {
+    throw new Error(`Expected prompt=login in authorize URL, got: ${authorizeURL}`);
+  }
+  console.log("✓ prompt=login present in authorize URL (isSSOEnabled: false)");
 
   console.log("\n--- Step 3: Fill credentials ---");
   await page.fill('input[name="q_login_id"]', TEST_EMAIL);

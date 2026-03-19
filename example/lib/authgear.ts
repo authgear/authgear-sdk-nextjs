@@ -5,4 +5,5 @@ export const authgearConfig: AuthgearConfig = {
   clientID: process.env.AUTHGEAR_CLIENT_ID!,
   redirectURI: process.env.AUTHGEAR_REDIRECT_URI!,
   sessionSecret: process.env.SESSION_SECRET!,
+  isSSOEnabled: false,
 };
