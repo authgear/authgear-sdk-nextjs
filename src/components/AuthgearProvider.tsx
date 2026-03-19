@@ -16,6 +16,8 @@ export interface AuthgearContextValue {
   isLoaded: boolean;
   signIn: (options?: SignInOptions) => void;
   signOut: () => void;
+  /** Open an Authgear page (e.g. Page.Settings) in a new tab for the current user */
+  openPage: (path: string) => void;
 }
 
 export interface SignInOptions {
@@ -39,6 +41,8 @@ export interface AuthgearProviderProps {
   loginPath?: string;
   /** Path to the logout route. Defaults to "/api/auth/logout". */
   logoutPath?: string;
+  /** Path to the open-page route handler. Defaults to "/api/auth/open". */
+  openPagePath?: string;
 }
 
 export function AuthgearProvider({
@@ -46,6 +50,7 @@ export function AuthgearProvider({
   userInfoPath = "/api/auth/userinfo",
   loginPath = "/api/auth/login",
   logoutPath = "/api/auth/logout",
+  openPagePath = "/api/auth/open",
 }: AuthgearProviderProps) {
   const [state, setState] = useState<SessionState>(SessionState.Unknown);
   const [user, setUser] = useState<UserInfo | null>(null);
@@ -102,8 +107,16 @@ export function AuthgearProvider({
     window.location.href = logoutPath;
   }, [logoutPath]);
 
+  const openPage = useCallback(
+    (path: string) => {
+      const url = `${openPagePath}?page=${encodeURIComponent(path)}`;
+      window.open(url, "_blank", "noopener,noreferrer");
+    },
+    [openPagePath],
+  );
+
   return (
-    <AuthgearContext.Provider value={{ state, user, isLoaded, signIn, signOut }}>
+    <AuthgearContext.Provider value={{ state, user, isLoaded, signIn, signOut, openPage }}>
       {children}
     </AuthgearContext.Provider>
   );
