@@ -24,8 +24,7 @@ export interface SignInOptions {
   /**
    * OIDC `prompt` parameter for this sign-in call.
    * Overrides the global `isSSOEnabled` setting for this navigation.
-   * Any valid OIDC prompt string is accepted (e.g. `"login"`, `"none"`, `"consent"`).
-   * Use `PromptOption.Login` as a convenience constant for the most common case.
+   * Use `PromptOption.Login` or `PromptOption.None` for type-safe values.
    */
   prompt?: string;
 }
@@ -91,7 +90,7 @@ export function AuthgearProvider({
       if (options?.returnTo) {
         url.searchParams.set("returnTo", options.returnTo);
       }
-      if (options?.prompt) {
+      if (options?.prompt != null) {
         url.searchParams.set("prompt", options.prompt);
       }
       window.location.href = url.toString();
