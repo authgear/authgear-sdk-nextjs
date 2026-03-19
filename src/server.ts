@@ -1,6 +1,6 @@
 import "server-only";
 import { cookies } from "next/headers";
-import { SessionState, Page, type Session, type UserInfo, type JWTPayload, type AuthgearConfig } from "./types.js";
+import { SessionState, Page, PromptOption, type Session, type UserInfo, type JWTPayload, type AuthgearConfig } from "./types.js";
 import { resolveConfig } from "./config.js";
 import { decryptSession, buildSessionCookie } from "./session/cookie.js";
 import { deriveSessionState, isTokenExpired } from "./session/state.js";
@@ -185,5 +185,5 @@ export async function getOpenURL(
   });
 }
 
-export { SessionState, Page };
+export { SessionState, Page, PromptOption };
 export type { Session, UserInfo, JWTPayload };

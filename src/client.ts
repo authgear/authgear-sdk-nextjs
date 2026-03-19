@@ -9,5 +9,5 @@ export type { SignOutButtonProps } from "./components/SignOutButton.js";
 export { useAuthgear } from "./hooks/useAuthgear.js";
 export type { UseAuthgearReturn } from "./hooks/useAuthgear.js";
 export { useUser } from "./hooks/useUser.js";
-export { SessionState } from "./types.js";
+export { SessionState, PromptOption } from "./types.js";
 export type { UserInfo, Session } from "./types.js";

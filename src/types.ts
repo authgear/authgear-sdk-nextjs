@@ -31,6 +31,20 @@ export enum Page {
   Settings = "/settings",
 }
 
+/**
+ * OIDC `prompt` parameter values.
+ * Pass to `signIn({ prompt })` or `SignInButton signInOptions={{ prompt }}` to control
+ * whether Authgear shows the login form for a specific authentication call.
+ *
+ * @see https://docs.authgear.com/authentication-and-access/single-sign-on/force-authgear-to-show-login-page
+ */
+export enum PromptOption {
+  /** Always show the login form, even if the user has an active Authgear session. */
+  Login = "login",
+  /** Never show the login form; return an error if the user is not already authenticated. */
+  None = "none",
+}
+
 export const DEFAULT_SCOPES = [
   "openid",
   "offline_access",
