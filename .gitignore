@@ -6,6 +6,9 @@ dist/
 .claude
 CLAUDE.md
 
+# Superpowers plans
+docs/superpowers/
+
 # Docs site
 docs/node_modules/
 docs/build/
