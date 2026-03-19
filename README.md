@@ -246,6 +246,7 @@ export async function callMyApiAction() {
 | `sessionSecret` | ✓ | Secret for encrypting session cookie (min 32 chars) |
 | `postLogoutRedirectURI` | | Where to redirect after logout. Defaults to `"/"` |
 | `scopes` | | OAuth scopes. Defaults to `["openid", "offline_access", "https://authgear.com/scopes/full-userinfo"]` |
+| `isSSOEnabled` | | When `false`, always shows the Authgear login form (`prompt=login`), even if the user has an existing Authgear session. Recommended for single-app deployments. Defaults to `true` |
 | `cookieName` | | Session cookie name. Defaults to `"authgear.session"` |
 
 ---
