@@ -77,6 +77,18 @@ describe("buildAuthorizeURL", () => {
     }));
     expect(url.searchParams.get("prompt")).toBe("login");
   });
+
+  it("omits prompt when prompt is empty string", () => {
+    const url = new URL(buildAuthorizeURL(mockOIDCConfig, {
+      clientID: "id",
+      redirectURI: "http://localhost/callback",
+      scopes: ["openid"],
+      codeVerifier: "verifier",
+      state: "state",
+      prompt: "",
+    }));
+    expect(url.searchParams.has("prompt")).toBe(false);
+  });
 });
 
 describe("generateState", () => {
