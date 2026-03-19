@@ -35,6 +35,7 @@ export interface AuthorizeParams {
   scopes: string[];
   codeVerifier: string;
   state: string;
+  prompt?: string;
 }
 
 export function generateState(): string {
@@ -53,5 +54,8 @@ export function buildAuthorizeURL(
   url.searchParams.set("code_challenge", computeCodeChallenge(params.codeVerifier));
   url.searchParams.set("code_challenge_method", "S256");
   url.searchParams.set("state", params.state);
+  if (params.prompt) {
+    url.searchParams.set("prompt", params.prompt);
+  }
   return url.toString();
 }

@@ -54,6 +54,29 @@ describe("buildAuthorizeURL", () => {
       "openid offline_access https://authgear.com/scopes/full-userinfo"
     );
   });
+
+  it("omits prompt when not provided", () => {
+    const url = new URL(buildAuthorizeURL(mockOIDCConfig, {
+      clientID: "id",
+      redirectURI: "http://localhost/callback",
+      scopes: ["openid"],
+      codeVerifier: "verifier",
+      state: "state",
+    }));
+    expect(url.searchParams.has("prompt")).toBe(false);
+  });
+
+  it("sets prompt=login when prompt is provided", () => {
+    const url = new URL(buildAuthorizeURL(mockOIDCConfig, {
+      clientID: "id",
+      redirectURI: "http://localhost/callback",
+      scopes: ["openid"],
+      codeVerifier: "verifier",
+      state: "state",
+      prompt: "login",
+    }));
+    expect(url.searchParams.get("prompt")).toBe("login");
+  });
 });
 
 describe("generateState", () => {
