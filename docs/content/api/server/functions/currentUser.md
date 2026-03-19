@@ -8,7 +8,7 @@
 
 > **currentUser**(`config`): `Promise`\<[`UserInfo`](../../index/interfaces/UserInfo.md) \| `null`\>
 
-Defined in: [src/server.ts:68](https://github.com/authgear/authgear-sdk-nextjs/blob/794ac199bdf94fec6449a3be3654fc9ec692e2b2/src/server.ts#L68)
+Defined in: [src/server.ts:68](https://github.com/authgear/authgear-sdk-nextjs/blob/926a8f2e1423ad6cdd2a462cf4a9405e4972f5b0/src/server.ts#L68)
 
 Get the current user in a Server Component or Route Handler.
 Automatically refreshes the access token if expired, including persisting a

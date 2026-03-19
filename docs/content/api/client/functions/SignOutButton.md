@@ -8,7 +8,7 @@
 
 > **SignOutButton**(`__namedParameters`): `Element`
 
-Defined in: [src/components/SignOutButton.tsx:8](https://github.com/authgear/authgear-sdk-nextjs/blob/794ac199bdf94fec6449a3be3654fc9ec692e2b2/src/components/SignOutButton.tsx#L8)
+Defined in: [src/components/SignOutButton.tsx:8](https://github.com/authgear/authgear-sdk-nextjs/blob/926a8f2e1423ad6cdd2a462cf4a9405e4972f5b0/src/components/SignOutButton.tsx#L8)
 
 ## Parameters
 

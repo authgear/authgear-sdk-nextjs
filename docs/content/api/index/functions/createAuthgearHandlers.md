@@ -8,7 +8,7 @@
 
 > **createAuthgearHandlers**(`config`): `object`
 
-Defined in: [src/handlers/index.ts:27](https://github.com/authgear/authgear-sdk-nextjs/blob/794ac199bdf94fec6449a3be3654fc9ec692e2b2/src/handlers/index.ts#L27)
+Defined in: [src/handlers/index.ts:27](https://github.com/authgear/authgear-sdk-nextjs/blob/926a8f2e1423ad6cdd2a462cf4a9405e4972f5b0/src/handlers/index.ts#L27)
 
 Creates Next.js route handlers for all Authgear auth endpoints.
 

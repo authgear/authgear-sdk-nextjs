@@ -6,7 +6,7 @@
 
 # Enumeration: SessionState
 
-Defined in: [src/types.ts:54](https://github.com/authgear/authgear-sdk-nextjs/blob/794ac199bdf94fec6449a3be3654fc9ec692e2b2/src/types.ts#L54)
+Defined in: [src/types.ts:56](https://github.com/authgear/authgear-sdk-nextjs/blob/926a8f2e1423ad6cdd2a462cf4a9405e4972f5b0/src/types.ts#L56)
 
 ## Enumeration Members
 
@@ -14,7 +14,7 @@ Defined in: [src/types.ts:54](https://github.com/authgear/authgear-sdk-nextjs/bl
 
 > **Authenticated**: `"AUTHENTICATED"`
 
-Defined in: [src/types.ts:57](https://github.com/authgear/authgear-sdk-nextjs/blob/794ac199bdf94fec6449a3be3654fc9ec692e2b2/src/types.ts#L57)
+Defined in: [src/types.ts:59](https://github.com/authgear/authgear-sdk-nextjs/blob/926a8f2e1423ad6cdd2a462cf4a9405e4972f5b0/src/types.ts#L59)
 
 ***
 
@@ -22,7 +22,7 @@ Defined in: [src/types.ts:57](https://github.com/authgear/authgear-sdk-nextjs/bl
 
 > **NoSession**: `"NO_SESSION"`
 
-Defined in: [src/types.ts:56](https://github.com/authgear/authgear-sdk-nextjs/blob/794ac199bdf94fec6449a3be3654fc9ec692e2b2/src/types.ts#L56)
+Defined in: [src/types.ts:58](https://github.com/authgear/authgear-sdk-nextjs/blob/926a8f2e1423ad6cdd2a462cf4a9405e4972f5b0/src/types.ts#L58)
 
 ***
 
@@ -30,4 +30,4 @@ Defined in: [src/types.ts:56](https://github.com/authgear/authgear-sdk-nextjs/bl
 
 > **Unknown**: `"UNKNOWN"`
 
-Defined in: [src/types.ts:55](https://github.com/authgear/authgear-sdk-nextjs/blob/794ac199bdf94fec6449a3be3654fc9ec692e2b2/src/types.ts#L55)
+Defined in: [src/types.ts:57](https://github.com/authgear/authgear-sdk-nextjs/blob/926a8f2e1423ad6cdd2a462cf4a9405e4972f5b0/src/types.ts#L57)

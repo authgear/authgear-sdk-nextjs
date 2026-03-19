@@ -25,7 +25,9 @@ export interface AuthgearConfig {
 }
 
 /**
- * Pages that can be opened via `getOpenURL` from `@authgear/nextjs/server`.
+ * Pages that can be opened in a new tab with the current user pre-authenticated.
+ * Used by `getOpenURL` from `@authgear/nextjs/server` and by `openPage` / `<UserSettingsButton>`
+ * from `@authgear/nextjs/client`.
  */
 export enum Page {
   Settings = "/settings",

@@ -6,7 +6,7 @@
 
 # Interface: AuthgearConfig
 
-Defined in: [src/types.ts:1](https://github.com/authgear/authgear-sdk-nextjs/blob/794ac199bdf94fec6449a3be3654fc9ec692e2b2/src/types.ts#L1)
+Defined in: [src/types.ts:1](https://github.com/authgear/authgear-sdk-nextjs/blob/926a8f2e1423ad6cdd2a462cf4a9405e4972f5b0/src/types.ts#L1)
 
 ## Extended by
 
@@ -18,7 +18,7 @@ Defined in: [src/types.ts:1](https://github.com/authgear/authgear-sdk-nextjs/blo
 
 > **clientID**: `string`
 
-Defined in: [src/types.ts:5](https://github.com/authgear/authgear-sdk-nextjs/blob/794ac199bdf94fec6449a3be3654fc9ec692e2b2/src/types.ts#L5)
+Defined in: [src/types.ts:5](https://github.com/authgear/authgear-sdk-nextjs/blob/926a8f2e1423ad6cdd2a462cf4a9405e4972f5b0/src/types.ts#L5)
 
 OAuth client ID
 
@@ -28,7 +28,7 @@ OAuth client ID
 
 > `optional` **cookieName**: `string`
 
-Defined in: [src/types.ts:15](https://github.com/authgear/authgear-sdk-nextjs/blob/794ac199bdf94fec6449a3be3654fc9ec692e2b2/src/types.ts#L15)
+Defined in: [src/types.ts:15](https://github.com/authgear/authgear-sdk-nextjs/blob/926a8f2e1423ad6cdd2a462cf4a9405e4972f5b0/src/types.ts#L15)
 
 Session cookie name. Defaults to "authgear.session"
 
@@ -38,7 +38,7 @@ Session cookie name. Defaults to "authgear.session"
 
 > **endpoint**: `string`
 
-Defined in: [src/types.ts:3](https://github.com/authgear/authgear-sdk-nextjs/blob/794ac199bdf94fec6449a3be3654fc9ec692e2b2/src/types.ts#L3)
+Defined in: [src/types.ts:3](https://github.com/authgear/authgear-sdk-nextjs/blob/926a8f2e1423ad6cdd2a462cf4a9405e4972f5b0/src/types.ts#L3)
 
 Authgear endpoint, e.g. "https://myapp.authgear.cloud"
 
@@ -48,7 +48,7 @@ Authgear endpoint, e.g. "https://myapp.authgear.cloud"
 
 > `optional` **isSSOEnabled**: `boolean`
 
-Defined in: [src/types.ts:24](https://github.com/authgear/authgear-sdk-nextjs/blob/794ac199bdf94fec6449a3be3654fc9ec692e2b2/src/types.ts#L24)
+Defined in: [src/types.ts:24](https://github.com/authgear/authgear-sdk-nextjs/blob/926a8f2e1423ad6cdd2a462cf4a9405e4972f5b0/src/types.ts#L24)
 
 Whether to enable SSO (Single Sign-On) with other apps on the same Authgear tenant.
 When `true` (default), Authgear silently reuses its server-side session if the user
@@ -63,7 +63,7 @@ Defaults to `true`.
 
 > `optional` **postLogoutRedirectURI**: `string`
 
-Defined in: [src/types.ts:9](https://github.com/authgear/authgear-sdk-nextjs/blob/794ac199bdf94fec6449a3be3654fc9ec692e2b2/src/types.ts#L9)
+Defined in: [src/types.ts:9](https://github.com/authgear/authgear-sdk-nextjs/blob/926a8f2e1423ad6cdd2a462cf4a9405e4972f5b0/src/types.ts#L9)
 
 Where to redirect after logout
 
@@ -73,7 +73,7 @@ Where to redirect after logout
 
 > **redirectURI**: `string`
 
-Defined in: [src/types.ts:7](https://github.com/authgear/authgear-sdk-nextjs/blob/794ac199bdf94fec6449a3be3654fc9ec692e2b2/src/types.ts#L7)
+Defined in: [src/types.ts:7](https://github.com/authgear/authgear-sdk-nextjs/blob/926a8f2e1423ad6cdd2a462cf4a9405e4972f5b0/src/types.ts#L7)
 
 Redirect URI for OAuth callback, e.g. "http://localhost:3000/api/auth/callback"
 
@@ -83,7 +83,7 @@ Redirect URI for OAuth callback, e.g. "http://localhost:3000/api/auth/callback"
 
 > `optional` **scopes**: `string`[]
 
-Defined in: [src/types.ts:11](https://github.com/authgear/authgear-sdk-nextjs/blob/794ac199bdf94fec6449a3be3654fc9ec692e2b2/src/types.ts#L11)
+Defined in: [src/types.ts:11](https://github.com/authgear/authgear-sdk-nextjs/blob/926a8f2e1423ad6cdd2a462cf4a9405e4972f5b0/src/types.ts#L11)
 
 OAuth scopes. Defaults to ["openid", "offline_access", "https://authgear.com/scopes/full-userinfo"]
 
@@ -93,6 +93,6 @@ OAuth scopes. Defaults to ["openid", "offline_access", "https://authgear.com/sco
 
 > **sessionSecret**: `string`
 
-Defined in: [src/types.ts:13](https://github.com/authgear/authgear-sdk-nextjs/blob/794ac199bdf94fec6449a3be3654fc9ec692e2b2/src/types.ts#L13)
+Defined in: [src/types.ts:13](https://github.com/authgear/authgear-sdk-nextjs/blob/926a8f2e1423ad6cdd2a462cf4a9405e4972f5b0/src/types.ts#L13)
 
 Secret key for encrypting session cookie (min 32 chars)

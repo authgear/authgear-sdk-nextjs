@@ -165,7 +165,7 @@ async function main() {
   }
   console.log("✓ Dashboard still authenticated after rotation");
 
-  // --- Step 6a: Open Account Settings via getOpenURL ---
+  // --- Step 6a: Open Account Settings via UserSettingsButton ---
   console.log("\n--- Step 6a: Open Account Settings ---");
   const [newTab] = await Promise.all([
     page.waitForEvent("popup", { timeout: 15000 }),

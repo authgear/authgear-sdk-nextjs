@@ -6,7 +6,7 @@
 
 # Interface: TokenResponse
 
-Defined in: [src/types.ts:110](https://github.com/authgear/authgear-sdk-nextjs/blob/794ac199bdf94fec6449a3be3654fc9ec692e2b2/src/types.ts#L110)
+Defined in: [src/types.ts:112](https://github.com/authgear/authgear-sdk-nextjs/blob/926a8f2e1423ad6cdd2a462cf4a9405e4972f5b0/src/types.ts#L112)
 
 ## Properties
 
@@ -14,7 +14,7 @@ Defined in: [src/types.ts:110](https://github.com/authgear/authgear-sdk-nextjs/b
 
 > **access\_token**: `string`
 
-Defined in: [src/types.ts:111](https://github.com/authgear/authgear-sdk-nextjs/blob/794ac199bdf94fec6449a3be3654fc9ec692e2b2/src/types.ts#L111)
+Defined in: [src/types.ts:113](https://github.com/authgear/authgear-sdk-nextjs/blob/926a8f2e1423ad6cdd2a462cf4a9405e4972f5b0/src/types.ts#L113)
 
 ***
 
@@ -22,7 +22,7 @@ Defined in: [src/types.ts:111](https://github.com/authgear/authgear-sdk-nextjs/b
 
 > **expires\_in**: `number`
 
-Defined in: [src/types.ts:113](https://github.com/authgear/authgear-sdk-nextjs/blob/794ac199bdf94fec6449a3be3654fc9ec692e2b2/src/types.ts#L113)
+Defined in: [src/types.ts:115](https://github.com/authgear/authgear-sdk-nextjs/blob/926a8f2e1423ad6cdd2a462cf4a9405e4972f5b0/src/types.ts#L115)
 
 ***
 
@@ -30,7 +30,7 @@ Defined in: [src/types.ts:113](https://github.com/authgear/authgear-sdk-nextjs/b
 
 > `optional` **id\_token**: `string`
 
-Defined in: [src/types.ts:115](https://github.com/authgear/authgear-sdk-nextjs/blob/794ac199bdf94fec6449a3be3654fc9ec692e2b2/src/types.ts#L115)
+Defined in: [src/types.ts:117](https://github.com/authgear/authgear-sdk-nextjs/blob/926a8f2e1423ad6cdd2a462cf4a9405e4972f5b0/src/types.ts#L117)
 
 ***
 
@@ -38,7 +38,7 @@ Defined in: [src/types.ts:115](https://github.com/authgear/authgear-sdk-nextjs/b
 
 > `optional` **refresh\_token**: `string`
 
-Defined in: [src/types.ts:114](https://github.com/authgear/authgear-sdk-nextjs/blob/794ac199bdf94fec6449a3be3654fc9ec692e2b2/src/types.ts#L114)
+Defined in: [src/types.ts:116](https://github.com/authgear/authgear-sdk-nextjs/blob/926a8f2e1423ad6cdd2a462cf4a9405e4972f5b0/src/types.ts#L116)
 
 ***
 
@@ -46,4 +46,4 @@ Defined in: [src/types.ts:114](https://github.com/authgear/authgear-sdk-nextjs/b
 
 > **token\_type**: `string`
 
-Defined in: [src/types.ts:112](https://github.com/authgear/authgear-sdk-nextjs/blob/794ac199bdf94fec6449a3be3654fc9ec692e2b2/src/types.ts#L112)
+Defined in: [src/types.ts:114](https://github.com/authgear/authgear-sdk-nextjs/blob/926a8f2e1423ad6cdd2a462cf4a9405e4972f5b0/src/types.ts#L114)

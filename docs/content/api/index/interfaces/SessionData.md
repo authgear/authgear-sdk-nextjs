@@ -6,7 +6,7 @@
 
 # Interface: SessionData
 
-Defined in: [src/types.ts:60](https://github.com/authgear/authgear-sdk-nextjs/blob/794ac199bdf94fec6449a3be3654fc9ec692e2b2/src/types.ts#L60)
+Defined in: [src/types.ts:62](https://github.com/authgear/authgear-sdk-nextjs/blob/926a8f2e1423ad6cdd2a462cf4a9405e4972f5b0/src/types.ts#L62)
 
 ## Properties
 
@@ -14,7 +14,7 @@ Defined in: [src/types.ts:60](https://github.com/authgear/authgear-sdk-nextjs/bl
 
 > **accessToken**: `string`
 
-Defined in: [src/types.ts:61](https://github.com/authgear/authgear-sdk-nextjs/blob/794ac199bdf94fec6449a3be3654fc9ec692e2b2/src/types.ts#L61)
+Defined in: [src/types.ts:63](https://github.com/authgear/authgear-sdk-nextjs/blob/926a8f2e1423ad6cdd2a462cf4a9405e4972f5b0/src/types.ts#L63)
 
 ***
 
@@ -22,7 +22,7 @@ Defined in: [src/types.ts:61](https://github.com/authgear/authgear-sdk-nextjs/bl
 
 > **expiresAt**: `number`
 
-Defined in: [src/types.ts:64](https://github.com/authgear/authgear-sdk-nextjs/blob/794ac199bdf94fec6449a3be3654fc9ec692e2b2/src/types.ts#L64)
+Defined in: [src/types.ts:66](https://github.com/authgear/authgear-sdk-nextjs/blob/926a8f2e1423ad6cdd2a462cf4a9405e4972f5b0/src/types.ts#L66)
 
 ***
 
@@ -30,7 +30,7 @@ Defined in: [src/types.ts:64](https://github.com/authgear/authgear-sdk-nextjs/bl
 
 > **idToken**: `string` \| `null`
 
-Defined in: [src/types.ts:63](https://github.com/authgear/authgear-sdk-nextjs/blob/794ac199bdf94fec6449a3be3654fc9ec692e2b2/src/types.ts#L63)
+Defined in: [src/types.ts:65](https://github.com/authgear/authgear-sdk-nextjs/blob/926a8f2e1423ad6cdd2a462cf4a9405e4972f5b0/src/types.ts#L65)
 
 ***
 
@@ -38,4 +38,4 @@ Defined in: [src/types.ts:63](https://github.com/authgear/authgear-sdk-nextjs/bl
 
 > **refreshToken**: `string` \| `null`
 
-Defined in: [src/types.ts:62](https://github.com/authgear/authgear-sdk-nextjs/blob/794ac199bdf94fec6449a3be3654fc9ec692e2b2/src/types.ts#L62)
+Defined in: [src/types.ts:64](https://github.com/authgear/authgear-sdk-nextjs/blob/926a8f2e1423ad6cdd2a462cf4a9405e4972f5b0/src/types.ts#L64)

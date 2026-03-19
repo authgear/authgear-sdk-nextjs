@@ -6,7 +6,7 @@
 
 # Interface: SignInButtonProps
 
-Defined in: [src/components/SignInButton.tsx:6](https://github.com/authgear/authgear-sdk-nextjs/blob/794ac199bdf94fec6449a3be3654fc9ec692e2b2/src/components/SignInButton.tsx#L6)
+Defined in: [src/components/SignInButton.tsx:6](https://github.com/authgear/authgear-sdk-nextjs/blob/926a8f2e1423ad6cdd2a462cf4a9405e4972f5b0/src/components/SignInButton.tsx#L6)
 
 ## Extends
 
@@ -3595,7 +3595,7 @@ Defined in: node\_modules/@types/react/index.d.ts:2842
 
 > `optional` **signInOptions**: [`SignInOptions`](SignInOptions.md)
 
-Defined in: [src/components/SignInButton.tsx:7](https://github.com/authgear/authgear-sdk-nextjs/blob/794ac199bdf94fec6449a3be3654fc9ec692e2b2/src/components/SignInButton.tsx#L7)
+Defined in: [src/components/SignInButton.tsx:7](https://github.com/authgear/authgear-sdk-nextjs/blob/926a8f2e1423ad6cdd2a462cf4a9405e4972f5b0/src/components/SignInButton.tsx#L7)
 
 ***
 

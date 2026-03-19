@@ -6,7 +6,7 @@
 
 # Interface: UserInfo
 
-Defined in: [src/types.ts:76](https://github.com/authgear/authgear-sdk-nextjs/blob/794ac199bdf94fec6449a3be3654fc9ec692e2b2/src/types.ts#L76)
+Defined in: [src/types.ts:78](https://github.com/authgear/authgear-sdk-nextjs/blob/926a8f2e1423ad6cdd2a462cf4a9405e4972f5b0/src/types.ts#L78)
 
 ## Properties
 
@@ -14,7 +14,7 @@ Defined in: [src/types.ts:76](https://github.com/authgear/authgear-sdk-nextjs/bl
 
 > `optional` **canReauthenticate**: `boolean`
 
-Defined in: [src/types.ts:90](https://github.com/authgear/authgear-sdk-nextjs/blob/794ac199bdf94fec6449a3be3654fc9ec692e2b2/src/types.ts#L90)
+Defined in: [src/types.ts:92](https://github.com/authgear/authgear-sdk-nextjs/blob/926a8f2e1423ad6cdd2a462cf4a9405e4972f5b0/src/types.ts#L92)
 
 ***
 
@@ -22,7 +22,7 @@ Defined in: [src/types.ts:90](https://github.com/authgear/authgear-sdk-nextjs/bl
 
 > `optional` **customAttributes**: `Record`\<`string`, `unknown`\>
 
-Defined in: [src/types.ts:91](https://github.com/authgear/authgear-sdk-nextjs/blob/794ac199bdf94fec6449a3be3654fc9ec692e2b2/src/types.ts#L91)
+Defined in: [src/types.ts:93](https://github.com/authgear/authgear-sdk-nextjs/blob/926a8f2e1423ad6cdd2a462cf4a9405e4972f5b0/src/types.ts#L93)
 
 ***
 
@@ -30,7 +30,7 @@ Defined in: [src/types.ts:91](https://github.com/authgear/authgear-sdk-nextjs/bl
 
 > `optional` **email**: `string`
 
-Defined in: [src/types.ts:78](https://github.com/authgear/authgear-sdk-nextjs/blob/794ac199bdf94fec6449a3be3654fc9ec692e2b2/src/types.ts#L78)
+Defined in: [src/types.ts:80](https://github.com/authgear/authgear-sdk-nextjs/blob/926a8f2e1423ad6cdd2a462cf4a9405e4972f5b0/src/types.ts#L80)
 
 ***
 
@@ -38,7 +38,7 @@ Defined in: [src/types.ts:78](https://github.com/authgear/authgear-sdk-nextjs/bl
 
 > `optional` **emailVerified**: `boolean`
 
-Defined in: [src/types.ts:79](https://github.com/authgear/authgear-sdk-nextjs/blob/794ac199bdf94fec6449a3be3654fc9ec692e2b2/src/types.ts#L79)
+Defined in: [src/types.ts:81](https://github.com/authgear/authgear-sdk-nextjs/blob/926a8f2e1423ad6cdd2a462cf4a9405e4972f5b0/src/types.ts#L81)
 
 ***
 
@@ -46,7 +46,7 @@ Defined in: [src/types.ts:79](https://github.com/authgear/authgear-sdk-nextjs/bl
 
 > `optional` **familyName**: `string`
 
-Defined in: [src/types.ts:84](https://github.com/authgear/authgear-sdk-nextjs/blob/794ac199bdf94fec6449a3be3654fc9ec692e2b2/src/types.ts#L84)
+Defined in: [src/types.ts:86](https://github.com/authgear/authgear-sdk-nextjs/blob/926a8f2e1423ad6cdd2a462cf4a9405e4972f5b0/src/types.ts#L86)
 
 ***
 
@@ -54,7 +54,7 @@ Defined in: [src/types.ts:84](https://github.com/authgear/authgear-sdk-nextjs/bl
 
 > `optional` **givenName**: `string`
 
-Defined in: [src/types.ts:83](https://github.com/authgear/authgear-sdk-nextjs/blob/794ac199bdf94fec6449a3be3654fc9ec692e2b2/src/types.ts#L83)
+Defined in: [src/types.ts:85](https://github.com/authgear/authgear-sdk-nextjs/blob/926a8f2e1423ad6cdd2a462cf4a9405e4972f5b0/src/types.ts#L85)
 
 ***
 
@@ -62,7 +62,7 @@ Defined in: [src/types.ts:83](https://github.com/authgear/authgear-sdk-nextjs/bl
 
 > `optional` **isAnonymous**: `boolean`
 
-Defined in: [src/types.ts:88](https://github.com/authgear/authgear-sdk-nextjs/blob/794ac199bdf94fec6449a3be3654fc9ec692e2b2/src/types.ts#L88)
+Defined in: [src/types.ts:90](https://github.com/authgear/authgear-sdk-nextjs/blob/926a8f2e1423ad6cdd2a462cf4a9405e4972f5b0/src/types.ts#L90)
 
 ***
 
@@ -70,7 +70,7 @@ Defined in: [src/types.ts:88](https://github.com/authgear/authgear-sdk-nextjs/bl
 
 > `optional` **isVerified**: `boolean`
 
-Defined in: [src/types.ts:89](https://github.com/authgear/authgear-sdk-nextjs/blob/794ac199bdf94fec6449a3be3654fc9ec692e2b2/src/types.ts#L89)
+Defined in: [src/types.ts:91](https://github.com/authgear/authgear-sdk-nextjs/blob/926a8f2e1423ad6cdd2a462cf4a9405e4972f5b0/src/types.ts#L91)
 
 ***
 
@@ -78,7 +78,7 @@ Defined in: [src/types.ts:89](https://github.com/authgear/authgear-sdk-nextjs/bl
 
 > `optional` **name**: `string`
 
-Defined in: [src/types.ts:85](https://github.com/authgear/authgear-sdk-nextjs/blob/794ac199bdf94fec6449a3be3654fc9ec692e2b2/src/types.ts#L85)
+Defined in: [src/types.ts:87](https://github.com/authgear/authgear-sdk-nextjs/blob/926a8f2e1423ad6cdd2a462cf4a9405e4972f5b0/src/types.ts#L87)
 
 ***
 
@@ -86,7 +86,7 @@ Defined in: [src/types.ts:85](https://github.com/authgear/authgear-sdk-nextjs/bl
 
 > `optional` **phoneNumber**: `string`
 
-Defined in: [src/types.ts:80](https://github.com/authgear/authgear-sdk-nextjs/blob/794ac199bdf94fec6449a3be3654fc9ec692e2b2/src/types.ts#L80)
+Defined in: [src/types.ts:82](https://github.com/authgear/authgear-sdk-nextjs/blob/926a8f2e1423ad6cdd2a462cf4a9405e4972f5b0/src/types.ts#L82)
 
 ***
 
@@ -94,7 +94,7 @@ Defined in: [src/types.ts:80](https://github.com/authgear/authgear-sdk-nextjs/bl
 
 > `optional` **phoneNumberVerified**: `boolean`
 
-Defined in: [src/types.ts:81](https://github.com/authgear/authgear-sdk-nextjs/blob/794ac199bdf94fec6449a3be3654fc9ec692e2b2/src/types.ts#L81)
+Defined in: [src/types.ts:83](https://github.com/authgear/authgear-sdk-nextjs/blob/926a8f2e1423ad6cdd2a462cf4a9405e4972f5b0/src/types.ts#L83)
 
 ***
 
@@ -102,7 +102,7 @@ Defined in: [src/types.ts:81](https://github.com/authgear/authgear-sdk-nextjs/bl
 
 > `optional` **picture**: `string`
 
-Defined in: [src/types.ts:86](https://github.com/authgear/authgear-sdk-nextjs/blob/794ac199bdf94fec6449a3be3654fc9ec692e2b2/src/types.ts#L86)
+Defined in: [src/types.ts:88](https://github.com/authgear/authgear-sdk-nextjs/blob/926a8f2e1423ad6cdd2a462cf4a9405e4972f5b0/src/types.ts#L88)
 
 ***
 
@@ -110,7 +110,7 @@ Defined in: [src/types.ts:86](https://github.com/authgear/authgear-sdk-nextjs/bl
 
 > `optional` **preferredUsername**: `string`
 
-Defined in: [src/types.ts:82](https://github.com/authgear/authgear-sdk-nextjs/blob/794ac199bdf94fec6449a3be3654fc9ec692e2b2/src/types.ts#L82)
+Defined in: [src/types.ts:84](https://github.com/authgear/authgear-sdk-nextjs/blob/926a8f2e1423ad6cdd2a462cf4a9405e4972f5b0/src/types.ts#L84)
 
 ***
 
@@ -118,7 +118,7 @@ Defined in: [src/types.ts:82](https://github.com/authgear/authgear-sdk-nextjs/bl
 
 > **raw**: `Record`\<`string`, `unknown`\>
 
-Defined in: [src/types.ts:92](https://github.com/authgear/authgear-sdk-nextjs/blob/794ac199bdf94fec6449a3be3654fc9ec692e2b2/src/types.ts#L92)
+Defined in: [src/types.ts:94](https://github.com/authgear/authgear-sdk-nextjs/blob/926a8f2e1423ad6cdd2a462cf4a9405e4972f5b0/src/types.ts#L94)
 
 ***
 
@@ -126,7 +126,7 @@ Defined in: [src/types.ts:92](https://github.com/authgear/authgear-sdk-nextjs/bl
 
 > `optional` **roles**: `string`[]
 
-Defined in: [src/types.ts:87](https://github.com/authgear/authgear-sdk-nextjs/blob/794ac199bdf94fec6449a3be3654fc9ec692e2b2/src/types.ts#L87)
+Defined in: [src/types.ts:89](https://github.com/authgear/authgear-sdk-nextjs/blob/926a8f2e1423ad6cdd2a462cf4a9405e4972f5b0/src/types.ts#L89)
 
 ***
 
@@ -134,4 +134,4 @@ Defined in: [src/types.ts:87](https://github.com/authgear/authgear-sdk-nextjs/bl
 
 > **sub**: `string`
 
-Defined in: [src/types.ts:77](https://github.com/authgear/authgear-sdk-nextjs/blob/794ac199bdf94fec6449a3be3654fc9ec692e2b2/src/types.ts#L77)
+Defined in: [src/types.ts:79](https://github.com/authgear/authgear-sdk-nextjs/blob/926a8f2e1423ad6cdd2a462cf4a9405e4972f5b0/src/types.ts#L79)
