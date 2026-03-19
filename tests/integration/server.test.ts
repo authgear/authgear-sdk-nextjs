@@ -21,7 +21,7 @@ vi.mock("next/headers", () => ({
   ),
 }));
 
-const { currentUser, auth } = await import("../../src/server.js");
+const { currentUser, auth, getOpenURL } = await import("../../src/server.js");
 import { SessionState } from "../../src/types.js";
 
 const CONFIG: AuthgearConfig = {
@@ -307,5 +307,52 @@ describe("auth", () => {
     const session = await auth(CONFIG);
     expect(session.state).toBe(SessionState.NoSession);
     expect(session.accessToken).toBeNull();
+  });
+});
+
+describe("getOpenURL", () => {
+  it("throws 'Not authenticated' when no session cookie", async () => {
+    await expect(getOpenURL("/settings", CONFIG)).rejects.toThrow("Not authenticated");
+  });
+
+  it("returns an authorization URL with the app_session_token for the happy path", async () => {
+    mockCookieJar["authgear.session"] = encryptSession(
+      {
+        accessToken: "valid_access_token",
+        refreshToken: "valid_refresh_token",
+        idToken: null,
+        expiresAt: Math.floor(Date.now() / 1000) + 3600,
+      },
+      CONFIG.sessionSecret,
+    );
+
+    vi.stubGlobal(
+      "fetch",
+      vi.fn(async (url: string) => {
+        if (url.includes("/.well-known/openid-configuration")) {
+          return new Response(JSON.stringify(MOCK_OIDC_CONFIG));
+        }
+        if (url.includes("/oauth2/app_session_token")) {
+          return new Response(
+            JSON.stringify({
+              result: {
+                app_session_token: "ast_test_token",
+                expire_at: "2026-03-18T12:00:00Z",
+              },
+            }),
+          );
+        }
+        return new Response("Not Found", { status: 404 });
+      }),
+    );
+
+    const url = await getOpenURL("/settings", CONFIG);
+    const parsed = new URL(url);
+    expect(parsed.searchParams.get("response_type")).toBe("none");
+    expect(parsed.searchParams.get("prompt")).toBe("none");
+    expect(parsed.searchParams.get("client_id")).toBe(CONFIG.clientID);
+    const loginHint = parsed.searchParams.get("login_hint") ?? "";
+    expect(loginHint).toContain("type=app_session_token");
+    expect(loginHint).toContain(encodeURIComponent("ast_test_token"));
   });
 });

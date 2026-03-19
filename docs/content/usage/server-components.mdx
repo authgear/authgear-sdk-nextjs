@@ -78,3 +78,49 @@ export async function callMyApiAction() {
 | `refreshToken` | `string \| null` | Refresh token |
 | `idToken` | `string \| null` | ID token (JWT) |
 | `expiresAt` | `number \| null` | Access token expiry (Unix timestamp) |
+
+## getOpenURL
+
+Returns a URL that opens an Authgear-hosted page (e.g. the Settings UI) with the current user already authenticated — no re-login required. Use it in a Server Action, then open the URL in a new tab from the client.
+
+```ts title="app/dashboard/actions.ts"
+"use server";
+import { getOpenURL, Page } from "@authgear/nextjs/server";
+import { authgearConfig } from "@/lib/authgear";
+
+export async function getSettingsURLAction() {
+  return getOpenURL(Page.Settings, authgearConfig);
+}
+```
+
+```tsx title="app/dashboard/SettingsButton.tsx"
+"use client";
+import { getSettingsURLAction } from "./actions";
+
+export function SettingsButton() {
+  return (
+    <button
+      onClick={async () => {
+        try {
+          const url = await getSettingsURLAction();
+          window.open(url, "_blank", "noopener,noreferrer");
+        } catch (err) {
+          console.error("Failed to open settings:", err);
+        }
+      }}
+    >
+      Open Settings
+    </button>
+  );
+}
+```
+
+`getOpenURL` exchanges the user's refresh token for a short-lived `app_session_token` and builds an authorization URL that uses it as a `login_hint`. The function throws if the user is not authenticated or has no refresh token.
+
+### Page values
+
+| Value | Authgear page |
+|---|---|
+| `Page.Settings` | User settings (`/settings`) |
+
+You can also pass an arbitrary path string (e.g. `"/custom-page"`) if the target page is not in the `Page` enum.

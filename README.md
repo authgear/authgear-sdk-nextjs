@@ -210,6 +210,7 @@ export async function callMyApiAction() {
 | `auth(config)` | Returns the current `Session`, auto-refreshes access token if expired |
 | `currentUser(config)` | Returns `UserInfo \| null`, auto-refreshes access token if expired |
 | `verifyAccessToken(token, config)` | Verifies a JWT Bearer token with JWKS, returns `JWTPayload` |
+| `getOpenURL(page, config)` | Returns a URL to open an Authgear page (e.g. `Page.Settings`) with the user pre-authenticated |
 
 ### `@authgear/nextjs/client`
 
@@ -251,32 +252,7 @@ export async function callMyApiAction() {
 
 ## Roadmap
 
-### `open(page)` — Open Authgear Settings Page
-
-> **Status: pending server-side enablement**
-
-The SDK has a planned `getOpenURL(page, config)` function (modelled after [`authgear.open(Page.Settings)`](https://docs.authgear.com/get-started/single-page-app/website#step-8-open-user-settings-page) in the web SDK) that opens the Authgear-hosted settings UI with the current user already authenticated — no re-login required.
-
-**How it will work:**
-
-```ts
-// app/dashboard/actions.ts  (Server Action)
-"use server";
-import { getOpenURL, Page } from "@authgear/nextjs/server";
-import { authgearConfig } from "@/lib/authgear";
-
-export async function getSettingsURLAction() {
-  return getOpenURL(Page.Settings, authgearConfig);
-}
-```
-
-```tsx
-// Client component
-const url = await getSettingsURLAction();
-window.open(url, "_blank");
-```
-
-**Blocker:** This feature exchanges the refresh token for an `app_session_token` via `POST /oauth2/app_session_token`. The Authgear server must grant the OAuth client **"full user access"** permission before this endpoint is accessible. Once that server-side configuration is in place, the implementation in `src/server.ts` can be uncommented and released.
+This SDK is actively maintained. Feature requests and contributions are welcome via [GitHub Issues](https://github.com/authgear/authgear-sdk-nextjs/issues).
 
 ---
 

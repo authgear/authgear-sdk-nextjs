@@ -16,7 +16,7 @@ export interface AuthgearConfig {
 }
 
 /**
- * Pages that can be opened via open().
+ * Pages that can be opened via {@link getOpenURL}.
  */
 export enum Page {
   Settings = "/settings",

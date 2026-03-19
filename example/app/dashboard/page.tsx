@@ -3,7 +3,7 @@ import { currentUser } from "@authgear/nextjs/server";
 import { SignOutButton } from "@authgear/nextjs/client";
 import { authgearConfig } from "@/lib/authgear";
 import { ApiDemo } from "./ApiDemo";
-// ROADMAP: import { SettingsButton } from "./SettingsButton"; — requires getOpenURL support
+import { SettingsButton } from "./SettingsButton";
 
 export default async function Dashboard() {
   const user = await currentUser(authgearConfig);
@@ -50,21 +50,7 @@ export default async function Dashboard() {
       </section>
 
       <section style={{ display: "flex", gap: "1rem", flexWrap: "wrap", marginBottom: "1.5rem" }}>
-        {/* ROADMAP: replace with <SettingsButton /> once getOpenURL is supported */}
-        <a
-          href={`${process.env.AUTHGEAR_ENDPOINT}/settings`}
-          target="_blank"
-          rel="noopener noreferrer"
-          style={{
-            padding: "0.5rem 1rem",
-            background: "#0070f3",
-            color: "white",
-            textDecoration: "none",
-            borderRadius: "4px",
-          }}
-        >
-          Account Settings
-        </a>
+        <SettingsButton />
         <SignOutButton
           style={{
             padding: "0.5rem 1rem",
