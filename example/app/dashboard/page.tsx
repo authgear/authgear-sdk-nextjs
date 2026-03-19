@@ -1,9 +1,8 @@
 import { redirect } from "next/navigation";
 import { currentUser } from "@authgear/nextjs/server";
-import { SignOutButton } from "@authgear/nextjs/client";
+import { SignOutButton, UserSettingsButton } from "@authgear/nextjs/client";
 import { authgearConfig } from "@/lib/authgear";
 import { ApiDemo } from "./ApiDemo";
-import { SettingsButton } from "./SettingsButton";
 
 export default async function Dashboard() {
   const user = await currentUser(authgearConfig);
@@ -50,7 +49,16 @@ export default async function Dashboard() {
       </section>
 
       <section style={{ display: "flex", gap: "1rem", flexWrap: "wrap", marginBottom: "1.5rem" }}>
-        <SettingsButton />
+        <UserSettingsButton
+          style={{
+            padding: "0.5rem 1rem",
+            background: "#0070f3",
+            color: "white",
+            border: "none",
+            borderRadius: "4px",
+            cursor: "pointer",
+          }}
+        />
         <SignOutButton
           style={{
             padding: "0.5rem 1rem",

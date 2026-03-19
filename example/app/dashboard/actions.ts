@@ -1,12 +1,8 @@
 "use server";
 
-import { auth, getOpenURL, Page, SessionState } from "@authgear/nextjs/server";
+import { auth, SessionState } from "@authgear/nextjs/server";
 import { authgearConfig } from "@/lib/authgear";
 import { headers } from "next/headers";
-
-export async function getSettingsURLAction(): Promise<string> {
-  return getOpenURL(Page.Settings, authgearConfig);
-}
 
 export async function callMeAction(): Promise<unknown> {
   const session = await auth(authgearConfig);
