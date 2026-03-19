@@ -23,6 +23,7 @@ export async function handleLogin(
     scopes: resolved.scopes,
     codeVerifier,
     state,
+    prompt: resolved.isSSOEnabled ? undefined : "login",
   });
 
   const pkceCookie = buildPKCECookie({ codeVerifier, state, returnTo }, resolved.sessionSecret);

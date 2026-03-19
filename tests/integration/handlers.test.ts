@@ -99,6 +99,30 @@ describe("handleLogin", () => {
   });
 });
 
+describe("handleLogin — isSSOEnabled", () => {
+  it("does not include prompt when isSSOEnabled is omitted (default true)", async () => {
+    const req = makeRequest("http://localhost:3000/api/auth/login");
+    // CONFIG has no isSSOEnabled — resolveConfig should default to true → no prompt
+    const res = await handleLogin(req as any, CONFIG);
+    const location = res.headers.get("location") ?? "";
+    expect(location).not.toContain("prompt=");
+  });
+
+  it("does not include prompt when isSSOEnabled is explicitly true", async () => {
+    const req = makeRequest("http://localhost:3000/api/auth/login");
+    const res = await handleLogin(req as any, { ...CONFIG, isSSOEnabled: true });
+    const location = res.headers.get("location") ?? "";
+    expect(location).not.toContain("prompt=");
+  });
+
+  it("includes prompt=login when isSSOEnabled is false", async () => {
+    const req = makeRequest("http://localhost:3000/api/auth/login");
+    const res = await handleLogin(req as any, { ...CONFIG, isSSOEnabled: false });
+    const location = res.headers.get("location") ?? "";
+    expect(location).toContain("prompt=login");
+  });
+});
+
 describe("handleCallback", () => {
   it("returns 400 when state is missing", async () => {
     const req = makeRequest("http://localhost:3000/api/auth/callback?code=abc");
