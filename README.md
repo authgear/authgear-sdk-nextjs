@@ -218,10 +218,17 @@ export async function callMyApiAction() {
 | Export | Description |
 |---|---|
 | `<AuthgearProvider>` | React context provider, must wrap the app |
-| `useAuthgear()` | Returns `{ state, user, isLoaded, isAuthenticated, signIn, signOut }` |
+| `useAuthgear()` | Returns `{ state, user, isLoaded, isAuthenticated, signIn, signOut, openPage }` |
 | `useUser()` | Returns `UserInfo \| null` |
 | `<SignInButton>` | Button that calls `signIn()` on click |
 | `<SignOutButton>` | Button that calls `signOut()` on click |
+| `<UserSettingsButton>` | Button that opens Authgear account settings in a new tab |
+
+**`AuthgearProvider` props**:
+
+| Prop | Default | Description |
+|---|---|---|
+| `openPagePath` | `"/api/auth/open"` | Route used by `openPage()` and `<UserSettingsButton>` to pre-authenticate and redirect to an Authgear page |
 
 ### `SignInOptions`
 
