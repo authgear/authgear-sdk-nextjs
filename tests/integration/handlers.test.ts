@@ -123,6 +123,41 @@ describe("handleLogin — isSSOEnabled", () => {
   });
 });
 
+describe("handleLogin — per-call prompt", () => {
+  it("forwards ?prompt=login query param to authorize URL", async () => {
+    const req = makeRequest("http://localhost:3000/api/auth/login?prompt=login");
+    // CONFIG has isSSOEnabled omitted (defaults true) — no global prompt
+    const res = await handleLogin(req as any, CONFIG);
+    const location = res.headers.get("location") ?? "";
+    expect(location).toContain("prompt=login");
+  });
+
+  it("forwards ?prompt=none query param to authorize URL", async () => {
+    const req = makeRequest("http://localhost:3000/api/auth/login?prompt=none");
+    const res = await handleLogin(req as any, CONFIG);
+    const location = res.headers.get("location") ?? "";
+    expect(location).toContain("prompt=none");
+  });
+
+  it("per-call prompt overrides isSSOEnabled: false (global)", async () => {
+    // isSSOEnabled: false would add prompt=login globally, but per-call prompt=none wins
+    const req = makeRequest("http://localhost:3000/api/auth/login?prompt=none");
+    const res = await handleLogin(req as any, { ...CONFIG, isSSOEnabled: false });
+    const location = res.headers.get("location") ?? "";
+    expect(location).toContain("prompt=none");
+    expect(location).not.toContain("prompt=login");
+  });
+
+  // Regression guard — this already passes before the implementation change.
+  // Verifies that existing isSSOEnabled: false behaviour is not broken by the new per-call logic.
+  it("falls back to isSSOEnabled global when no per-call prompt", async () => {
+    const req = makeRequest("http://localhost:3000/api/auth/login");
+    const res = await handleLogin(req as any, { ...CONFIG, isSSOEnabled: false });
+    const location = res.headers.get("location") ?? "";
+    expect(location).toContain("prompt=login"); // from isSSOEnabled: false
+  });
+});
+
 describe("handleCallback", () => {
   it("returns 400 when state is missing", async () => {
     const req = makeRequest("http://localhost:3000/api/auth/callback?code=abc");

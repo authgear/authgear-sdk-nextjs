@@ -17,13 +17,17 @@ export async function handleLogin(
   const codeVerifier = generateCodeVerifier();
   const state = generateState();
 
+  // Per-call ?prompt= query param takes precedence over the global isSSOEnabled default
+  const perCallPrompt = request.nextUrl.searchParams.get("prompt") ?? undefined;
+  const prompt = perCallPrompt ?? (resolved.isSSOEnabled ? undefined : "login");
+
   const authorizeURL = buildAuthorizeURL(oidcConfig, {
     clientID: resolved.clientID,
     redirectURI: resolved.redirectURI,
     scopes: resolved.scopes,
     codeVerifier,
     state,
-    prompt: resolved.isSSOEnabled ? undefined : "login",
+    prompt,
   });
 
   const pkceCookie = buildPKCECookie({ codeVerifier, state, returnTo }, resolved.sessionSecret);
