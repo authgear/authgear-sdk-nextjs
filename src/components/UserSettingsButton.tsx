@@ -18,7 +18,7 @@ export function UserSettingsButton({
 }: UserSettingsButtonProps) {
   const { openPage } = useAuthgearContext();
   return (
-    <button {...props} onClick={() => openPage(Page.Settings)}>
+    <button {...props} onClick={(e) => { props.onClick?.(e); openPage(Page.Settings); }}>
       {children}
     </button>
   );

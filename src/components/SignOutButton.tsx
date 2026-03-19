@@ -8,7 +8,7 @@ export type SignOutButtonProps = ButtonHTMLAttributes<HTMLButtonElement>;
 export function SignOutButton({ children = "Sign Out", ...props }: SignOutButtonProps) {
   const { signOut } = useAuthgearContext();
   return (
-    <button {...props} onClick={signOut}>
+    <button {...props} onClick={(e) => { props.onClick?.(e); signOut(); }}>
       {children}
     </button>
   );
