@@ -35,10 +35,17 @@ export async function handleOpen(
   }
 
   const oidcConfig = await fetchOIDCConfiguration(resolved.endpoint);
-  const { app_session_token } = await getAppSessionToken(
-    resolved.endpoint,
-    sessionData.refreshToken,
-  );
+
+  let app_session_token: string;
+  try {
+    const tokenResponse = await getAppSessionToken(
+      resolved.endpoint,
+      sessionData.refreshToken,
+    );
+    app_session_token = tokenResponse.app_session_token;
+  } catch {
+    return NextResponse.json({ error: "not_authenticated" }, { status: 401 });
+  }
 
   const url = buildOpenURL(oidcConfig, {
     clientID: resolved.clientID,

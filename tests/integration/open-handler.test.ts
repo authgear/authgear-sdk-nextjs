@@ -109,6 +109,27 @@ describe("handleOpen", () => {
     expect(res.status).toBe(401);
   });
 
+  it("returns 401 when app session token exchange fails", async () => {
+    vi.stubGlobal(
+      "fetch",
+      vi.fn(async (url: string) => {
+        if (url.includes("/.well-known/openid-configuration")) {
+          return new Response(JSON.stringify(MOCK_OIDC_CONFIG));
+        }
+        if (url.includes("/oauth2/app_session_token")) {
+          return new Response("Unauthorized", { status: 401 });
+        }
+        return new Response("Not Found", { status: 404 });
+      }),
+    );
+    const session = makeSession();
+    const req = makeNextRequest("http://localhost:3000/api/auth/open?page=/settings", {
+      "authgear.session": session,
+    });
+    const res = await handleOpen(req, CONFIG);
+    expect(res.status).toBe(401);
+  });
+
   it("redirects to Authgear authorize URL for /settings", async () => {
     const session = makeSession();
     const req = makeNextRequest("http://localhost:3000/api/auth/open?page=/settings", {
