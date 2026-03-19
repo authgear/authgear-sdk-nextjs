@@ -181,6 +181,7 @@ export async function getOpenURL(
     clientID: resolved.clientID,
     appSessionToken: app_session_token,
     targetPath: page,
+    scopes: resolved.scopes,
   });
 }
 

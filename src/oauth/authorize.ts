@@ -12,6 +12,7 @@ export function buildOpenURL(
     clientID: string;
     appSessionToken: string;
     targetPath: string; // e.g. "/settings"
+    scopes: string[];
   },
 ): string {
   const authorizationEndpoint = new URL(oidcConfig.authorization_endpoint);
@@ -22,6 +23,7 @@ export function buildOpenURL(
   url.searchParams.set("response_type", "none");
   url.searchParams.set("client_id", params.clientID);
   url.searchParams.set("redirect_uri", settingsURL);
+  url.searchParams.set("scope", params.scopes.join(" "));
   url.searchParams.set("prompt", "none");
   url.searchParams.set("login_hint", loginHint);
   return url.toString();

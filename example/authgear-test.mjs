@@ -159,13 +159,15 @@ async function main() {
   await newTab.waitForLoadState("networkidle");
   const settingsURL = newTab.url();
   console.log("Settings URL:", settingsURL);
-  if (
-    !settingsURL.includes("response_type=none") ||
-    !settingsURL.includes("/settings")
-  ) {
+  // After Authgear processes the authorize URL, it redirects to /settings on the Authgear endpoint.
+  // Verify the user landed on the settings page (not an error page).
+  if (!settingsURL.includes("/settings")) {
     throw new Error(`Unexpected settings URL: ${settingsURL}`);
   }
-  console.log("✓ Account Settings opened in new tab with pre-auth URL");
+  if (settingsURL.includes("error=")) {
+    throw new Error(`Settings URL contains error: ${settingsURL}`);
+  }
+  console.log("✓ Account Settings opened in new tab, redirected to /settings");
   await newTab.close();
 
   // --- Step 7: Call /api/me ---

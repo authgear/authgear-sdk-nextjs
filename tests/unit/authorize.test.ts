@@ -70,31 +70,26 @@ describe("generateState", () => {
   });
 });
 
+const openURLBaseParams = {
+  clientID: "test-client",
+  appSessionToken: "tok_abc123",
+  targetPath: "/settings",
+  scopes: ["openid", "offline_access"],
+};
+
 describe("buildOpenURL", () => {
   it("sets response_type to none", () => {
-    const url = new URL(buildOpenURL(mockOIDCConfig, {
-      clientID: "test-client",
-      appSessionToken: "tok_abc123",
-      targetPath: "/settings",
-    }));
+    const url = new URL(buildOpenURL(mockOIDCConfig, openURLBaseParams));
     expect(url.searchParams.get("response_type")).toBe("none");
   });
 
   it("sets prompt to none", () => {
-    const url = new URL(buildOpenURL(mockOIDCConfig, {
-      clientID: "test-client",
-      appSessionToken: "tok_abc123",
-      targetPath: "/settings",
-    }));
+    const url = new URL(buildOpenURL(mockOIDCConfig, openURLBaseParams));
     expect(url.searchParams.get("prompt")).toBe("none");
   });
 
   it("builds redirect_uri from authorization_endpoint origin + targetPath", () => {
-    const url = new URL(buildOpenURL(mockOIDCConfig, {
-      clientID: "test-client",
-      appSessionToken: "tok_abc123",
-      targetPath: "/settings",
-    }));
+    const url = new URL(buildOpenURL(mockOIDCConfig, openURLBaseParams));
     expect(url.searchParams.get("redirect_uri")).toBe(
       "https://myapp.authgear.cloud/settings"
     );
@@ -103,9 +98,8 @@ describe("buildOpenURL", () => {
   it("encodes the app_session_token in login_hint", () => {
     const tokenWithSpecialChars = "tok+a=b/c";
     const url = new URL(buildOpenURL(mockOIDCConfig, {
-      clientID: "test-client",
+      ...openURLBaseParams,
       appSessionToken: tokenWithSpecialChars,
-      targetPath: "/settings",
     }));
     const loginHint = url.searchParams.get("login_hint") ?? "";
     expect(loginHint).toContain("type=app_session_token");
@@ -114,10 +108,19 @@ describe("buildOpenURL", () => {
 
   it("sets client_id", () => {
     const url = new URL(buildOpenURL(mockOIDCConfig, {
+      ...openURLBaseParams,
       clientID: "my-app",
-      appSessionToken: "tok_xyz",
-      targetPath: "/settings",
     }));
     expect(url.searchParams.get("client_id")).toBe("my-app");
+  });
+
+  it("includes scope as space-separated string", () => {
+    const url = new URL(buildOpenURL(mockOIDCConfig, {
+      ...openURLBaseParams,
+      scopes: ["openid", "offline_access", "https://authgear.com/scopes/full-userinfo"],
+    }));
+    expect(url.searchParams.get("scope")).toBe(
+      "openid offline_access https://authgear.com/scopes/full-userinfo"
+    );
   });
 });
