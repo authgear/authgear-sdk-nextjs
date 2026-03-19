@@ -1,6 +1,6 @@
 {
   "name": "@authgear/nextjs",
-  "version": "0.1.8",
+  "version": "0.2.0",
   "description": "Authgear SDK for Next.js 16 - OAuth authentication, session management, and JWT verification",
   "type": "module",
   "exports": {
