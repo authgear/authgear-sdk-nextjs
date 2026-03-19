@@ -1,5 +1,6 @@
 import { NextResponse, type NextRequest } from "next/server";
 import type { AuthgearConfig } from "../types.js";
+import { PromptOption } from "../types.js";
 import { resolveConfig } from "../config.js";
 import { fetchOIDCConfiguration } from "../oauth/discovery.js";
 import { generateCodeVerifier } from "../oauth/pkce.js";
@@ -18,7 +19,9 @@ export async function handleLogin(
   const state = generateState();
 
   // Per-call ?prompt= query param takes precedence over the global isSSOEnabled default
-  const perCallPrompt = request.nextUrl.searchParams.get("prompt") ?? undefined;
+  const ALLOWED_PROMPTS = new Set<string>(Object.values(PromptOption));
+  const rawPrompt = request.nextUrl.searchParams.get("prompt");
+  const perCallPrompt = rawPrompt !== null && ALLOWED_PROMPTS.has(rawPrompt) ? rawPrompt : undefined;
   const prompt = perCallPrompt ?? (resolved.isSSOEnabled ? undefined : "login");
 
   const authorizeURL = buildAuthorizeURL(oidcConfig, {

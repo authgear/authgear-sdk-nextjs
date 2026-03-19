@@ -148,6 +148,14 @@ describe("handleLogin — per-call prompt", () => {
     expect(location).not.toContain("prompt=login");
   });
 
+  it("ignores unknown ?prompt= values (falls back to isSSOEnabled logic)", async () => {
+    const req = makeRequest("http://localhost:3000/api/auth/login?prompt=invalid_value");
+    const res = await handleLogin(req as any, CONFIG);
+    const location = res.headers.get("location") ?? "";
+    // CONFIG has isSSOEnabled omitted (defaults true) — no prompt expected
+    expect(location).not.toContain("prompt=");
+  });
+
   // Regression guard — this already passes before the implementation change.
   // Verifies that existing isSSOEnabled: false behaviour is not broken by the new per-call logic.
   it("falls back to isSSOEnabled global when no per-call prompt", async () => {
