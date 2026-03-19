@@ -21,6 +21,13 @@ export interface AuthgearContextValue {
 export interface SignInOptions {
   returnTo?: string;
   loginPath?: string;
+  /**
+   * OIDC `prompt` parameter for this sign-in call.
+   * Overrides the global `isSSOEnabled` setting for this navigation.
+   * Any valid OIDC prompt string is accepted (e.g. `"login"`, `"none"`, `"consent"`).
+   * Use `PromptOption.Login` as a convenience constant for the most common case.
+   */
+  prompt?: string;
 }
 
 const AuthgearContext = createContext<AuthgearContextValue | null>(null);
@@ -83,6 +90,9 @@ export function AuthgearProvider({
       const url = new URL(path, window.location.origin);
       if (options?.returnTo) {
         url.searchParams.set("returnTo", options.returnTo);
+      }
+      if (options?.prompt) {
+        url.searchParams.set("prompt", options.prompt);
       }
       window.location.href = url.toString();
     },
