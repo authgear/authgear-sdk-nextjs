@@ -199,9 +199,10 @@ export async function callMyApiAction() {
 
 ### `@authgear/nextjs`
 
-| Export | Description |
-|---|---|
-| `createAuthgearHandlers(config)` | Returns `{ GET, POST }` for `app/api/auth/[...authgear]/route.ts` |
+| Export | Kind | Values | Description |
+|---|---|---|---|
+| `createAuthgearHandlers(config)` | Function | — | Returns `{ GET, POST }` for `app/api/auth/[...authgear]/route.ts` |
+| `PromptOption` | Enum | `"login"` \| `"none"` | Convenience constants for the OIDC `prompt` parameter. Pass to `signIn({ prompt: PromptOption.Login })` to force the login form for a specific sign-in call. |
 
 ### `@authgear/nextjs/server`
 
@@ -221,6 +222,16 @@ export async function callMyApiAction() {
 | `useUser()` | Returns `UserInfo \| null` |
 | `<SignInButton>` | Button that calls `signIn()` on click |
 | `<SignOutButton>` | Button that calls `signOut()` on click |
+
+### `SignInOptions`
+
+Options accepted by `signIn()` (from `useAuthgear()`) and the `signInOptions` prop on `<SignInButton>`.
+
+| Field | Type | Required | Default | Description |
+|---|---|---|---|---|
+| `returnTo` | `string` | No | — | Path to redirect to after sign-in. |
+| `loginPath` | `string` | No | `"/api/auth/login"` | Override the login route for this call. |
+| `prompt` | `string` | No | — | OIDC prompt value for this sign-in call. Use `PromptOption.Login` to force the login form. Overrides the global `isSSOEnabled` setting. |
 
 ### `@authgear/nextjs/proxy`
 
