@@ -5,6 +5,7 @@ import { handleCallback } from "./callback.js";
 import { handleLogout } from "./logout.js";
 import { handleRefresh } from "./refresh.js";
 import { handleUserInfo } from "./userinfo.js";
+import { handleOpen } from "./open.js";
 
 /**
  * Creates Next.js route handlers for all Authgear auth endpoints.
@@ -21,6 +22,7 @@ import { handleUserInfo } from "./userinfo.js";
  * - GET /api/auth/logout    — Logout and revoke tokens
  * - POST /api/auth/refresh  — Refresh access token
  * - GET /api/auth/userinfo  — Get current user info
+ * - GET /api/auth/open      — Open an Authgear page (e.g. /settings) for the current user
  */
 export function createAuthgearHandlers(config: AuthgearConfig) {
   async function GET(
@@ -39,6 +41,8 @@ export function createAuthgearHandlers(config: AuthgearConfig) {
         return handleLogout(request, config);
       case "userinfo":
         return handleUserInfo(request, config);
+      case "open":
+        return handleOpen(request, config);
       default:
         return NextResponse.json({ error: "not_found" }, { status: 404 });
     }
