@@ -16,7 +16,7 @@ export interface AuthgearConfig {
 }
 
 /**
- * Pages that can be opened via {@link getOpenURL}.
+ * Pages that can be opened via `getOpenURL` from `@authgear/nextjs/server`.
  */
 export enum Page {
   Settings = "/settings",
