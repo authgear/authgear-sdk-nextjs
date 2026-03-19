@@ -13,6 +13,15 @@ export interface AuthgearConfig {
   sessionSecret: string;
   /** Session cookie name. Defaults to "authgear.session" */
   cookieName?: string;
+  /**
+   * Whether to enable SSO (Single Sign-On) with other apps on the same Authgear tenant.
+   * When `true` (default), Authgear silently reuses its server-side session if the user
+   * is already logged in, so users are not prompted for credentials again.
+   * Set to `false` to always show the login form (`prompt=login`), which is recommended
+   * for single-app deployments where silent sign-in feels unexpected to the user.
+   * Defaults to `true`.
+   */
+  isSSOEnabled?: boolean;
 }
 
 /**

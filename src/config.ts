@@ -16,5 +16,6 @@ export function resolveConfig(config: AuthgearConfig): Required<AuthgearConfig> 
     scopes: config.scopes ?? DEFAULT_SCOPES,
     sessionSecret: config.sessionSecret,
     cookieName: config.cookieName ?? "authgear.session",
+    isSSOEnabled: config.isSSOEnabled ?? true,
   };
 }
