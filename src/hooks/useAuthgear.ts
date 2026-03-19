@@ -16,10 +16,12 @@ export interface UseAuthgearReturn {
   signIn: (options?: SignInOptions) => void;
   /** Navigate to the sign-out endpoint */
   signOut: () => void;
+  /** Open an Authgear page (e.g. Page.Settings) in a new tab */
+  openPage: (path: string) => void;
 }
 
 export function useAuthgear(): UseAuthgearReturn {
-  const { state, user, isLoaded, signIn, signOut } = useAuthgearContext();
+  const { state, user, isLoaded, signIn, signOut, openPage } = useAuthgearContext();
 
   return {
     state,
@@ -28,5 +30,6 @@ export function useAuthgear(): UseAuthgearReturn {
     isAuthenticated: state === SessionState.Authenticated,
     signIn,
     signOut,
+    openPage,
   };
 }
