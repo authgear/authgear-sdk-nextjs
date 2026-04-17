@@ -36,13 +36,14 @@ function matchesPath(pathname: string, patterns: string[]): boolean {
 }
 
 async function tryRefreshSession(
+  refreshToken: string,
   sessionData: SessionData,
   resolved: ReturnType<typeof resolveConfig>,
 ): Promise<SessionData | null> {
   try {
     const oidcConfig = await fetchOIDCConfiguration(resolved.endpoint);
     const tokenResponse = await refreshAccessToken(oidcConfig, {
-      refreshToken: sessionData.refreshToken ?? "",
+      refreshToken,
       clientID: resolved.clientID,
     });
     return {
@@ -71,7 +72,7 @@ async function loadSession(
     sessionData.refreshToken !== null &&
     sessionData.refreshToken !== ""
   ) {
-    sessionData = await tryRefreshSession(sessionData, resolved);
+    sessionData = await tryRefreshSession(sessionData.refreshToken, sessionData, resolved);
   }
 
   return { sessionData, sessionCookieValue };
@@ -108,7 +109,7 @@ function applySessionCookie(
  * export const proxy = createAuthgearProxy({ ...config, protectedPaths: ["/dashboard/*"] });
  * ```
  */
-export function createAuthgearProxy(options: AuthgearProxyOptions) {
+export function createAuthgearProxy(options: AuthgearProxyOptions): (request: NextRequest) => Promise<NextResponse> {
   const resolved = resolveConfig(options);
   const protectedPaths = options.protectedPaths ?? [];
   const publicPaths = options.publicPaths ?? ["/api/auth/*"];

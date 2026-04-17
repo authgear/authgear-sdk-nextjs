@@ -11,13 +11,14 @@ import { verifyJWT } from "./jwt/verify.js";
 import { parseUserInfo } from "./user.js";
 
 async function tryRefreshSessionData(
+  refreshToken: string,
   sessionData: SessionData,
   resolved: ReturnType<typeof resolveConfig>,
 ): Promise<SessionData | null> {
   try {
     const oidcConfig = await fetchOIDCConfiguration(resolved.endpoint);
     const tokenResponse = await refreshAccessToken(oidcConfig, {
-      refreshToken: sessionData.refreshToken ?? "",
+      refreshToken,
       clientID: resolved.clientID,
     });
     return {
@@ -72,7 +73,7 @@ export async function auth(config: AuthgearConfig): Promise<Session> {
     sessionData.refreshToken !== null &&
     sessionData.refreshToken !== ""
   ) {
-    const refreshed = await tryRefreshSessionData(sessionData, resolved);
+    const refreshed = await tryRefreshSessionData(sessionData.refreshToken, sessionData, resolved);
     if (refreshed !== null) {
       sessionData = refreshed;
       await persistSessionCookie(cookieStore, sessionData, resolved);
@@ -108,7 +109,7 @@ export async function currentUser(config: AuthgearConfig): Promise<UserInfo | nu
     sessionData.refreshToken !== null &&
     sessionData.refreshToken !== ""
   ) {
-    const refreshed = await tryRefreshSessionData(sessionData, resolved);
+    const refreshed = await tryRefreshSessionData(sessionData.refreshToken, sessionData, resolved);
     if (refreshed === null) return null;
     sessionData = refreshed;
     // Persist the updated session (with rotated refresh token) back to the cookie.
