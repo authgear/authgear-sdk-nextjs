@@ -1,6 +1,6 @@
 import "server-only";
 import { cookies } from "next/headers";
-import { SessionState, Page, PromptOption, type Session, type UserInfo, type JWTPayload, type AuthgearConfig } from "./types.js";
+import { SessionState, Page, PromptOption, type Session, type UserInfo, type JWTPayload, type AuthgearConfig, type SessionData } from "./types.js";
 import { resolveConfig } from "./config.js";
 import { decryptSession, buildSessionCookie } from "./session/cookie.js";
 import { deriveSessionState, isTokenExpired } from "./session/state.js";
@@ -9,6 +9,46 @@ import { refreshAccessToken, getAppSessionToken } from "./oauth/token.js";
 import { buildOpenURL } from "./oauth/authorize.js";
 import { verifyJWT } from "./jwt/verify.js";
 import { parseUserInfo } from "./user.js";
+
+async function tryRefreshSessionData(
+  sessionData: SessionData,
+  resolved: ReturnType<typeof resolveConfig>,
+): Promise<SessionData | null> {
+  try {
+    const oidcConfig = await fetchOIDCConfiguration(resolved.endpoint);
+    const tokenResponse = await refreshAccessToken(oidcConfig, {
+      refreshToken: sessionData.refreshToken ?? "",
+      clientID: resolved.clientID,
+    });
+    return {
+      accessToken: tokenResponse.access_token,
+      refreshToken: tokenResponse.refresh_token ?? sessionData.refreshToken,
+      idToken: tokenResponse.id_token ?? sessionData.idToken,
+      expiresAt: Math.floor(Date.now() / 1000) + tokenResponse.expires_in,
+    };
+  } catch {
+    return null;
+  }
+}
+
+async function persistSessionCookie(
+  cookieStore: Awaited<ReturnType<typeof cookies>>,
+  sessionData: SessionData,
+  resolved: ReturnType<typeof resolveConfig>,
+): Promise<void> {
+  try {
+    const newCookie = buildSessionCookie(resolved.cookieName, sessionData, resolved.sessionSecret);
+    cookieStore.set(newCookie.name, newCookie.value, {
+      httpOnly: newCookie.httpOnly,
+      secure: newCookie.secure,
+      sameSite: newCookie.sameSite,
+      path: newCookie.path,
+      maxAge: newCookie.maxAge,
+    });
+  } catch {
+    // Not in a Route Handler — cookie will be persisted by the proxy on next navigation
+  }
+}
 
 /**
  * Read the current session in a Server Component, Route Handler, or Server Action.
@@ -21,37 +61,22 @@ export async function auth(config: AuthgearConfig): Promise<Session> {
   const cookieStore = await cookies();
   const sessionCookieValue = cookieStore.get(resolved.cookieName)?.value;
 
-  let sessionData = sessionCookieValue
+  let sessionData = (sessionCookieValue !== undefined && sessionCookieValue !== "")
     ? decryptSession(sessionCookieValue, resolved.sessionSecret)
     : null;
 
   // Auto-refresh expired token so callers (e.g. Server Actions) always get a valid access token
-  if (sessionData && isTokenExpired(sessionData.expiresAt) && sessionData.refreshToken) {
-    try {
-      const oidcConfig = await fetchOIDCConfiguration(resolved.endpoint);
-      const tokenResponse = await refreshAccessToken(oidcConfig, {
-        refreshToken: sessionData.refreshToken,
-        clientID: resolved.clientID,
-      });
-      sessionData = {
-        accessToken: tokenResponse.access_token,
-        refreshToken: tokenResponse.refresh_token ?? sessionData.refreshToken,
-        idToken: tokenResponse.id_token ?? sessionData.idToken,
-        expiresAt: Math.floor(Date.now() / 1000) + tokenResponse.expires_in,
-      };
-      try {
-        const newCookie = buildSessionCookie(resolved.cookieName, sessionData, resolved.sessionSecret);
-        cookieStore.set(newCookie.name, newCookie.value, {
-          httpOnly: newCookie.httpOnly,
-          secure: newCookie.secure,
-          sameSite: newCookie.sameSite,
-          path: newCookie.path,
-          maxAge: newCookie.maxAge,
-        });
-      } catch {
-        // Not in a Route Handler — cookie will be persisted by the proxy on next navigation
-      }
-    } catch {
+  if (
+    sessionData !== null &&
+    isTokenExpired(sessionData.expiresAt) &&
+    sessionData.refreshToken !== null &&
+    sessionData.refreshToken !== ""
+  ) {
+    const refreshed = await tryRefreshSessionData(sessionData, resolved);
+    if (refreshed !== null) {
+      sessionData = refreshed;
+      await persistSessionCookie(cookieStore, sessionData, resolved);
+    } else {
       sessionData = null;
     }
   }
@@ -70,44 +95,26 @@ export async function currentUser(config: AuthgearConfig): Promise<UserInfo | nu
   const cookieStore = await cookies();
   const sessionCookieValue = cookieStore.get(resolved.cookieName)?.value;
 
-  if (!sessionCookieValue) return null;
+  if (sessionCookieValue === undefined || sessionCookieValue === "") return null;
 
   let sessionData = decryptSession(sessionCookieValue, resolved.sessionSecret);
-  if (!sessionData) return null;
+  if (sessionData === null) return null;
 
   const oidcConfig = await fetchOIDCConfiguration(resolved.endpoint);
 
   // Auto-refresh expired token
-  if (isTokenExpired(sessionData.expiresAt) && sessionData.refreshToken) {
-    try {
-      const tokenResponse = await refreshAccessToken(oidcConfig, {
-        refreshToken: sessionData.refreshToken,
-        clientID: resolved.clientID,
-      });
-      sessionData = {
-        accessToken: tokenResponse.access_token,
-        refreshToken: tokenResponse.refresh_token ?? sessionData.refreshToken,
-        idToken: tokenResponse.id_token ?? sessionData.idToken,
-        expiresAt: Math.floor(Date.now() / 1000) + tokenResponse.expires_in,
-      };
-      // Persist the updated session (with rotated refresh token) back to the cookie.
-      // This succeeds in Route Handlers but throws in Server Components (Next.js restriction).
-      // In Server Components the proxy will write the updated cookie on the next page navigation.
-      try {
-        const newCookie = buildSessionCookie(resolved.cookieName, sessionData, resolved.sessionSecret);
-        cookieStore.set(newCookie.name, newCookie.value, {
-          httpOnly: newCookie.httpOnly,
-          secure: newCookie.secure,
-          sameSite: newCookie.sameSite,
-          path: newCookie.path,
-          maxAge: newCookie.maxAge,
-        });
-      } catch {
-        // Not in a Route Handler — cookie will be persisted by the proxy on next navigation
-      }
-    } catch {
-      return null;
-    }
+  if (
+    isTokenExpired(sessionData.expiresAt) &&
+    sessionData.refreshToken !== null &&
+    sessionData.refreshToken !== ""
+  ) {
+    const refreshed = await tryRefreshSessionData(sessionData, resolved);
+    if (refreshed === null) return null;
+    sessionData = refreshed;
+    // Persist the updated session (with rotated refresh token) back to the cookie.
+    // This succeeds in Route Handlers but throws in Server Components (Next.js restriction).
+    // In Server Components the proxy will write the updated cookie on the next page navigation.
+    await persistSessionCookie(cookieStore, sessionData, resolved);
   }
 
   const userinfoRes = await fetch(oidcConfig.userinfo_endpoint, {
@@ -116,7 +123,8 @@ export async function currentUser(config: AuthgearConfig): Promise<UserInfo | nu
 
   if (!userinfoRes.ok) return null;
 
-  const raw = (await userinfoRes.json()) as Record<string, unknown>;
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-type-assertion
+  const raw = (await userinfoRes.json() as unknown) as Record<string, unknown>;
   return parseUserInfo(raw);
 }
 
@@ -124,7 +132,7 @@ export async function currentUser(config: AuthgearConfig): Promise<UserInfo | nu
  * Verify a JWT access token (from Authorization: Bearer header).
  * Useful for protecting API routes.
  *
- * @throws {Error} If the token is invalid, expired, or has wrong issuer/audience
+ * @throws If the token is invalid, expired, or has wrong issuer/audience
  */
 export async function verifyAccessToken(
   token: string,
@@ -147,7 +155,7 @@ export async function verifyAccessToken(
  * @param page - A `Page` enum value (e.g. `Page.Settings`) or an arbitrary path string.
  * @param config - The Authgear SDK config.
  * @returns A URL string. Open it in a new tab (`window.open(url, "_blank")`).
- * @throws {Error} If the user is not authenticated or has no refresh token.
+ * @throws If the user is not authenticated or has no refresh token.
  *
  * @example
  * ```ts
@@ -168,14 +176,14 @@ export async function getOpenURL(
   const resolved = resolveConfig(config);
   const cookieStore = await cookies();
   const sessionCookieValue = cookieStore.get(resolved.cookieName)?.value;
-  if (!sessionCookieValue) throw new Error("Not authenticated");
-  let sessionData = decryptSession(sessionCookieValue, resolved.sessionSecret);
-  if (!sessionData) throw new Error("Not authenticated");
-  if (!sessionData.refreshToken) throw new Error("No refresh token in session");
+  if (sessionCookieValue === undefined || sessionCookieValue === "") throw new Error("Not authenticated");
+  const sessionData = decryptSession(sessionCookieValue, resolved.sessionSecret);
+  if (sessionData === null) throw new Error("Not authenticated");
+  if (sessionData.refreshToken === null || sessionData.refreshToken === "") throw new Error("No refresh token in session");
   const oidcConfig = await fetchOIDCConfiguration(resolved.endpoint);
   const { app_session_token } = await getAppSessionToken(
     resolved.endpoint,
-    sessionData.refreshToken!,
+    sessionData.refreshToken,
   );
   return buildOpenURL(oidcConfig, {
     clientID: resolved.clientID,

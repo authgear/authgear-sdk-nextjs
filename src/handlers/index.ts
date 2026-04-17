@@ -24,13 +24,16 @@ import { handleOpen } from "./open.js";
  * - GET /api/auth/userinfo  — Get current user info
  * - GET /api/auth/open      — Open an Authgear page (e.g. /settings) for the current user
  */
-export function createAuthgearHandlers(config: AuthgearConfig) {
+export function createAuthgearHandlers(config: AuthgearConfig): {
+  GET: (request: NextRequest, context: { params: Promise<{ authgear: string[] }> }) => Promise<NextResponse>;
+  POST: (request: NextRequest, context: { params: Promise<{ authgear: string[] }> }) => Promise<NextResponse>;
+} {
   async function GET(
     request: NextRequest,
     { params }: { params: Promise<{ authgear: string[] }> },
   ): Promise<NextResponse> {
     const { authgear } = await params;
-    const action = authgear?.[0];
+    const action = authgear[0];
 
     switch (action) {
       case "login":
@@ -53,7 +56,7 @@ export function createAuthgearHandlers(config: AuthgearConfig) {
     { params }: { params: Promise<{ authgear: string[] }> },
   ): Promise<NextResponse> {
     const { authgear } = await params;
-    const action = authgear?.[0];
+    const action = authgear[0];
 
     switch (action) {
       case "refresh":

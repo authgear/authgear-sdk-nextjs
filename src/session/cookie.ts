@@ -39,7 +39,8 @@ export function decryptSession(encrypted: string, secret: string): SessionData |
     decipher.setAuthTag(authTag);
 
     const decrypted = Buffer.concat([decipher.update(ciphertext), decipher.final()]);
-    return JSON.parse(decrypted.toString("utf8")) as SessionData;
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-type-assertion
+    return (JSON.parse(decrypted.toString("utf8")) as unknown) as SessionData;
   } catch {
     return null;
   }
@@ -124,7 +125,8 @@ export function decryptPKCECookie(
     decipher.setAuthTag(authTag);
 
     const decrypted = Buffer.concat([decipher.update(ciphertext), decipher.final()]);
-    return JSON.parse(decrypted.toString("utf8"));
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-type-assertion
+    return (JSON.parse(decrypted.toString("utf8")) as unknown) as { codeVerifier: string; state: string; returnTo: string };
   } catch {
     return null;
   }

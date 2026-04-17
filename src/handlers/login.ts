@@ -1,6 +1,5 @@
 import { NextResponse, type NextRequest } from "next/server";
-import type { AuthgearConfig } from "../types.js";
-import { PromptOption } from "../types.js";
+import { PromptOption, type AuthgearConfig } from "../types.js";
 import { resolveConfig } from "../config.js";
 import { fetchOIDCConfiguration } from "../oauth/discovery.js";
 import { generateCodeVerifier } from "../oauth/pkce.js";

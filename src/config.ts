@@ -1,10 +1,15 @@
 import { type AuthgearConfig, DEFAULT_SCOPES } from "./types.js";
 
+function validateRequiredString(value: string, fieldName: string): void {
+  if (value === "") throw new Error(`AuthgearConfig: ${fieldName} is required`);
+}
+
 export function resolveConfig(config: AuthgearConfig): Required<AuthgearConfig> {
-  if (!config.endpoint) throw new Error("AuthgearConfig: endpoint is required");
-  if (!config.clientID) throw new Error("AuthgearConfig: clientID is required");
-  if (!config.redirectURI) throw new Error("AuthgearConfig: redirectURI is required");
-  if (!config.sessionSecret || config.sessionSecret.length < 32) {
+  validateRequiredString(config.endpoint, "endpoint");
+  validateRequiredString(config.clientID, "clientID");
+  validateRequiredString(config.redirectURI, "redirectURI");
+
+  if (config.sessionSecret === "" || config.sessionSecret.length < 32) {
     throw new Error("AuthgearConfig: sessionSecret must be at least 32 characters");
   }
 

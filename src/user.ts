@@ -1,5 +1,6 @@
 import type { UserInfo } from "./types.js";
 
+/* eslint-disable @typescript-eslint/no-unsafe-type-assertion */
 export function parseUserInfo(raw: Record<string, unknown>): UserInfo {
   return {
     sub: raw["sub"] as string,
@@ -20,3 +21,4 @@ export function parseUserInfo(raw: Record<string, unknown>): UserInfo {
     raw,
   };
 }
+/* eslint-enable @typescript-eslint/no-unsafe-type-assertion */

@@ -7,6 +7,19 @@ export interface VerifyOptions {
   audience?: string | string[];
 }
 
+function parseJWTPayload(raw: Record<string, unknown>): JWTPayload {
+  /* eslint-disable @typescript-eslint/no-unsafe-type-assertion */
+  return {
+    sub: raw["sub"] as string,
+    iss: raw["iss"] as string,
+    aud: raw["aud"] as string | string[],
+    exp: raw["exp"] as number,
+    iat: raw["iat"] as number,
+    ...raw,
+  };
+  /* eslint-enable @typescript-eslint/no-unsafe-type-assertion */
+}
+
 export async function verifyJWT(
   token: string,
   oidcConfig: OIDCConfiguration,
@@ -20,5 +33,5 @@ export async function verifyJWT(
     algorithms: ["RS256"],
   });
 
-  return payload as unknown as JWTPayload;
+  return parseJWTPayload(payload as Record<string, unknown>);
 }

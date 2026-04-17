@@ -7,10 +7,10 @@ export interface SignInButtonProps extends ButtonHTMLAttributes<HTMLButtonElemen
   signInOptions?: SignInOptions;
 }
 
-export function SignInButton({ signInOptions, children = "Sign In", ...props }: SignInButtonProps) {
+export function SignInButton({ signInOptions, children = "Sign In", ...props }: SignInButtonProps): React.JSX.Element {
   const { signIn } = useAuthgearContext();
   return (
-    <button {...props} onClick={(e) => { props.onClick?.(e); signIn(signInOptions); }}>
+    <button type="button" {...props} onClick={(e) => { props.onClick?.(e); signIn(signInOptions); }}>
       {children}
     </button>
   );

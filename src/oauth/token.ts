@@ -35,7 +35,8 @@ export async function exchangeCode(
     throw new Error(`Token exchange failed (${res.status}): ${error}`);
   }
 
-  return res.json() as Promise<TokenResponse>;
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-type-assertion
+  return (await res.json() as unknown) as TokenResponse;
 }
 
 export async function refreshAccessToken(
@@ -59,7 +60,8 @@ export async function refreshAccessToken(
     throw new Error(`Token refresh failed (${res.status}): ${error}`);
   }
 
-  return res.json() as Promise<TokenResponse>;
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-type-assertion
+  return (await res.json() as unknown) as TokenResponse;
 }
 
 export async function getAppSessionToken(
@@ -77,7 +79,8 @@ export async function getAppSessionToken(
     throw new Error(`Failed to get app session token (${res.status}): ${error}`);
   }
 
-  const json = (await res.json()) as { result: AppSessionTokenResponse };
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-type-assertion
+  const json = (await res.json() as unknown) as { result: AppSessionTokenResponse };
   return json.result;
 }
 

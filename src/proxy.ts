@@ -1,5 +1,5 @@
 import { NextResponse, type NextRequest } from "next/server";
-import type { AuthgearConfig } from "./types.js";
+import type { AuthgearConfig, SessionData } from "./types.js";
 import { resolveConfig } from "./config.js";
 import { decryptSession, buildSessionCookie } from "./session/cookie.js";
 import { isTokenExpired } from "./session/state.js";
@@ -35,6 +35,70 @@ function matchesPath(pathname: string, patterns: string[]): boolean {
   });
 }
 
+async function tryRefreshSession(
+  sessionData: SessionData,
+  resolved: ReturnType<typeof resolveConfig>,
+): Promise<SessionData | null> {
+  try {
+    const oidcConfig = await fetchOIDCConfiguration(resolved.endpoint);
+    const tokenResponse = await refreshAccessToken(oidcConfig, {
+      refreshToken: sessionData.refreshToken ?? "",
+      clientID: resolved.clientID,
+    });
+    return {
+      accessToken: tokenResponse.access_token,
+      refreshToken: tokenResponse.refresh_token ?? sessionData.refreshToken,
+      idToken: tokenResponse.id_token ?? sessionData.idToken,
+      expiresAt: Math.floor(Date.now() / 1000) + tokenResponse.expires_in,
+    };
+  } catch {
+    return null;
+  }
+}
+
+async function loadSession(
+  request: NextRequest,
+  resolved: ReturnType<typeof resolveConfig>,
+): Promise<{ sessionData: SessionData | null; sessionCookieValue: string | undefined }> {
+  const sessionCookieValue = request.cookies.get(resolved.cookieName)?.value;
+  let sessionData = (sessionCookieValue !== undefined && sessionCookieValue !== "")
+    ? decryptSession(sessionCookieValue, resolved.sessionSecret)
+    : null;
+
+  if (
+    sessionData !== null &&
+    isTokenExpired(sessionData.expiresAt) &&
+    sessionData.refreshToken !== null &&
+    sessionData.refreshToken !== ""
+  ) {
+    sessionData = await tryRefreshSession(sessionData, resolved);
+  }
+
+  return { sessionData, sessionCookieValue };
+}
+
+function applySessionCookie(
+  response: NextResponse,
+  sessionData: SessionData | null,
+  sessionCookieValue: string | undefined,
+  cookieName: string,
+  sessionSecret: string,
+): void {
+  if (sessionData !== null) {
+    const newCookie = buildSessionCookie(cookieName, sessionData, sessionSecret);
+    response.cookies.set(newCookie.name, newCookie.value, {
+      httpOnly: newCookie.httpOnly,
+      secure: newCookie.secure,
+      sameSite: newCookie.sameSite,
+      path: newCookie.path,
+      maxAge: newCookie.maxAge,
+    });
+  } else if (sessionCookieValue !== undefined && sessionCookieValue !== "") {
+    // Refresh failed — clear the stale cookie so Server Components don't see a broken session
+    response.cookies.set(cookieName, "", { maxAge: 0, path: "/" });
+  }
+}
+
 /**
  * Create a Next.js 16 proxy function for Authgear authentication.
  *
@@ -53,58 +117,20 @@ export function createAuthgearProxy(options: AuthgearProxyOptions) {
   return async function proxy(request: NextRequest): Promise<NextResponse> {
     const { pathname } = request.nextUrl;
 
-    // Always allow public paths
     if (matchesPath(pathname, publicPaths)) {
       return NextResponse.next();
     }
 
-    const sessionCookieValue = request.cookies.get(resolved.cookieName)?.value;
-    let sessionData = sessionCookieValue
-      ? decryptSession(sessionCookieValue, resolved.sessionSecret)
-      : null;
+    const { sessionData, sessionCookieValue } = await loadSession(request, resolved);
 
-    // Try to refresh expired token
-    if (sessionData && isTokenExpired(sessionData.expiresAt) && sessionData.refreshToken) {
-      try {
-        const oidcConfig = await fetchOIDCConfiguration(resolved.endpoint);
-        const tokenResponse = await refreshAccessToken(oidcConfig, {
-          refreshToken: sessionData.refreshToken,
-          clientID: resolved.clientID,
-        });
-        sessionData = {
-          accessToken: tokenResponse.access_token,
-          refreshToken: tokenResponse.refresh_token ?? sessionData.refreshToken,
-          idToken: tokenResponse.id_token ?? sessionData.idToken,
-          expiresAt: Math.floor(Date.now() / 1000) + tokenResponse.expires_in,
-        };
-      } catch {
-        sessionData = null;
-      }
-    }
-
-    // Redirect unauthenticated requests on protected paths
-    if (!sessionData && matchesPath(pathname, protectedPaths)) {
+    if (sessionData === null && matchesPath(pathname, protectedPaths)) {
       const loginURL = new URL(loginPath, request.nextUrl.origin);
       loginURL.searchParams.set("returnTo", pathname);
       return NextResponse.redirect(loginURL);
     }
 
     const response = NextResponse.next();
-
-    if (sessionData) {
-      // Update session cookie (captures rotated refresh token if server rotated it)
-      const newCookie = buildSessionCookie(resolved.cookieName, sessionData, resolved.sessionSecret);
-      response.cookies.set(newCookie.name, newCookie.value, {
-        httpOnly: newCookie.httpOnly,
-        secure: newCookie.secure,
-        sameSite: newCookie.sameSite,
-        path: newCookie.path,
-        maxAge: newCookie.maxAge,
-      });
-    } else if (sessionCookieValue) {
-      // Refresh failed — clear the stale cookie so Server Components don't see a broken session
-      response.cookies.set(resolved.cookieName, "", { maxAge: 0, path: "/" });
-    }
+    applySessionCookie(response, sessionData, sessionCookieValue, resolved.cookieName, resolved.sessionSecret);
 
     return response;
   };

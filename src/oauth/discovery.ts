@@ -7,7 +7,7 @@ export async function fetchOIDCConfiguration(
   endpoint: string,
 ): Promise<OIDCConfiguration> {
   const cached = cache.get(endpoint);
-  if (cached && Date.now() - cached.fetchedAt < CACHE_TTL_MS) {
+  if (cached !== undefined && Date.now() - cached.fetchedAt < CACHE_TTL_MS) {
     return cached.config;
   }
 
@@ -17,7 +17,8 @@ export async function fetchOIDCConfiguration(
     throw new Error(`Failed to fetch OIDC configuration from ${url}: ${res.status}`);
   }
 
-  const config = (await res.json()) as OIDCConfiguration;
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-type-assertion
+  const config = (await res.json() as unknown) as OIDCConfiguration;
   cache.set(endpoint, { config, fetchedAt: Date.now() });
   return config;
 }

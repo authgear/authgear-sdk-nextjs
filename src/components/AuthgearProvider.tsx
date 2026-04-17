@@ -6,6 +6,7 @@ import React, {
   useEffect,
   useState,
   useCallback,
+  useMemo,
   type ReactNode,
 } from "react";
 import { SessionState, type UserInfo } from "../types.js";
@@ -51,7 +52,7 @@ export function AuthgearProvider({
   loginPath = "/api/auth/login",
   logoutPath = "/api/auth/logout",
   openPagePath = "/api/auth/open",
-}: AuthgearProviderProps) {
+}: AuthgearProviderProps): React.JSX.Element {
   const [state, setState] = useState<SessionState>(SessionState.Unknown);
   const [user, setUser] = useState<UserInfo | null>(null);
   const [isLoaded, setIsLoaded] = useState(false);
@@ -59,13 +60,14 @@ export function AuthgearProvider({
   useEffect(() => {
     let cancelled = false;
 
-    async function fetchSession() {
+    async function fetchSession(): Promise<void> {
       try {
         const res = await fetch(userInfoPath);
         if (cancelled) return;
 
         if (res.ok) {
-          const userInfo = (await res.json()) as UserInfo;
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-type-assertion
+          const userInfo = (await res.json() as unknown) as UserInfo;
           setState(SessionState.Authenticated);
           setUser(userInfo);
         } else {
@@ -84,7 +86,9 @@ export function AuthgearProvider({
       }
     }
 
-    fetchSession();
+    fetchSession().catch(() => {
+      // Errors are handled inside fetchSession
+    });
     return () => { cancelled = true; };
   }, [userInfoPath]);
 
@@ -92,7 +96,7 @@ export function AuthgearProvider({
     (options?: SignInOptions) => {
       const path = options?.loginPath ?? loginPath;
       const url = new URL(path, window.location.origin);
-      if (options?.returnTo) {
+      if (options?.returnTo !== undefined && options.returnTo !== "") {
         url.searchParams.set("returnTo", options.returnTo);
       }
       if (options?.prompt != null) {
@@ -116,8 +120,13 @@ export function AuthgearProvider({
     [openPagePath],
   );
 
+  const contextValue = useMemo(
+    () => ({ state, user, isLoaded, signIn, signOut, openPage }),
+    [state, user, isLoaded, signIn, signOut, openPage],
+  );
+
   return (
-    <AuthgearContext.Provider value={{ state, user, isLoaded, signIn, signOut, openPage }}>
+    <AuthgearContext.Provider value={contextValue}>
       {children}
     </AuthgearContext.Provider>
   );
@@ -125,7 +134,7 @@ export function AuthgearProvider({
 
 export function useAuthgearContext(): AuthgearContextValue {
   const ctx = useContext(AuthgearContext);
-  if (!ctx) {
+  if (ctx === null) {
     throw new Error("useAuthgearContext must be used within <AuthgearProvider>");
   }
   return ctx;

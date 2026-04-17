@@ -12,12 +12,12 @@ export async function handleRefresh(
   const resolved = resolveConfig(config);
 
   const sessionCookieValue = request.cookies.get(resolved.cookieName)?.value;
-  if (!sessionCookieValue) {
+  if (sessionCookieValue === undefined || sessionCookieValue === "") {
     return NextResponse.json({ error: "no_session" }, { status: 401 });
   }
 
   const session = decryptSession(sessionCookieValue, resolved.sessionSecret);
-  if (!session?.refreshToken) {
+  if (session?.refreshToken == null || session.refreshToken === "") {
     return NextResponse.json({ error: "no_refresh_token" }, { status: 401 });
   }
 

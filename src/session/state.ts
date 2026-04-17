@@ -1,7 +1,7 @@
 import { SessionState, type SessionData, type Session } from "../types.js";
 
 export function deriveSessionState(data: SessionData | null): Session {
-  if (!data) {
+  if (data === null) {
     return {
       state: SessionState.NoSession,
       accessToken: null,

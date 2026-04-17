@@ -15,10 +15,10 @@ export type UserSettingsButtonProps = ButtonHTMLAttributes<HTMLButtonElement>;
 export function UserSettingsButton({
   children = "Account Settings",
   ...props
-}: UserSettingsButtonProps) {
+}: UserSettingsButtonProps): React.JSX.Element {
   const { openPage } = useAuthgearContext();
   return (
-    <button {...props} onClick={(e) => { props.onClick?.(e); openPage(Page.Settings); }}>
+    <button type="button" {...props} onClick={(e) => { props.onClick?.(e); openPage(Page.Settings); }}>
       {children}
     </button>
   );

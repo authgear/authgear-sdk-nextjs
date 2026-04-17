@@ -28,7 +28,8 @@
     "build": "tsup",
     "test": "vitest run",
     "test:watch": "vitest",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint \"src/**/*.{ts,tsx}\""
   },
   "keywords": [
     "authgear",
@@ -52,9 +53,12 @@
     "react-dom": ">=19.0.0"
   },
   "devDependencies": {
+    "@oursky/eslint-plugin": "^17.1.0",
     "@types/node": "^25.5.0",
     "@types/react": "^19.0.0",
     "@types/react-dom": "^19.0.0",
+    "eslint": "^9.39.4",
+    "eslint-plugin-react-hooks": "^7.1.0-canary-fef12a01-20260413",
     "next": "^16.0.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",

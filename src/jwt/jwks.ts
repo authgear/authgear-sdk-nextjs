@@ -3,10 +3,10 @@ import type { OIDCConfiguration } from "../types.js";
 
 const jwksSets = new Map<string, ReturnType<typeof createRemoteJWKSet>>();
 
-export function getJWKS(oidcConfig: OIDCConfiguration) {
+export function getJWKS(oidcConfig: OIDCConfiguration): ReturnType<typeof createRemoteJWKSet> {
   const uri = oidcConfig.jwks_uri;
   let jwks = jwksSets.get(uri);
-  if (!jwks) {
+  if (jwks === undefined) {
     jwks = createRemoteJWKSet(new URL(uri));
     jwksSets.set(uri, jwks);
   }

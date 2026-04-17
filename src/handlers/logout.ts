@@ -12,10 +12,10 @@ export async function handleLogout(
   const resolved = resolveConfig(config);
 
   // Revoke refresh token if present
-  const sessionCookie = request.cookies.get(resolved.cookieName)?.value;
-  if (sessionCookie) {
-    const session = decryptSession(sessionCookie, resolved.sessionSecret);
-    if (session?.refreshToken) {
+  const sessionCookieValue = request.cookies.get(resolved.cookieName)?.value;
+  if (sessionCookieValue !== undefined && sessionCookieValue !== "") {
+    const session = decryptSession(sessionCookieValue, resolved.sessionSecret);
+    if (session !== null && session.refreshToken !== null && session.refreshToken !== "") {
       const oidcConfig = await fetchOIDCConfiguration(resolved.endpoint);
       try {
         await revokeToken(oidcConfig, session.refreshToken);
