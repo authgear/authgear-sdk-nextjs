@@ -1,6 +1,15 @@
 import "server-only";
 import { cookies } from "next/headers";
-import { SessionState, Page, PromptOption, type Session, type UserInfo, type JWTPayload, type AuthgearConfig, type SessionData } from "./types.js";
+import {
+  SessionState,
+  Page,
+  PromptOption,
+  type Session,
+  type UserInfo,
+  type JWTPayload,
+  type AuthgearConfig,
+  type SessionData,
+} from "./types.js";
 import { resolveConfig } from "./config.js";
 import { decryptSession, buildSessionCookie } from "./session/cookie.js";
 import { deriveSessionState, isTokenExpired } from "./session/state.js";
@@ -13,7 +22,7 @@ import { parseUserInfo } from "./user.js";
 async function tryRefreshSessionData(
   refreshToken: string,
   sessionData: SessionData,
-  resolved: ReturnType<typeof resolveConfig>,
+  resolved: ReturnType<typeof resolveConfig>
 ): Promise<SessionData | null> {
   try {
     const oidcConfig = await fetchOIDCConfiguration(resolved.endpoint);
@@ -35,10 +44,14 @@ async function tryRefreshSessionData(
 async function persistSessionCookie(
   cookieStore: Awaited<ReturnType<typeof cookies>>,
   sessionData: SessionData,
-  resolved: ReturnType<typeof resolveConfig>,
+  resolved: ReturnType<typeof resolveConfig>
 ): Promise<void> {
   try {
-    const newCookie = buildSessionCookie(resolved.cookieName, sessionData, resolved.sessionSecret);
+    const newCookie = buildSessionCookie(
+      resolved.cookieName,
+      sessionData,
+      resolved.sessionSecret
+    );
     cookieStore.set(newCookie.name, newCookie.value, {
       httpOnly: newCookie.httpOnly,
       secure: newCookie.secure,
@@ -62,9 +75,10 @@ export async function auth(config: AuthgearConfig): Promise<Session> {
   const cookieStore = await cookies();
   const sessionCookieValue = cookieStore.get(resolved.cookieName)?.value;
 
-  let sessionData = (sessionCookieValue !== undefined && sessionCookieValue !== "")
-    ? decryptSession(sessionCookieValue, resolved.sessionSecret)
-    : null;
+  let sessionData =
+    sessionCookieValue !== undefined && sessionCookieValue !== ""
+      ? decryptSession(sessionCookieValue, resolved.sessionSecret)
+      : null;
 
   // Auto-refresh expired token so callers (e.g. Server Actions) always get a valid access token
   if (
@@ -73,7 +87,11 @@ export async function auth(config: AuthgearConfig): Promise<Session> {
     sessionData.refreshToken !== null &&
     sessionData.refreshToken !== ""
   ) {
-    const refreshed = await tryRefreshSessionData(sessionData.refreshToken, sessionData, resolved);
+    const refreshed = await tryRefreshSessionData(
+      sessionData.refreshToken,
+      sessionData,
+      resolved
+    );
     if (refreshed !== null) {
       sessionData = refreshed;
       await persistSessionCookie(cookieStore, sessionData, resolved);
@@ -91,12 +109,15 @@ export async function auth(config: AuthgearConfig): Promise<Session> {
  * rotated refresh token when the Authgear project has refresh token rotation enabled.
  * Returns null if not authenticated or if the session cannot be refreshed.
  */
-export async function currentUser(config: AuthgearConfig): Promise<UserInfo | null> {
+export async function currentUser(
+  config: AuthgearConfig
+): Promise<UserInfo | null> {
   const resolved = resolveConfig(config);
   const cookieStore = await cookies();
   const sessionCookieValue = cookieStore.get(resolved.cookieName)?.value;
 
-  if (sessionCookieValue === undefined || sessionCookieValue === "") return null;
+  if (sessionCookieValue === undefined || sessionCookieValue === "")
+    return null;
 
   let sessionData = decryptSession(sessionCookieValue, resolved.sessionSecret);
   if (sessionData === null) return null;
@@ -109,7 +130,11 @@ export async function currentUser(config: AuthgearConfig): Promise<UserInfo | nu
     sessionData.refreshToken !== null &&
     sessionData.refreshToken !== ""
   ) {
-    const refreshed = await tryRefreshSessionData(sessionData.refreshToken, sessionData, resolved);
+    const refreshed = await tryRefreshSessionData(
+      sessionData.refreshToken,
+      sessionData,
+      resolved
+    );
     if (refreshed === null) return null;
     sessionData = refreshed;
     // Persist the updated session (with rotated refresh token) back to the cookie.
@@ -125,7 +150,7 @@ export async function currentUser(config: AuthgearConfig): Promise<UserInfo | nu
   if (!userinfoRes.ok) return null;
 
   // eslint-disable-next-line @typescript-eslint/no-unsafe-type-assertion
-  const raw = (await userinfoRes.json() as unknown) as Record<string, unknown>;
+  const raw = (await userinfoRes.json()) as unknown as Record<string, unknown>;
   return parseUserInfo(raw);
 }
 
@@ -137,7 +162,7 @@ export async function currentUser(config: AuthgearConfig): Promise<UserInfo | nu
  */
 export async function verifyAccessToken(
   token: string,
-  config: AuthgearConfig,
+  config: AuthgearConfig
 ): Promise<JWTPayload> {
   const resolved = resolveConfig(config);
   const oidcConfig = await fetchOIDCConfiguration(resolved.endpoint);
@@ -172,19 +197,24 @@ export async function verifyAccessToken(
  */
 export async function getOpenURL(
   page: Page | string,
-  config: AuthgearConfig,
+  config: AuthgearConfig
 ): Promise<string> {
   const resolved = resolveConfig(config);
   const cookieStore = await cookies();
   const sessionCookieValue = cookieStore.get(resolved.cookieName)?.value;
-  if (sessionCookieValue === undefined || sessionCookieValue === "") throw new Error("Not authenticated");
-  const sessionData = decryptSession(sessionCookieValue, resolved.sessionSecret);
+  if (sessionCookieValue === undefined || sessionCookieValue === "")
+    throw new Error("Not authenticated");
+  const sessionData = decryptSession(
+    sessionCookieValue,
+    resolved.sessionSecret
+  );
   if (sessionData === null) throw new Error("Not authenticated");
-  if (sessionData.refreshToken === null || sessionData.refreshToken === "") throw new Error("No refresh token in session");
+  if (sessionData.refreshToken === null || sessionData.refreshToken === "")
+    throw new Error("No refresh token in session");
   const oidcConfig = await fetchOIDCConfiguration(resolved.endpoint);
   const { app_session_token } = await getAppSessionToken(
     resolved.endpoint,
-    sessionData.refreshToken,
+    sessionData.refreshToken
   );
   return buildOpenURL(oidcConfig, {
     clientID: resolved.clientID,

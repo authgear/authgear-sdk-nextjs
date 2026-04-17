@@ -38,7 +38,7 @@ function matchesPath(pathname: string, patterns: string[]): boolean {
 async function tryRefreshSession(
   refreshToken: string,
   sessionData: SessionData,
-  resolved: ReturnType<typeof resolveConfig>,
+  resolved: ReturnType<typeof resolveConfig>
 ): Promise<SessionData | null> {
   try {
     const oidcConfig = await fetchOIDCConfiguration(resolved.endpoint);
@@ -59,12 +59,16 @@ async function tryRefreshSession(
 
 async function loadSession(
   request: NextRequest,
-  resolved: ReturnType<typeof resolveConfig>,
-): Promise<{ sessionData: SessionData | null; sessionCookieValue: string | undefined }> {
+  resolved: ReturnType<typeof resolveConfig>
+): Promise<{
+  sessionData: SessionData | null;
+  sessionCookieValue: string | undefined;
+}> {
   const sessionCookieValue = request.cookies.get(resolved.cookieName)?.value;
-  let sessionData = (sessionCookieValue !== undefined && sessionCookieValue !== "")
-    ? decryptSession(sessionCookieValue, resolved.sessionSecret)
-    : null;
+  let sessionData =
+    sessionCookieValue !== undefined && sessionCookieValue !== ""
+      ? decryptSession(sessionCookieValue, resolved.sessionSecret)
+      : null;
 
   if (
     sessionData !== null &&
@@ -72,7 +76,11 @@ async function loadSession(
     sessionData.refreshToken !== null &&
     sessionData.refreshToken !== ""
   ) {
-    sessionData = await tryRefreshSession(sessionData.refreshToken, sessionData, resolved);
+    sessionData = await tryRefreshSession(
+      sessionData.refreshToken,
+      sessionData,
+      resolved
+    );
   }
 
   return { sessionData, sessionCookieValue };
@@ -83,10 +91,14 @@ function applySessionCookie(
   sessionData: SessionData | null,
   sessionCookieValue: string | undefined,
   cookieName: string,
-  sessionSecret: string,
+  sessionSecret: string
 ): void {
   if (sessionData !== null) {
-    const newCookie = buildSessionCookie(cookieName, sessionData, sessionSecret);
+    const newCookie = buildSessionCookie(
+      cookieName,
+      sessionData,
+      sessionSecret
+    );
     response.cookies.set(newCookie.name, newCookie.value, {
       httpOnly: newCookie.httpOnly,
       secure: newCookie.secure,
@@ -109,7 +121,9 @@ function applySessionCookie(
  * export const proxy = createAuthgearProxy({ ...config, protectedPaths: ["/dashboard/*"] });
  * ```
  */
-export function createAuthgearProxy(options: AuthgearProxyOptions): (request: NextRequest) => Promise<NextResponse> {
+export function createAuthgearProxy(
+  options: AuthgearProxyOptions
+): (request: NextRequest) => Promise<NextResponse> {
   const resolved = resolveConfig(options);
   const protectedPaths = options.protectedPaths ?? [];
   const publicPaths = options.publicPaths ?? ["/api/auth/*"];
@@ -122,7 +136,10 @@ export function createAuthgearProxy(options: AuthgearProxyOptions): (request: Ne
       return NextResponse.next();
     }
 
-    const { sessionData, sessionCookieValue } = await loadSession(request, resolved);
+    const { sessionData, sessionCookieValue } = await loadSession(
+      request,
+      resolved
+    );
 
     if (sessionData === null && matchesPath(pathname, protectedPaths)) {
       const loginURL = new URL(loginPath, request.nextUrl.origin);
@@ -131,7 +148,13 @@ export function createAuthgearProxy(options: AuthgearProxyOptions): (request: Ne
     }
 
     const response = NextResponse.next();
-    applySessionCookie(response, sessionData, sessionCookieValue, resolved.cookieName, resolved.sessionSecret);
+    applySessionCookie(
+      response,
+      sessionData,
+      sessionCookieValue,
+      resolved.cookieName,
+      resolved.sessionSecret
+    );
 
     return response;
   };

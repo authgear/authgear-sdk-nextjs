@@ -1,4 +1,9 @@
-import { createCipheriv, createDecipheriv, randomBytes, scryptSync } from "node:crypto";
+import {
+  createCipheriv,
+  createDecipheriv,
+  randomBytes,
+  scryptSync,
+} from "node:crypto";
 import type { SessionData } from "../types.js";
 
 const ALGORITHM = "aes-256-gcm";
@@ -14,17 +19,25 @@ function deriveKey(secret: string): Buffer {
 export function encryptSession(data: SessionData, secret: string): string {
   const key = deriveKey(secret);
   const iv = randomBytes(IV_LENGTH);
-  const cipher = createCipheriv(ALGORITHM, key, iv, { authTagLength: AUTH_TAG_LENGTH });
+  const cipher = createCipheriv(ALGORITHM, key, iv, {
+    authTagLength: AUTH_TAG_LENGTH,
+  });
 
   const json = JSON.stringify(data);
-  const encrypted = Buffer.concat([cipher.update(json, "utf8"), cipher.final()]);
+  const encrypted = Buffer.concat([
+    cipher.update(json, "utf8"),
+    cipher.final(),
+  ]);
   const authTag = cipher.getAuthTag();
 
   // Format: base64(iv + authTag + encrypted)
   return Buffer.concat([iv, authTag, encrypted]).toString("base64url");
 }
 
-export function decryptSession(encrypted: string, secret: string): SessionData | null {
+export function decryptSession(
+  encrypted: string,
+  secret: string
+): SessionData | null {
   try {
     const key = deriveKey(secret);
     const buf = Buffer.from(encrypted, "base64url");
@@ -35,12 +48,17 @@ export function decryptSession(encrypted: string, secret: string): SessionData |
     const authTag = buf.subarray(IV_LENGTH, IV_LENGTH + AUTH_TAG_LENGTH);
     const ciphertext = buf.subarray(IV_LENGTH + AUTH_TAG_LENGTH);
 
-    const decipher = createDecipheriv(ALGORITHM, key, iv, { authTagLength: AUTH_TAG_LENGTH });
+    const decipher = createDecipheriv(ALGORITHM, key, iv, {
+      authTagLength: AUTH_TAG_LENGTH,
+    });
     decipher.setAuthTag(authTag);
 
-    const decrypted = Buffer.concat([decipher.update(ciphertext), decipher.final()]);
+    const decrypted = Buffer.concat([
+      decipher.update(ciphertext),
+      decipher.final(),
+    ]);
     // eslint-disable-next-line @typescript-eslint/no-unsafe-type-assertion
-    return (JSON.parse(decrypted.toString("utf8")) as unknown) as SessionData;
+    return JSON.parse(decrypted.toString("utf8")) as unknown as SessionData;
   } catch {
     return null;
   }
@@ -59,7 +77,7 @@ export interface CookieOptions {
 export function buildSessionCookie(
   cookieName: string,
   data: SessionData,
-  secret: string,
+  secret: string
 ): CookieOptions {
   return {
     name: cookieName,
@@ -86,14 +104,19 @@ export function buildClearCookie(cookieName: string): CookieOptions {
 
 export function buildPKCECookie(
   data: { codeVerifier: string; state: string; returnTo: string },
-  secret: string,
+  secret: string
 ): CookieOptions {
   const key = deriveKey(secret);
   const iv = randomBytes(IV_LENGTH);
-  const cipher = createCipheriv(ALGORITHM, key, iv, { authTagLength: AUTH_TAG_LENGTH });
+  const cipher = createCipheriv(ALGORITHM, key, iv, {
+    authTagLength: AUTH_TAG_LENGTH,
+  });
 
   const json = JSON.stringify(data);
-  const encrypted = Buffer.concat([cipher.update(json, "utf8"), cipher.final()]);
+  const encrypted = Buffer.concat([
+    cipher.update(json, "utf8"),
+    cipher.final(),
+  ]);
   const authTag = cipher.getAuthTag();
 
   return {
@@ -109,7 +132,7 @@ export function buildPKCECookie(
 
 export function decryptPKCECookie(
   encrypted: string,
-  secret: string,
+  secret: string
 ): { codeVerifier: string; state: string; returnTo: string } | null {
   try {
     const key = deriveKey(secret);
@@ -121,12 +144,21 @@ export function decryptPKCECookie(
     const authTag = buf.subarray(IV_LENGTH, IV_LENGTH + AUTH_TAG_LENGTH);
     const ciphertext = buf.subarray(IV_LENGTH + AUTH_TAG_LENGTH);
 
-    const decipher = createDecipheriv(ALGORITHM, key, iv, { authTagLength: AUTH_TAG_LENGTH });
+    const decipher = createDecipheriv(ALGORITHM, key, iv, {
+      authTagLength: AUTH_TAG_LENGTH,
+    });
     decipher.setAuthTag(authTag);
 
-    const decrypted = Buffer.concat([decipher.update(ciphertext), decipher.final()]);
+    const decrypted = Buffer.concat([
+      decipher.update(ciphertext),
+      decipher.final(),
+    ]);
     // eslint-disable-next-line @typescript-eslint/no-unsafe-type-assertion
-    return (JSON.parse(decrypted.toString("utf8")) as unknown) as { codeVerifier: string; state: string; returnTo: string };
+    return JSON.parse(decrypted.toString("utf8")) as unknown as {
+      codeVerifier: string;
+      state: string;
+      returnTo: string;
+    };
   } catch {
     return null;
   }

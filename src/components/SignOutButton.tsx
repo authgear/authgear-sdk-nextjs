@@ -5,10 +5,20 @@ import { useAuthgearContext } from "./AuthgearProvider.js";
 
 export type SignOutButtonProps = ButtonHTMLAttributes<HTMLButtonElement>;
 
-export function SignOutButton({ children = "Sign Out", ...props }: SignOutButtonProps): React.JSX.Element {
+export function SignOutButton({
+  children = "Sign Out",
+  ...props
+}: SignOutButtonProps): React.JSX.Element {
   const { signOut } = useAuthgearContext();
   return (
-    <button type="button" {...props} onClick={(e) => { props.onClick?.(e); signOut(); }}>
+    <button
+      type="button"
+      {...props}
+      onClick={(e) => {
+        props.onClick?.(e);
+        signOut();
+      }}
+    >
       {children}
     </button>
   );

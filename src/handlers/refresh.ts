@@ -7,7 +7,7 @@ import { decryptSession, buildSessionCookie } from "../session/cookie.js";
 
 export async function handleRefresh(
   request: NextRequest,
-  config: AuthgearConfig,
+  config: AuthgearConfig
 ): Promise<NextResponse> {
   const resolved = resolveConfig(config);
 
@@ -34,7 +34,11 @@ export async function handleRefresh(
     expiresAt: Math.floor(Date.now() / 1000) + tokenResponse.expires_in,
   };
 
-  const sessionCookie = buildSessionCookie(resolved.cookieName, newSession, resolved.sessionSecret);
+  const sessionCookie = buildSessionCookie(
+    resolved.cookieName,
+    newSession,
+    resolved.sessionSecret
+  );
   const response = NextResponse.json({ ok: true });
 
   response.cookies.set(sessionCookie.name, sessionCookie.value, {

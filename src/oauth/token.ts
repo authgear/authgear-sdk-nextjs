@@ -1,4 +1,8 @@
-import type { OIDCConfiguration, TokenResponse, AppSessionTokenResponse } from "../types.js";
+import type {
+  OIDCConfiguration,
+  TokenResponse,
+  AppSessionTokenResponse,
+} from "../types.js";
 
 export interface ExchangeCodeParams {
   code: string;
@@ -14,7 +18,7 @@ export interface RefreshTokenParams {
 
 export async function exchangeCode(
   oidcConfig: OIDCConfiguration,
-  params: ExchangeCodeParams,
+  params: ExchangeCodeParams
 ): Promise<TokenResponse> {
   const body = new URLSearchParams({
     grant_type: "authorization_code",
@@ -36,12 +40,12 @@ export async function exchangeCode(
   }
 
   // eslint-disable-next-line @typescript-eslint/no-unsafe-type-assertion
-  return (await res.json() as unknown) as TokenResponse;
+  return (await res.json()) as unknown as TokenResponse;
 }
 
 export async function refreshAccessToken(
   oidcConfig: OIDCConfiguration,
-  params: RefreshTokenParams,
+  params: RefreshTokenParams
 ): Promise<TokenResponse> {
   const body = new URLSearchParams({
     grant_type: "refresh_token",
@@ -61,12 +65,12 @@ export async function refreshAccessToken(
   }
 
   // eslint-disable-next-line @typescript-eslint/no-unsafe-type-assertion
-  return (await res.json() as unknown) as TokenResponse;
+  return (await res.json()) as unknown as TokenResponse;
 }
 
 export async function getAppSessionToken(
   endpoint: string,
-  refreshToken: string,
+  refreshToken: string
 ): Promise<AppSessionTokenResponse> {
   const res = await fetch(`${endpoint}/oauth2/app_session_token`, {
     method: "POST",
@@ -76,17 +80,21 @@ export async function getAppSessionToken(
 
   if (!res.ok) {
     const error = await res.text();
-    throw new Error(`Failed to get app session token (${res.status}): ${error}`);
+    throw new Error(
+      `Failed to get app session token (${res.status}): ${error}`
+    );
   }
 
   // eslint-disable-next-line @typescript-eslint/no-unsafe-type-assertion
-  const json = (await res.json() as unknown) as { result: AppSessionTokenResponse };
+  const json = (await res.json()) as unknown as {
+    result: AppSessionTokenResponse;
+  };
   return json.result;
 }
 
 export async function revokeToken(
   oidcConfig: OIDCConfiguration,
-  token: string,
+  token: string
 ): Promise<void> {
   await fetch(oidcConfig.revocation_endpoint, {
     method: "POST",

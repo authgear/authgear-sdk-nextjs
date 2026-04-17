@@ -25,12 +25,18 @@ import { handleOpen } from "./open.js";
  * - GET /api/auth/open      — Open an Authgear page (e.g. /settings) for the current user
  */
 export function createAuthgearHandlers(config: AuthgearConfig): {
-  GET: (request: NextRequest, context: { params: Promise<{ authgear: string[] }> }) => Promise<NextResponse>;
-  POST: (request: NextRequest, context: { params: Promise<{ authgear: string[] }> }) => Promise<NextResponse>;
+  GET: (
+    request: NextRequest,
+    context: { params: Promise<{ authgear: string[] }> }
+  ) => Promise<NextResponse>;
+  POST: (
+    request: NextRequest,
+    context: { params: Promise<{ authgear: string[] }> }
+  ) => Promise<NextResponse>;
 } {
   async function GET(
     request: NextRequest,
-    { params }: { params: Promise<{ authgear: string[] }> },
+    { params }: { params: Promise<{ authgear: string[] }> }
   ): Promise<NextResponse> {
     const { authgear } = await params;
     const action = authgear[0];
@@ -53,7 +59,7 @@ export function createAuthgearHandlers(config: AuthgearConfig): {
 
   async function POST(
     request: NextRequest,
-    { params }: { params: Promise<{ authgear: string[] }> },
+    { params }: { params: Promise<{ authgear: string[] }> }
   ): Promise<NextResponse> {
     const { authgear } = await params;
     const action = authgear[0];

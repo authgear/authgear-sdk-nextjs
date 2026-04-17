@@ -13,7 +13,7 @@ export function buildOpenURL(
     appSessionToken: string;
     targetPath: string; // e.g. "/settings"
     scopes: string[];
-  },
+  }
 ): string {
   const authorizationEndpoint = new URL(oidcConfig.authorization_endpoint);
   const settingsURL = `${authorizationEndpoint.origin}${params.targetPath}`;
@@ -44,14 +44,17 @@ export function generateState(): string {
 
 export function buildAuthorizeURL(
   oidcConfig: OIDCConfiguration,
-  params: AuthorizeParams,
+  params: AuthorizeParams
 ): string {
   const url = new URL(oidcConfig.authorization_endpoint);
   url.searchParams.set("response_type", "code");
   url.searchParams.set("client_id", params.clientID);
   url.searchParams.set("redirect_uri", params.redirectURI);
   url.searchParams.set("scope", params.scopes.join(" "));
-  url.searchParams.set("code_challenge", computeCodeChallenge(params.codeVerifier));
+  url.searchParams.set(
+    "code_challenge",
+    computeCodeChallenge(params.codeVerifier)
+  );
   url.searchParams.set("code_challenge_method", "S256");
   url.searchParams.set("state", params.state);
   if (params.prompt !== undefined && params.prompt !== "") {

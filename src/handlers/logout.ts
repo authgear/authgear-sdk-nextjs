@@ -7,7 +7,7 @@ import { decryptSession, buildClearCookie } from "../session/cookie.js";
 
 export async function handleLogout(
   request: NextRequest,
-  config: AuthgearConfig,
+  config: AuthgearConfig
 ): Promise<NextResponse> {
   const resolved = resolveConfig(config);
 
@@ -15,7 +15,11 @@ export async function handleLogout(
   const sessionCookieValue = request.cookies.get(resolved.cookieName)?.value;
   if (sessionCookieValue !== undefined && sessionCookieValue !== "") {
     const session = decryptSession(sessionCookieValue, resolved.sessionSecret);
-    if (session !== null && session.refreshToken !== null && session.refreshToken !== "") {
+    if (
+      session !== null &&
+      session.refreshToken !== null &&
+      session.refreshToken !== ""
+    ) {
       const oidcConfig = await fetchOIDCConfiguration(resolved.endpoint);
       try {
         await revokeToken(oidcConfig, session.refreshToken);
@@ -26,7 +30,10 @@ export async function handleLogout(
   }
 
   const clearCookie = buildClearCookie(resolved.cookieName);
-  const redirectURL = new URL(resolved.postLogoutRedirectURI, request.nextUrl.origin);
+  const redirectURL = new URL(
+    resolved.postLogoutRedirectURI,
+    request.nextUrl.origin
+  );
   const response = NextResponse.redirect(redirectURL);
 
   response.cookies.set(clearCookie.name, clearCookie.value, {

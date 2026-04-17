@@ -1,6 +1,9 @@
 "use client";
 
-import { useAuthgearContext, type SignInOptions } from "../components/AuthgearProvider.js";
+import {
+  useAuthgearContext,
+  type SignInOptions,
+} from "../components/AuthgearProvider.js";
 import { SessionState, type UserInfo } from "../types.js";
 
 export interface UseAuthgearReturn {
@@ -21,7 +24,8 @@ export interface UseAuthgearReturn {
 }
 
 export function useAuthgear(): UseAuthgearReturn {
-  const { state, user, isLoaded, signIn, signOut, openPage } = useAuthgearContext();
+  const { state, user, isLoaded, signIn, signOut, openPage } =
+    useAuthgearContext();
 
   return {
     state,

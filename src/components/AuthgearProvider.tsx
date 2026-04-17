@@ -67,7 +67,7 @@ export function AuthgearProvider({
 
         if (res.ok) {
           // eslint-disable-next-line @typescript-eslint/no-unsafe-type-assertion
-          const userInfo = (await res.json() as unknown) as UserInfo;
+          const userInfo = (await res.json()) as unknown as UserInfo;
           setState(SessionState.Authenticated);
           setUser(userInfo);
         } else {
@@ -89,7 +89,9 @@ export function AuthgearProvider({
     fetchSession().catch(() => {
       // Errors are handled inside fetchSession
     });
-    return () => { cancelled = true; };
+    return () => {
+      cancelled = true;
+    };
   }, [userInfoPath]);
 
   const signIn = useCallback(
@@ -104,7 +106,7 @@ export function AuthgearProvider({
       }
       window.location.href = url.toString();
     },
-    [loginPath],
+    [loginPath]
   );
 
   const signOut = useCallback(() => {
@@ -117,12 +119,12 @@ export function AuthgearProvider({
       url.searchParams.set("page", path);
       window.open(url.toString(), "_blank", "noopener,noreferrer");
     },
-    [openPagePath],
+    [openPagePath]
   );
 
   const contextValue = useMemo(
     () => ({ state, user, isLoaded, signIn, signOut, openPage }),
-    [state, user, isLoaded, signIn, signOut, openPage],
+    [state, user, isLoaded, signIn, signOut, openPage]
   );
 
   return (
@@ -135,7 +137,9 @@ export function AuthgearProvider({
 export function useAuthgearContext(): AuthgearContextValue {
   const ctx = useContext(AuthgearContext);
   if (ctx === null) {
-    throw new Error("useAuthgearContext must be used within <AuthgearProvider>");
+    throw new Error(
+      "useAuthgearContext must be used within <AuthgearProvider>"
+    );
   }
   return ctx;
 }

@@ -14,7 +14,7 @@ async function buildRedirectURL(
   refreshToken: string,
   clientID: string,
   scopes: string[],
-  targetPath: string,
+  targetPath: string
 ): Promise<string | NextResponse> {
   try {
     const tokenResponse = await getAppSessionToken(endpoint, refreshToken);
@@ -32,7 +32,7 @@ async function buildRedirectURL(
 function getRefreshToken(
   request: NextRequest,
   cookieName: string,
-  sessionSecret: string,
+  sessionSecret: string
 ): string | NextResponse {
   const sessionCookieValue = request.cookies.get(cookieName)?.value;
   if (sessionCookieValue === undefined || sessionCookieValue === "") {
@@ -53,7 +53,7 @@ function getRefreshToken(
 
 export async function handleOpen(
   request: NextRequest,
-  config: AuthgearConfig,
+  config: AuthgearConfig
 ): Promise<NextResponse> {
   const resolved = resolveConfig(config);
 
@@ -62,7 +62,11 @@ export async function handleOpen(
     return NextResponse.json({ error: "invalid_page" }, { status: 400 });
   }
 
-  const refreshTokenOrError = getRefreshToken(request, resolved.cookieName, resolved.sessionSecret);
+  const refreshTokenOrError = getRefreshToken(
+    request,
+    resolved.cookieName,
+    resolved.sessionSecret
+  );
   if (refreshTokenOrError instanceof NextResponse) {
     return refreshTokenOrError;
   }
@@ -74,7 +78,7 @@ export async function handleOpen(
     refreshTokenOrError,
     resolved.clientID,
     resolved.scopes,
-    pageParam,
+    pageParam
   );
 
   if (urlOrError instanceof NextResponse) {

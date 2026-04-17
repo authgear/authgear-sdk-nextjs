@@ -13,11 +13,21 @@ export function parseUserInfo(raw: Record<string, unknown>): UserInfo {
     familyName: raw["family_name"] as string | undefined,
     name: raw["name"] as string | undefined,
     picture: raw["picture"] as string | undefined,
-    roles: raw["https://authgear.com/claims/user/roles"] as string[] | undefined,
-    isAnonymous: raw["https://authgear.com/claims/user/is_anonymous"] as boolean | undefined,
-    isVerified: raw["https://authgear.com/claims/user/is_verified"] as boolean | undefined,
-    canReauthenticate: raw["https://authgear.com/claims/user/can_reauthenticate"] as boolean | undefined,
-    customAttributes: raw["custom_attributes"] as Record<string, unknown> | undefined,
+    roles: raw["https://authgear.com/claims/user/roles"] as
+      | string[]
+      | undefined,
+    isAnonymous: raw["https://authgear.com/claims/user/is_anonymous"] as
+      | boolean
+      | undefined,
+    isVerified: raw["https://authgear.com/claims/user/is_verified"] as
+      | boolean
+      | undefined,
+    canReauthenticate: raw[
+      "https://authgear.com/claims/user/can_reauthenticate"
+    ] as boolean | undefined,
+    customAttributes: raw["custom_attributes"] as
+      | Record<string, unknown>
+      | undefined,
     raw,
   };
 }

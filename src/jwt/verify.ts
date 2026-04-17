@@ -23,7 +23,7 @@ function parseJWTPayload(raw: Record<string, unknown>): JWTPayload {
 export async function verifyJWT(
   token: string,
   oidcConfig: OIDCConfiguration,
-  options?: VerifyOptions,
+  options?: VerifyOptions
 ): Promise<JWTPayload> {
   const jwks = getJWKS(oidcConfig);
 

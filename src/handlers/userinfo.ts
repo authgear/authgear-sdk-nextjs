@@ -1,5 +1,10 @@
 import { NextResponse, type NextRequest } from "next/server";
-import type { AuthgearConfig, UserInfo, SessionData, OIDCConfiguration } from "../types.js";
+import type {
+  AuthgearConfig,
+  UserInfo,
+  SessionData,
+  OIDCConfiguration,
+} from "../types.js";
 import { resolveConfig } from "../config.js";
 import { fetchOIDCConfiguration } from "../oauth/discovery.js";
 import { decryptSession, buildSessionCookie } from "../session/cookie.js";
@@ -10,7 +15,7 @@ import { parseUserInfo } from "../user.js";
 async function refreshSessionIfExpired(
   session: SessionData,
   oidcConfig: OIDCConfiguration,
-  clientID: string,
+  clientID: string
 ): Promise<SessionData> {
   if (
     !isTokenExpired(session.expiresAt) ||
@@ -34,7 +39,7 @@ async function refreshSessionIfExpired(
 
 export async function handleUserInfo(
   request: NextRequest,
-  config: AuthgearConfig,
+  config: AuthgearConfig
 ): Promise<NextResponse> {
   const resolved = resolveConfig(config);
 
@@ -49,7 +54,11 @@ export async function handleUserInfo(
   }
 
   const oidcConfig = await fetchOIDCConfiguration(resolved.endpoint);
-  session = await refreshSessionIfExpired(session, oidcConfig, resolved.clientID);
+  session = await refreshSessionIfExpired(
+    session,
+    oidcConfig,
+    resolved.clientID
+  );
 
   // Fetch user info from Authgear
   const userinfoRes = await fetch(oidcConfig.userinfo_endpoint, {
@@ -57,17 +66,24 @@ export async function handleUserInfo(
   });
 
   if (!userinfoRes.ok) {
-    return NextResponse.json({ error: "userinfo_failed" }, { status: userinfoRes.status });
+    return NextResponse.json(
+      { error: "userinfo_failed" },
+      { status: userinfoRes.status }
+    );
   }
 
   // eslint-disable-next-line @typescript-eslint/no-unsafe-type-assertion
-  const raw = (await userinfoRes.json() as unknown) as Record<string, unknown>;
+  const raw = (await userinfoRes.json()) as unknown as Record<string, unknown>;
   const userInfo: UserInfo = parseUserInfo(raw);
 
   const response = NextResponse.json(userInfo);
 
   // Update session cookie if tokens were refreshed
-  const newCookie = buildSessionCookie(resolved.cookieName, session, resolved.sessionSecret);
+  const newCookie = buildSessionCookie(
+    resolved.cookieName,
+    session,
+    resolved.sessionSecret
+  );
   response.cookies.set(newCookie.name, newCookie.value, {
     httpOnly: newCookie.httpOnly,
     secure: newCookie.secure,

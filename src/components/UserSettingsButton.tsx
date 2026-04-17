@@ -18,7 +18,14 @@ export function UserSettingsButton({
 }: UserSettingsButtonProps): React.JSX.Element {
   const { openPage } = useAuthgearContext();
   return (
-    <button type="button" {...props} onClick={(e) => { props.onClick?.(e); openPage(Page.Settings); }}>
+    <button
+      type="button"
+      {...props}
+      onClick={(e) => {
+        props.onClick?.(e);
+        openPage(Page.Settings);
+      }}
+    >
       {children}
     </button>
   );

@@ -8,7 +8,7 @@ import { buildPKCECookie } from "../session/cookie.js";
 
 export async function handleLogin(
   request: NextRequest,
-  config: AuthgearConfig,
+  config: AuthgearConfig
 ): Promise<NextResponse> {
   const resolved = resolveConfig(config);
   const oidcConfig = await fetchOIDCConfiguration(resolved.endpoint);
@@ -20,7 +20,10 @@ export async function handleLogin(
   // Per-call ?prompt= query param takes precedence over the global isSSOEnabled default
   const ALLOWED_PROMPTS = new Set<string>(Object.values(PromptOption));
   const rawPrompt = request.nextUrl.searchParams.get("prompt");
-  const perCallPrompt = rawPrompt !== null && ALLOWED_PROMPTS.has(rawPrompt) ? rawPrompt : undefined;
+  const perCallPrompt =
+    rawPrompt !== null && ALLOWED_PROMPTS.has(rawPrompt)
+      ? rawPrompt
+      : undefined;
   const prompt = perCallPrompt ?? (resolved.isSSOEnabled ? undefined : "login");
 
   const authorizeURL = buildAuthorizeURL(oidcConfig, {
@@ -32,7 +35,10 @@ export async function handleLogin(
     prompt,
   });
 
-  const pkceCookie = buildPKCECookie({ codeVerifier, state, returnTo }, resolved.sessionSecret);
+  const pkceCookie = buildPKCECookie(
+    { codeVerifier, state, returnTo },
+    resolved.sessionSecret
+  );
 
   const response = NextResponse.redirect(authorizeURL);
   response.cookies.set(pkceCookie.name, pkceCookie.value, {

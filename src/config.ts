@@ -4,13 +4,17 @@ function validateRequiredString(value: string, fieldName: string): void {
   if (value === "") throw new Error(`AuthgearConfig: ${fieldName} is required`);
 }
 
-export function resolveConfig(config: AuthgearConfig): Required<AuthgearConfig> {
+export function resolveConfig(
+  config: AuthgearConfig
+): Required<AuthgearConfig> {
   validateRequiredString(config.endpoint, "endpoint");
   validateRequiredString(config.clientID, "clientID");
   validateRequiredString(config.redirectURI, "redirectURI");
 
   if (config.sessionSecret === "" || config.sessionSecret.length < 32) {
-    throw new Error("AuthgearConfig: sessionSecret must be at least 32 characters");
+    throw new Error(
+      "AuthgearConfig: sessionSecret must be at least 32 characters"
+    );
   }
 
   return {
