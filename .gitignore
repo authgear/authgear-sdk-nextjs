@@ -3,8 +3,6 @@ dist/
 *.tsbuildinfo
 .env
 .env.local
-.claude
-CLAUDE.md
 
 # Superpowers plans
 docs/superpowers/
