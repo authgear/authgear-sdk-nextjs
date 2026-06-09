@@ -8,8 +8,11 @@
     "build": "node generate-api-docs.mjs && next build",
     "start": "next start"
   },
+  "overrides": {
+    "postcss": "^8.5.10"
+  },
   "dependencies": {
-    "next": "^15.5.18",
+    "next": "^15.5.19",
     "nextra": "^4.0.0",
     "nextra-theme-docs": "^4.0.0",
     "react": "^19.0.0",
