@@ -47,7 +47,8 @@
   },
   "license": "MIT",
   "overrides": {
-    "postcss": "^8.5.10"
+    "postcss": "^8.5.10",
+    "esbuild": ">=0.28.1"
   },
   "dependencies": {
     "jose": "^6.0.0"
