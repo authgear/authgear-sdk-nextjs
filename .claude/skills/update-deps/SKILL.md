@@ -1,5 +1,5 @@
 ---
-name: audit-deps
+name: update-deps
 description: Audit npm dependencies across all workspaces and fix vulnerabilities. Use when the user asks to audit deps, check for vulnerabilities, run npm audit, or fix security issues in packages.
 disable-model-invocation: true
 ---
