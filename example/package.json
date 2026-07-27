@@ -8,7 +8,8 @@
     "start": "next start"
   },
   "overrides": {
-    "postcss": "^8.5.10"
+    "postcss": "^8.5.10",
+    "sharp": "^0.35.3"
   },
   "dependencies": {
     "@authgear/nextjs": "file:..",
