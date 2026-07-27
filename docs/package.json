@@ -22,7 +22,7 @@
     "@types/node": "^22.0.0",
     "@types/react": "^19.0.0",
     "patch-package": "^8.0.1",
-    "typedoc": "^0.28.0",
+    "typedoc": "^0.28.20",
     "typedoc-plugin-markdown": "^4.0.0",
     "typescript": "^5.7.0"
   }
