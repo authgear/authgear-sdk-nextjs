@@ -263,7 +263,7 @@ Options accepted by `signIn()` (from `useAuthgear()`) and the `signInOptions` pr
 | `redirectURI` | ✓ | OAuth callback URL, e.g. `"http://localhost:3000/api/auth/callback"` |
 | `sessionSecret` | ✓ | Secret for encrypting session cookie (min 32 chars) |
 | `postLogoutRedirectURI` | | Where to redirect after logout. Defaults to `"/"` |
-| `scopes` | | OAuth scopes. Defaults to `["openid", "offline_access", "https://authgear.com/scopes/full-userinfo"]` |
+| `scopes` | | OAuth scopes. Defaults to `["openid", "offline_access", "https://authgear.com/scopes/full-userinfo", "https://authgear.com/scopes/full-access"]`. The `full-access` scope is required for opening the settings page (`UserSettingsButton` / `/api/auth/open`) |
 | `isSSOEnabled` | | When `false`, always shows the Authgear login form (`prompt=login`), even if the user has an existing Authgear session. Recommended for single-app deployments. Defaults to `true` |
 | `cookieName` | | Session cookie name. Defaults to `"authgear.session"` |
 

@@ -51,6 +51,8 @@ export const DEFAULT_SCOPES = [
   "openid",
   "offline_access",
   "https://authgear.com/scopes/full-userinfo",
+  // Required by /oauth2/app_session_token, which backs the settings page (handleOpen).
+  "https://authgear.com/scopes/full-access",
 ];
 
 export enum SessionState {
