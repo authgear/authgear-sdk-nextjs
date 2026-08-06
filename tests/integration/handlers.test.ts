@@ -97,6 +97,15 @@ describe("handleLogin", () => {
     const setCookie = res.headers.get("set-cookie") ?? "";
     expect(setCookie).toContain("authgear.pkce");
   });
+
+  it("requests the full-access scope by default so the settings page can be opened", async () => {
+    const req = makeRequest("http://localhost:3000/api/auth/login");
+    const res = await handleLogin(req as any, CONFIG);
+
+    const location = res.headers.get("location") ?? "";
+    const scope = new URL(location).searchParams.get("scope") ?? "";
+    expect(scope.split(" ")).toContain("https://authgear.com/scopes/full-access");
+  });
 });
 
 describe("handleLogin — isSSOEnabled", () => {
