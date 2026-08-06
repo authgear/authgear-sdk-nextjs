@@ -24,8 +24,14 @@ async function buildRedirectURL(
       targetPath,
       scopes,
     });
-  } catch {
-    return NextResponse.json({ error: "not_authenticated" }, { status: 401 });
+  } catch (err) {
+    return NextResponse.json(
+      {
+        error: "app_session_token_failed",
+        error_description: err instanceof Error ? err.message : String(err),
+      },
+      { status: 401 }
+    );
   }
 }
 

@@ -130,6 +130,38 @@ describe("handleOpen", () => {
     expect(res.status).toBe(401);
   });
 
+  it("surfaces the exchange error instead of not_authenticated when the exchange fails", async () => {
+    vi.stubGlobal(
+      "fetch",
+      vi.fn(async (url: string) => {
+        if (url.includes("/.well-known/openid-configuration")) {
+          return new Response(JSON.stringify(MOCK_OIDC_CONFIG));
+        }
+        if (url.includes("/oauth2/app_session_token")) {
+          return new Response(
+            JSON.stringify({
+              error: "access_denied",
+              error_description: "the client is not authorized to have full user access",
+            }),
+            { status: 403 },
+          );
+        }
+        return new Response("Not Found", { status: 404 });
+      }),
+    );
+    const session = makeSession();
+    const req = makeNextRequest("http://localhost:3000/api/auth/open?page=/settings", {
+      "authgear.session": session,
+    });
+    const res = await handleOpen(req, CONFIG);
+    expect(res.status).toBe(401);
+    const body = await res.json();
+    expect(body.error).toBe("app_session_token_failed");
+    expect(body.error_description).toContain(
+      "the client is not authorized to have full user access",
+    );
+  });
+
   it("redirects to Authgear authorize URL for /settings", async () => {
     const session = makeSession();
     const req = makeNextRequest("http://localhost:3000/api/auth/open?page=/settings", {
