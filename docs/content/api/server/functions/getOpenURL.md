@@ -8,7 +8,7 @@
 
 > **getOpenURL**(`page`, `config`): `Promise`\<`string`\>
 
-Defined in: [src/server.ts:164](https://github.com/authgear/authgear-sdk-nextjs/blob/926a8f2e1423ad6cdd2a462cf4a9405e4972f5b0/src/server.ts#L164)
+Defined in: [src/server.ts:198](https://github.com/authgear/authgear-sdk-nextjs/blob/dcdfbc18357eb721b35950fa2c4b56dd7dbe6c07/src/server.ts#L198)
 
 Get a URL that opens an Authgear page (e.g. `/settings`) with the current
 user already authenticated — no re-login required.

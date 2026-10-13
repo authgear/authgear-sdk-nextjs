@@ -8,7 +8,7 @@
 
 > **useAuthgear**(): [`UseAuthgearReturn`](../interfaces/UseAuthgearReturn.md)
 
-Defined in: [src/hooks/useAuthgear.ts:23](https://github.com/authgear/authgear-sdk-nextjs/blob/926a8f2e1423ad6cdd2a462cf4a9405e4972f5b0/src/hooks/useAuthgear.ts#L23)
+Defined in: [src/hooks/useAuthgear.ts:26](https://github.com/authgear/authgear-sdk-nextjs/blob/dcdfbc18357eb721b35950fa2c4b56dd7dbe6c07/src/hooks/useAuthgear.ts#L26)
 
 ## Returns
 

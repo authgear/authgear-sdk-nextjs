@@ -6,7 +6,7 @@
 
 # Interface: OIDCConfiguration
 
-Defined in: [src/types.ts:125](https://github.com/authgear/authgear-sdk-nextjs/blob/926a8f2e1423ad6cdd2a462cf4a9405e4972f5b0/src/types.ts#L125)
+Defined in: [src/types.ts:127](https://github.com/authgear/authgear-sdk-nextjs/blob/dcdfbc18357eb721b35950fa2c4b56dd7dbe6c07/src/types.ts#L127)
 
 ## Properties
 
@@ -14,7 +14,7 @@ Defined in: [src/types.ts:125](https://github.com/authgear/authgear-sdk-nextjs/b
 
 > **authorization\_endpoint**: `string`
 
-Defined in: [src/types.ts:126](https://github.com/authgear/authgear-sdk-nextjs/blob/926a8f2e1423ad6cdd2a462cf4a9405e4972f5b0/src/types.ts#L126)
+Defined in: [src/types.ts:128](https://github.com/authgear/authgear-sdk-nextjs/blob/dcdfbc18357eb721b35950fa2c4b56dd7dbe6c07/src/types.ts#L128)
 
 ***
 
@@ -22,7 +22,7 @@ Defined in: [src/types.ts:126](https://github.com/authgear/authgear-sdk-nextjs/b
 
 > **end\_session\_endpoint**: `string`
 
-Defined in: [src/types.ts:130](https://github.com/authgear/authgear-sdk-nextjs/blob/926a8f2e1423ad6cdd2a462cf4a9405e4972f5b0/src/types.ts#L130)
+Defined in: [src/types.ts:132](https://github.com/authgear/authgear-sdk-nextjs/blob/dcdfbc18357eb721b35950fa2c4b56dd7dbe6c07/src/types.ts#L132)
 
 ***
 
@@ -30,7 +30,7 @@ Defined in: [src/types.ts:130](https://github.com/authgear/authgear-sdk-nextjs/b
 
 > **issuer**: `string`
 
-Defined in: [src/types.ts:132](https://github.com/authgear/authgear-sdk-nextjs/blob/926a8f2e1423ad6cdd2a462cf4a9405e4972f5b0/src/types.ts#L132)
+Defined in: [src/types.ts:134](https://github.com/authgear/authgear-sdk-nextjs/blob/dcdfbc18357eb721b35950fa2c4b56dd7dbe6c07/src/types.ts#L134)
 
 ***
 
@@ -38,7 +38,7 @@ Defined in: [src/types.ts:132](https://github.com/authgear/authgear-sdk-nextjs/b
 
 > **jwks\_uri**: `string`
 
-Defined in: [src/types.ts:131](https://github.com/authgear/authgear-sdk-nextjs/blob/926a8f2e1423ad6cdd2a462cf4a9405e4972f5b0/src/types.ts#L131)
+Defined in: [src/types.ts:133](https://github.com/authgear/authgear-sdk-nextjs/blob/dcdfbc18357eb721b35950fa2c4b56dd7dbe6c07/src/types.ts#L133)
 
 ***
 
@@ -46,7 +46,7 @@ Defined in: [src/types.ts:131](https://github.com/authgear/authgear-sdk-nextjs/b
 
 > **revocation\_endpoint**: `string`
 
-Defined in: [src/types.ts:129](https://github.com/authgear/authgear-sdk-nextjs/blob/926a8f2e1423ad6cdd2a462cf4a9405e4972f5b0/src/types.ts#L129)
+Defined in: [src/types.ts:131](https://github.com/authgear/authgear-sdk-nextjs/blob/dcdfbc18357eb721b35950fa2c4b56dd7dbe6c07/src/types.ts#L131)
 
 ***
 
@@ -54,7 +54,7 @@ Defined in: [src/types.ts:129](https://github.com/authgear/authgear-sdk-nextjs/b
 
 > **token\_endpoint**: `string`
 
-Defined in: [src/types.ts:127](https://github.com/authgear/authgear-sdk-nextjs/blob/926a8f2e1423ad6cdd2a462cf4a9405e4972f5b0/src/types.ts#L127)
+Defined in: [src/types.ts:129](https://github.com/authgear/authgear-sdk-nextjs/blob/dcdfbc18357eb721b35950fa2c4b56dd7dbe6c07/src/types.ts#L129)
 
 ***
 
@@ -62,4 +62,4 @@ Defined in: [src/types.ts:127](https://github.com/authgear/authgear-sdk-nextjs/b
 
 > **userinfo\_endpoint**: `string`
 
-Defined in: [src/types.ts:128](https://github.com/authgear/authgear-sdk-nextjs/blob/926a8f2e1423ad6cdd2a462cf4a9405e4972f5b0/src/types.ts#L128)
+Defined in: [src/types.ts:130](https://github.com/authgear/authgear-sdk-nextjs/blob/dcdfbc18357eb721b35950fa2c4b56dd7dbe6c07/src/types.ts#L130)

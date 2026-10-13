@@ -6,7 +6,7 @@
 
 # Interface: UseAuthgearReturn
 
-Defined in: [src/hooks/useAuthgear.ts:6](https://github.com/authgear/authgear-sdk-nextjs/blob/926a8f2e1423ad6cdd2a462cf4a9405e4972f5b0/src/hooks/useAuthgear.ts#L6)
+Defined in: [src/hooks/useAuthgear.ts:9](https://github.com/authgear/authgear-sdk-nextjs/blob/dcdfbc18357eb721b35950fa2c4b56dd7dbe6c07/src/hooks/useAuthgear.ts#L9)
 
 ## Properties
 
@@ -14,7 +14,7 @@ Defined in: [src/hooks/useAuthgear.ts:6](https://github.com/authgear/authgear-sd
 
 > **isAuthenticated**: `boolean`
 
-Defined in: [src/hooks/useAuthgear.ts:14](https://github.com/authgear/authgear-sdk-nextjs/blob/926a8f2e1423ad6cdd2a462cf4a9405e4972f5b0/src/hooks/useAuthgear.ts#L14)
+Defined in: [src/hooks/useAuthgear.ts:17](https://github.com/authgear/authgear-sdk-nextjs/blob/dcdfbc18357eb721b35950fa2c4b56dd7dbe6c07/src/hooks/useAuthgear.ts#L17)
 
 Whether the user is currently authenticated
 
@@ -24,7 +24,7 @@ Whether the user is currently authenticated
 
 > **isLoaded**: `boolean`
 
-Defined in: [src/hooks/useAuthgear.ts:12](https://github.com/authgear/authgear-sdk-nextjs/blob/926a8f2e1423ad6cdd2a462cf4a9405e4972f5b0/src/hooks/useAuthgear.ts#L12)
+Defined in: [src/hooks/useAuthgear.ts:15](https://github.com/authgear/authgear-sdk-nextjs/blob/dcdfbc18357eb721b35950fa2c4b56dd7dbe6c07/src/hooks/useAuthgear.ts#L15)
 
 Whether the initial session check has completed
 
@@ -34,7 +34,7 @@ Whether the initial session check has completed
 
 > **openPage**: (`path`) => `void`
 
-Defined in: [src/hooks/useAuthgear.ts:20](https://github.com/authgear/authgear-sdk-nextjs/blob/926a8f2e1423ad6cdd2a462cf4a9405e4972f5b0/src/hooks/useAuthgear.ts#L20)
+Defined in: [src/hooks/useAuthgear.ts:23](https://github.com/authgear/authgear-sdk-nextjs/blob/dcdfbc18357eb721b35950fa2c4b56dd7dbe6c07/src/hooks/useAuthgear.ts#L23)
 
 Open an Authgear page (e.g. Page.Settings) in a new tab
 
@@ -54,7 +54,7 @@ Open an Authgear page (e.g. Page.Settings) in a new tab
 
 > **signIn**: (`options?`) => `void`
 
-Defined in: [src/hooks/useAuthgear.ts:16](https://github.com/authgear/authgear-sdk-nextjs/blob/926a8f2e1423ad6cdd2a462cf4a9405e4972f5b0/src/hooks/useAuthgear.ts#L16)
+Defined in: [src/hooks/useAuthgear.ts:19](https://github.com/authgear/authgear-sdk-nextjs/blob/dcdfbc18357eb721b35950fa2c4b56dd7dbe6c07/src/hooks/useAuthgear.ts#L19)
 
 Navigate to the sign-in page
 
@@ -74,7 +74,7 @@ Navigate to the sign-in page
 
 > **signOut**: () => `void`
 
-Defined in: [src/hooks/useAuthgear.ts:18](https://github.com/authgear/authgear-sdk-nextjs/blob/926a8f2e1423ad6cdd2a462cf4a9405e4972f5b0/src/hooks/useAuthgear.ts#L18)
+Defined in: [src/hooks/useAuthgear.ts:21](https://github.com/authgear/authgear-sdk-nextjs/blob/dcdfbc18357eb721b35950fa2c4b56dd7dbe6c07/src/hooks/useAuthgear.ts#L21)
 
 Navigate to the sign-out endpoint
 
@@ -88,7 +88,7 @@ Navigate to the sign-out endpoint
 
 > **state**: [`SessionState`](../../index/enumerations/SessionState.md)
 
-Defined in: [src/hooks/useAuthgear.ts:8](https://github.com/authgear/authgear-sdk-nextjs/blob/926a8f2e1423ad6cdd2a462cf4a9405e4972f5b0/src/hooks/useAuthgear.ts#L8)
+Defined in: [src/hooks/useAuthgear.ts:11](https://github.com/authgear/authgear-sdk-nextjs/blob/dcdfbc18357eb721b35950fa2c4b56dd7dbe6c07/src/hooks/useAuthgear.ts#L11)
 
 Current session state
 
@@ -98,6 +98,6 @@ Current session state
 
 > **user**: [`UserInfo`](../../index/interfaces/UserInfo.md) \| `null`
 
-Defined in: [src/hooks/useAuthgear.ts:10](https://github.com/authgear/authgear-sdk-nextjs/blob/926a8f2e1423ad6cdd2a462cf4a9405e4972f5b0/src/hooks/useAuthgear.ts#L10)
+Defined in: [src/hooks/useAuthgear.ts:13](https://github.com/authgear/authgear-sdk-nextjs/blob/dcdfbc18357eb721b35950fa2c4b56dd7dbe6c07/src/hooks/useAuthgear.ts#L13)
 
 Current user info, null if not authenticated

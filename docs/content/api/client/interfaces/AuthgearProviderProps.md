@@ -6,7 +6,7 @@
 
 # Interface: AuthgearProviderProps
 
-Defined in: [src/components/AuthgearProvider.tsx:36](https://github.com/authgear/authgear-sdk-nextjs/blob/926a8f2e1423ad6cdd2a462cf4a9405e4972f5b0/src/components/AuthgearProvider.tsx#L36)
+Defined in: [src/components/AuthgearProvider.tsx:37](https://github.com/authgear/authgear-sdk-nextjs/blob/dcdfbc18357eb721b35950fa2c4b56dd7dbe6c07/src/components/AuthgearProvider.tsx#L37)
 
 ## Properties
 
@@ -14,7 +14,7 @@ Defined in: [src/components/AuthgearProvider.tsx:36](https://github.com/authgear
 
 > **children**: `ReactNode`
 
-Defined in: [src/components/AuthgearProvider.tsx:37](https://github.com/authgear/authgear-sdk-nextjs/blob/926a8f2e1423ad6cdd2a462cf4a9405e4972f5b0/src/components/AuthgearProvider.tsx#L37)
+Defined in: [src/components/AuthgearProvider.tsx:38](https://github.com/authgear/authgear-sdk-nextjs/blob/dcdfbc18357eb721b35950fa2c4b56dd7dbe6c07/src/components/AuthgearProvider.tsx#L38)
 
 ***
 
@@ -22,7 +22,7 @@ Defined in: [src/components/AuthgearProvider.tsx:37](https://github.com/authgear
 
 > `optional` **loginPath**: `string`
 
-Defined in: [src/components/AuthgearProvider.tsx:41](https://github.com/authgear/authgear-sdk-nextjs/blob/926a8f2e1423ad6cdd2a462cf4a9405e4972f5b0/src/components/AuthgearProvider.tsx#L41)
+Defined in: [src/components/AuthgearProvider.tsx:42](https://github.com/authgear/authgear-sdk-nextjs/blob/dcdfbc18357eb721b35950fa2c4b56dd7dbe6c07/src/components/AuthgearProvider.tsx#L42)
 
 Path to the login route. Defaults to "/api/auth/login".
 
@@ -32,7 +32,7 @@ Path to the login route. Defaults to "/api/auth/login".
 
 > `optional` **logoutPath**: `string`
 
-Defined in: [src/components/AuthgearProvider.tsx:43](https://github.com/authgear/authgear-sdk-nextjs/blob/926a8f2e1423ad6cdd2a462cf4a9405e4972f5b0/src/components/AuthgearProvider.tsx#L43)
+Defined in: [src/components/AuthgearProvider.tsx:44](https://github.com/authgear/authgear-sdk-nextjs/blob/dcdfbc18357eb721b35950fa2c4b56dd7dbe6c07/src/components/AuthgearProvider.tsx#L44)
 
 Path to the logout route. Defaults to "/api/auth/logout".
 
@@ -42,7 +42,7 @@ Path to the logout route. Defaults to "/api/auth/logout".
 
 > `optional` **openPagePath**: `string`
 
-Defined in: [src/components/AuthgearProvider.tsx:45](https://github.com/authgear/authgear-sdk-nextjs/blob/926a8f2e1423ad6cdd2a462cf4a9405e4972f5b0/src/components/AuthgearProvider.tsx#L45)
+Defined in: [src/components/AuthgearProvider.tsx:46](https://github.com/authgear/authgear-sdk-nextjs/blob/dcdfbc18357eb721b35950fa2c4b56dd7dbe6c07/src/components/AuthgearProvider.tsx#L46)
 
 Path to the open-page route handler. Defaults to "/api/auth/open".
 
@@ -52,6 +52,6 @@ Path to the open-page route handler. Defaults to "/api/auth/open".
 
 > `optional` **userInfoPath**: `string`
 
-Defined in: [src/components/AuthgearProvider.tsx:39](https://github.com/authgear/authgear-sdk-nextjs/blob/926a8f2e1423ad6cdd2a462cf4a9405e4972f5b0/src/components/AuthgearProvider.tsx#L39)
+Defined in: [src/components/AuthgearProvider.tsx:40](https://github.com/authgear/authgear-sdk-nextjs/blob/dcdfbc18357eb721b35950fa2c4b56dd7dbe6c07/src/components/AuthgearProvider.tsx#L40)
 
 Path to the userinfo API route. Defaults to "/api/auth/userinfo".

@@ -8,7 +8,7 @@
 
 > **createAuthgearHandlers**(`config`): `object`
 
-Defined in: [src/handlers/index.ts:27](https://github.com/authgear/authgear-sdk-nextjs/blob/926a8f2e1423ad6cdd2a462cf4a9405e4972f5b0/src/handlers/index.ts#L27)
+Defined in: [src/handlers/index.ts:27](https://github.com/authgear/authgear-sdk-nextjs/blob/dcdfbc18357eb721b35950fa2c4b56dd7dbe6c07/src/handlers/index.ts#L27)
 
 Creates Next.js route handlers for all Authgear auth endpoints.
 
@@ -38,7 +38,7 @@ Routes handled:
 
 ### GET()
 
-> **GET**: (`request`, `__namedParameters`) => `Promise`\<`NextResponse`\<`unknown`\>\>
+> **GET**: (`request`, `context`) => `Promise`\<`NextResponse`\<`unknown`\>\>
 
 #### Parameters
 
@@ -46,7 +46,7 @@ Routes handled:
 
 `NextRequest`
 
-##### \_\_namedParameters
+##### context
 
 ###### params
 
@@ -58,7 +58,7 @@ Routes handled:
 
 ### POST()
 
-> **POST**: (`request`, `__namedParameters`) => `Promise`\<`NextResponse`\<`unknown`\>\>
+> **POST**: (`request`, `context`) => `Promise`\<`NextResponse`\<`unknown`\>\>
 
 #### Parameters
 
@@ -66,7 +66,7 @@ Routes handled:
 
 `NextRequest`
 
-##### \_\_namedParameters
+##### context
 
 ###### params
 

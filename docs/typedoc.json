@@ -11,6 +11,7 @@
   "out": "content/api",
   "readme": "none",
   "hideGenerator": true,
+  "sourceLinkTemplate": "https://github.com/authgear/authgear-sdk-nextjs/blob/{gitRevision}/{path}#L{line}",
   "skipErrorChecking": true,
   "groupOrder": ["Functions", "Classes", "Interfaces", "Type Aliases", "Enumerations", "*"]
 }
