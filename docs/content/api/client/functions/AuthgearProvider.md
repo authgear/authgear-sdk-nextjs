@@ -8,7 +8,7 @@
 
 > **AuthgearProvider**(`__namedParameters`): `Element`
 
-Defined in: [src/components/AuthgearProvider.tsx:48](https://github.com/authgear/authgear-sdk-nextjs/blob/926a8f2e1423ad6cdd2a462cf4a9405e4972f5b0/src/components/AuthgearProvider.tsx#L48)
+Defined in: [src/components/AuthgearProvider.tsx:49](https://github.com/authgear/authgear-sdk-nextjs/blob/dcdfbc18357eb721b35950fa2c4b56dd7dbe6c07/src/components/AuthgearProvider.tsx#L49)
 
 ## Parameters
 

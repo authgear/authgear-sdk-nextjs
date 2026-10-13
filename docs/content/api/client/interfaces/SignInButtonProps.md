@@ -6,7 +6,7 @@
 
 # Interface: SignInButtonProps
 
-Defined in: [src/components/SignInButton.tsx:6](https://github.com/authgear/authgear-sdk-nextjs/blob/926a8f2e1423ad6cdd2a462cf4a9405e4972f5b0/src/components/SignInButton.tsx#L6)
+Defined in: [src/components/SignInButton.tsx:6](https://github.com/authgear/authgear-sdk-nextjs/blob/dcdfbc18357eb721b35950fa2c4b56dd7dbe6c07/src/components/SignInButton.tsx#L6)
 
 ## Extends
 
@@ -3595,7 +3595,7 @@ Defined in: node\_modules/@types/react/index.d.ts:2842
 
 > `optional` **signInOptions**: [`SignInOptions`](SignInOptions.md)
 
-Defined in: [src/components/SignInButton.tsx:7](https://github.com/authgear/authgear-sdk-nextjs/blob/926a8f2e1423ad6cdd2a462cf4a9405e4972f5b0/src/components/SignInButton.tsx#L7)
+Defined in: [src/components/SignInButton.tsx:7](https://github.com/authgear/authgear-sdk-nextjs/blob/dcdfbc18357eb721b35950fa2c4b56dd7dbe6c07/src/components/SignInButton.tsx#L7)
 
 ***
 
@@ -3699,7 +3699,7 @@ Defined in: node\_modules/@types/react/index.d.ts:2811
 
 > `optional` **tw**: `string`
 
-Defined in: node\_modules/next/dist/compiled/@vercel/og/types.d.ts:115
+Defined in: node\_modules/next/dist/compiled/@vercel/og/types.d.ts:70
 
 Specify styles using Tailwind CSS classes. This feature is currently experimental.
 If `style` prop is also specified, styles generated with `tw` prop will be overridden.

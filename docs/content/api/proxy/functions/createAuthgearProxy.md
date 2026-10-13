@@ -8,7 +8,7 @@
 
 > **createAuthgearProxy**(`options`): (`request`) => `Promise`\<`NextResponse`\<`unknown`\>\>
 
-Defined in: [src/proxy.ts:47](https://github.com/authgear/authgear-sdk-nextjs/blob/926a8f2e1423ad6cdd2a462cf4a9405e4972f5b0/src/proxy.ts#L47)
+Defined in: [src/proxy.ts:124](https://github.com/authgear/authgear-sdk-nextjs/blob/dcdfbc18357eb721b35950fa2c4b56dd7dbe6c07/src/proxy.ts#L124)
 
 Create a Next.js 16 proxy function for Authgear authentication.
 
