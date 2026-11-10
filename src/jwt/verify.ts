@@ -33,5 +33,5 @@ export async function verifyJWT(
     algorithms: ["RS256"],
   });
 
-  return parseJWTPayload(payload as Record<string, unknown>);
+  return parseJWTPayload(payload);
 }

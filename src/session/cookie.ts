@@ -57,8 +57,9 @@ export function decryptSession(
       decipher.update(ciphertext),
       decipher.final(),
     ]);
+    const data: unknown = JSON.parse(decrypted.toString("utf8"));
     // eslint-disable-next-line @typescript-eslint/no-unsafe-type-assertion
-    return JSON.parse(decrypted.toString("utf8")) as unknown as SessionData;
+    return data as SessionData;
   } catch {
     return null;
   }
@@ -153,8 +154,9 @@ export function decryptPKCECookie(
       decipher.update(ciphertext),
       decipher.final(),
     ]);
+    const data: unknown = JSON.parse(decrypted.toString("utf8"));
     // eslint-disable-next-line @typescript-eslint/no-unsafe-type-assertion
-    return JSON.parse(decrypted.toString("utf8")) as unknown as {
+    return data as {
       codeVerifier: string;
       state: string;
       returnTo: string;
