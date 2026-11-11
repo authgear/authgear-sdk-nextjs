@@ -49,7 +49,13 @@
   "overrides": {
     "postcss": "^8.5.10",
     "esbuild": ">=0.28.1",
-    "sharp": "^0.35.3"
+    "sharp": "^0.35.3",
+    "@typescript-eslint/typescript-estree": {
+      "minimatch": "^11.0.1"
+    },
+    "eslint-plugin-sonarjs": {
+      "minimatch": "^11.0.1"
+    }
   },
   "dependencies": {
     "jose": "^6.0.0"
